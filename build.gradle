@@ -4,6 +4,8 @@ apply plugin: 'java'
 
 version = '0.1'
 
+def jboss = "/Users/MikeD/workspace/jboss-eap-6.1/standalone/deployments"
+
 repositories {
     mavenCentral()
     maven {
@@ -35,4 +37,12 @@ dependencies {
     providedCompile group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version: '1.0.0.Final'
     
     testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+war.doLast {
+  ant.unzip(src: war.archivePath, dest: jboss + '/food-spot-0.1.war/')
+  /*copy {
+  	from "$libsDir/food-spot-0.1.war"
+  	into jboss
+  }*/
 }

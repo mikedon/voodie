@@ -1,0 +1,28 @@
+<div class="main-container" ng-controller="HomeCtrl">
+	<form class="horizontal-form">
+		<fieldset>
+			<legend>Where do you want to eat?</legend>
+			<!-- <bsinput type="text" id="addressLine1" label="Address Line 1:"></bsinput>
+			<bsinput type="text" id="addressLine2" label="Address Line 2:"></bsinput>-->
+			<div class="control-group">
+				<label class="control-label" for="address">Address:</label>
+				<div class="controls">
+					<textarea blur="geolocate()" ng-model="address" class="span12" rows="4"></textarea>
+				</div>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>When do you want to eat?</legend>
+			<div class="control-group">
+				<label class="control-label" for="eatingDate">Date:</label>
+				<!-- <datepicker ng-model="eatingDate" show-weeks="showWeeks" class="input-block-level" starting-day="1"></datepicker> -->
+				<div class="controls">
+					<input type="text" id="eatingDate" class="input-block-level" ng-model="eatingDate">
+				</div>
+			</div>
+		</fieldset>
+		<div class="form-actions">
+			<a ng-href="#/votes/{{latitude}}+{{longitude}}/2013-01-01" class="btn btn-large btn-block btn-primary">Submit</a>
+  		</div>
+  	</form>
+ </div>

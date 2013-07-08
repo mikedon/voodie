@@ -31,6 +31,7 @@ public class FoodTruckREST {
 	@Inject
 	protected VotingService votingService;
 
+	// TODO returns FoodTrucks > FoodTrucks I want FoodTrucks > FoodTruck
 	@Path("/entries")
 	@GET
 	public Response getFoodTruckEntries(String latitude, String longitude) {

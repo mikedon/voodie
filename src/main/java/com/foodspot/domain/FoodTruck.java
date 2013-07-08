@@ -6,6 +6,8 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class FoodTruck {
 
@@ -16,16 +18,22 @@ public class FoodTruck {
 
 	private String externalId;
 
+	@Expose
 	private String name;
 
+	@Expose
 	private Long rating;
 
+	@Expose
 	private String imageUrl;
 
+	@Expose
 	private String url;
 
+	@Expose
 	private String mobileUrl;
 
+	@Expose
 	private Long reviewCount;
 
 	public Long getId() {

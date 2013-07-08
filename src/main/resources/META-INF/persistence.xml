@@ -8,8 +8,9 @@
       <persistence-unit name="foodspot">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
     	<jta-data-source>java:/foodspot</jta-data-source>
-    	<class>com.miked.foodspot.domain.Vote</class>
-    	<class>com.miked.foodspot.domain.Location</class> 
+    	<class>com.foodspot.domain.Vote</class>
+    	<class>com.foodspot.domain.Location</class>
+    	<class>com.foodspot.domain.FoodTruck</class> 
         <properties>
 			<property name="format_sql" value="true" />
 			<property name="use_sql_comments" value="true" />
