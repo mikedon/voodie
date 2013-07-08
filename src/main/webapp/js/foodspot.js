@@ -1,11 +1,11 @@
-var app = angular.module('foodSpot', []);
+var app = angular.module('foodSpot', ['ngResource']);
 app.config(["$routeProvider", function($routeProvider){
-	$routeProvider.when('/home', {templateUrl:'templates/home.html', controller: HomeCtrl});
-	$routeProvider.when('/votes/:eatingTime/:location', {templateUrl:'templates/votes.html', controller: VoteCtrl});
+	$routeProvider.when('/home', {templateUrl:'templates/home.html'});
+	$routeProvider.when('/votes/:latitude+:longitude/:eatingTime', {templateUrl:'templates/votes.html'});
 	$routeProvider.otherwise({redirectTo: '/home'});
 }]);
 
-app.factory('googleMapsGeocoder', function(){
+app.factory('GoogleMaps', function(){
 	return {
 		googleMaps : new google.maps.Geocoder(),
 		geolocate : function(address, onSuccess){
@@ -14,6 +14,16 @@ app.factory('googleMapsGeocoder', function(){
 					onSuccess(results);
 				}
 			});
+		}
+	}
+});
+
+app.factory('FoodSpot', function($resource){
+	return {
+                /* TODO add lat,long to request */
+		getEntries : function(latitude, longitude){
+			var foodTrucks = $resource('rest/foodTruck/entries').get();
+                        return foodTrucks;
 		}
 	}
 });
@@ -39,11 +49,10 @@ app.directive("blur", function(){
 	}
 })
 
-var HomeCtrl = function ($scope, googleMapsGeocoder) {
-	$scope.location = {};
+var HomeCtrl = function ($scope, GoogleMaps) {
 	$scope.geolocate = function(){
 		if($scope.address){
-			googleMapsGeocoder.geolocate($scope.address,function(results){
+			GoogleMaps.geolocate($scope.address,function(results){
 				$scope.$apply(function(){
 					$scope.latitude = results[0].geometry.location.jb;
 					$scope.longitude = results[0].geometry.location.kb
@@ -53,6 +62,6 @@ var HomeCtrl = function ($scope, googleMapsGeocoder) {
 	}
 };
 
-var VoteCtrl = function ($scope, $routeParams) {
-	
+var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
+	$scope.foodTrucks = FoodSpot.getEntries($routeParams.longitude, $routeParams.latitude);
 };
