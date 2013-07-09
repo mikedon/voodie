@@ -20,10 +20,9 @@ app.factory('GoogleMaps', function(){
 
 app.factory('FoodSpot', function($resource){
 	return {
-                /* TODO add lat,long to request */
 		getEntries : function(latitude, longitude){
-			var foodTrucks = $resource('rest/foodTruck/entries').get();
-                        return foodTrucks;
+			var foodTrucks = $resource('rest/foodTruck/entries', {"latitude":latitude,"longitude":longitude}).get();
+            return foodTrucks;
 		}
 	}
 });
@@ -63,5 +62,5 @@ var HomeCtrl = function ($scope, GoogleMaps) {
 };
 
 var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
-	$scope.foodTrucks = FoodSpot.getEntries($routeParams.longitude, $routeParams.latitude);
+	$scope.foodTrucks = FoodSpot.getEntries($routeParams.latitude, $routeParams.longitude);
 };

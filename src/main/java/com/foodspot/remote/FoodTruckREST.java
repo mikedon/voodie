@@ -1,4 +1,4 @@
-package com.foodpsot.remote;
+package com.foodspot.remote;
 
 import java.util.List;
 
@@ -7,15 +7,16 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.foodpsot.remote.domain.FoodTrucks;
-import com.foodpsot.remote.domain.Vote;
 import com.foodspot.domain.FoodTruck;
+import com.foodspot.remote.domain.FoodTrucks;
+import com.foodspot.remote.domain.Vote;
 import com.foodspot.service.VotingService;
 import com.foodspot.service.YelpService;
 
@@ -34,11 +35,14 @@ public class FoodTruckREST {
 	// TODO returns FoodTrucks > FoodTrucks I want FoodTrucks > FoodTruck
 	@Path("/entries")
 	@GET
-	public Response getFoodTruckEntries(String latitude, String longitude) {
-		List<FoodTruck> foodTrucks = yelpService.searchFoodTrucks("Arlington");
+	public Response getFoodTruckEntries(
+			@QueryParam("latitude") String latitude,
+			@QueryParam("longitude") String longitude) {
+		List<FoodTruck> foodTrucks = yelpService.searchFoodTrucks(latitude,
+				longitude);
 		FoodTrucks foodTrucksRemote = new FoodTrucks();
 		for (FoodTruck ft : foodTrucks) {
-			com.foodpsot.remote.domain.FoodTruck remoteFt = new com.foodpsot.remote.domain.FoodTruck();
+			com.foodspot.remote.domain.FoodTruck remoteFt = new com.foodspot.remote.domain.FoodTruck();
 			remoteFt.setId(ft.getExternalId());
 			remoteFt.setName(ft.getName());
 			remoteFt.setRating(ft.getRating());

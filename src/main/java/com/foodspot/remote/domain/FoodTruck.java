@@ -1,4 +1,4 @@
-package com.foodpsot.remote.domain;
+package com.foodspot.remote.domain;
 
 import java.io.Serializable;
 

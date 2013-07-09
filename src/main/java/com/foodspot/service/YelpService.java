@@ -1,6 +1,7 @@
 package com.foodspot.service;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -43,20 +44,24 @@ public class YelpService {
 				"-vr0hdrAWfMxLEqsmizOZuUuZ64");
 	}
 
-	public List<FoodTruck> searchFoodTrucks(String location) {
+	// TODO limits and offset parameters for paging
+	public List<FoodTruck> searchFoodTrucks(String latitude, String longitude) {
 		OAuthRequest request = new OAuthRequest(Verb.GET,
 				"http://api.yelp.com/v2/search");
 		request.addQuerystringParameter("term", CATEGORY_PARAM);
-		request.addQuerystringParameter("location", location);
+		request.addQuerystringParameter("ll", latitude + "," + longitude);
 		this.service.signRequest(this.accessToken, request);
 		Response response = request.send();
 		JsonParser jsonParser = new JsonParser();
 		JsonObject jsonObject = jsonParser.parse(response.getBody())
 				.getAsJsonObject();
 		JsonElement jsonElement = jsonObject.get(BUSINESSES_KEY);
-		Gson gson = getGson();
-		return Lists
-				.newArrayList(gson.fromJson(jsonElement, FoodTruck[].class));
+		if (jsonElement != null) {
+			Gson gson = getGson();
+			return Lists.newArrayList(gson.fromJson(jsonElement,
+					FoodTruck[].class));
+		}
+		return Collections.emptyList();
 	}
 
 	public static class YelpApi2 extends DefaultApi10a {
