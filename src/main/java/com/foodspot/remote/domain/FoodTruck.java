@@ -17,6 +17,8 @@ public class FoodTruck implements Serializable {
 
 	private Long rating;
 
+	private Number numberOfVotes;
+
 	public String getId() {
 		return id;
 	}
@@ -39,6 +41,14 @@ public class FoodTruck implements Serializable {
 
 	public void setRating(Long rating) {
 		this.rating = rating;
+	}
+
+	public Number getNumberOfVotes() {
+		return numberOfVotes;
+	}
+
+	public void setNumberOfVotes(Number numberOfVotes) {
+		this.numberOfVotes = numberOfVotes;
 	}
 
 }

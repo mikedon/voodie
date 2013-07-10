@@ -1,5 +1,6 @@
 package com.foodspot.remote;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -37,15 +38,19 @@ public class FoodTruckREST {
 	@GET
 	public Response getFoodTruckEntries(
 			@QueryParam("latitude") String latitude,
-			@QueryParam("longitude") String longitude) {
+			@QueryParam("longitude") String longitude,
+			@QueryParam("eatingTime") Long eatingTime) {
 		List<FoodTruck> foodTrucks = yelpService.searchFoodTrucks(latitude,
 				longitude);
 		FoodTrucks foodTrucksRemote = new FoodTrucks();
+		Date date = new Date(eatingTime);
 		for (FoodTruck ft : foodTrucks) {
 			com.foodspot.remote.domain.FoodTruck remoteFt = new com.foodspot.remote.domain.FoodTruck();
 			remoteFt.setId(ft.getExternalId());
 			remoteFt.setName(ft.getName());
 			remoteFt.setRating(ft.getRating());
+			remoteFt.setNumberOfVotes(votingService.getNumberOfVotes(
+					ft.getExternalId(), date, latitude, longitude));
 			foodTrucksRemote.getFoodTrucks().add(remoteFt);
 		}
 		return Response.ok(foodTrucksRemote).build();
@@ -54,8 +59,9 @@ public class FoodTruckREST {
 	@Path("/vote")
 	@POST
 	public Response vote(Vote vote) {
-		votingService.vote(vote.getFoodTruckId(), vote.getEatingTime(),
-				vote.getLatitude(), vote.getLongitude());
+		Date date = new Date(vote.getEatingTime());
+		votingService.vote(vote.getFoodTruckId(), date, vote.getLatitude(),
+				vote.getLongitude());
 		return Response.ok(Status.OK).build();
 	}
 

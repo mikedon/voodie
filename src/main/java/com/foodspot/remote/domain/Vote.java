@@ -1,7 +1,6 @@
 package com.foodspot.remote.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,7 +13,7 @@ public class Vote implements Serializable {
 
 	private String foodTruckId;
 
-	private Date eatingTime;
+	private Long eatingTime;
 
 	private String latitude;
 
@@ -36,11 +35,11 @@ public class Vote implements Serializable {
 		this.latitude = latitude;
 	}
 
-	public Date getEatingTime() {
+	public Long getEatingTime() {
 		return eatingTime;
 	}
 
-	public void setEatingTime(Date eatingTime) {
+	public void setEatingTime(Long eatingTime) {
 		this.eatingTime = eatingTime;
 	}
 

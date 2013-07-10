@@ -1,7 +1,8 @@
 <div class="main-container" ng-controller="VoteCtrl">
 	<ul class="unstyled">
 		<li ng-repeat="ft in foodTrucks.foodTrucks">
-			{{ft.name}}
+			{{ft.name}} - {{ft.numberOfVotes}}
+			<button ng-click="vote(ft)">Vote</button>
 		</li>
 	</ul>
 </div>

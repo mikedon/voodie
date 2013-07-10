@@ -20,9 +20,18 @@ app.factory('GoogleMaps', function(){
 
 app.factory('FoodSpot', function($resource){
 	return {
-		getEntries : function(latitude, longitude){
-			var foodTrucks = $resource('rest/foodTruck/entries', {"latitude":latitude,"longitude":longitude}).get();
+		getEntries : function(latitude, longitude, eatingTime){
+			var foodTrucks = $resource('rest/foodTruck/entries', {"latitude":latitude,"longitude":longitude,"eatingTime":eatingTime}).get();
             return foodTrucks;
+		},
+		vote : function(foodTruckId, latitude, longitude, eatingTime){
+			var Vote = $resource('rest/foodTruck/vote');
+			var newVote = new Vote();
+			newVote.foodTruckId = foodTruckId;
+			newVote.latitude = latitude;
+			newVote.longitude = longitude;
+			newVote.eatingTime = eatingTime;
+			newVote.$save();
 		}
 	}
 });
@@ -62,5 +71,9 @@ var HomeCtrl = function ($scope, GoogleMaps) {
 };
 
 var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
-	$scope.foodTrucks = FoodSpot.getEntries($routeParams.latitude, $routeParams.longitude);
+	$scope.foodTrucks = FoodSpot.getEntries($routeParams.latitude, $routeParams.longitude, $routeParams.eatingTime);
+	$scope.vote = function(foodTruck){
+		FoodSpot.vote(foodTruck.id, $routeParams.latitude, $routeParams.longitude, $routeParams.eatingTime);
+		foodTruck.numberOfVotes++;	
+	}
 };
