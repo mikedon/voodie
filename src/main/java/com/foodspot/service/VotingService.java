@@ -35,6 +35,7 @@ public class VotingService {
 		}
 	}
 
+	// TODO round eating time down to nearest 30 minute mark
 	public boolean vote(String foodTruckId, Date eatingTime, String latitude,
 			String longitude) {
 		Vote vote = new Vote();

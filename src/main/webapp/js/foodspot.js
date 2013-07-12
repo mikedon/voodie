@@ -1,4 +1,4 @@
-var app = angular.module('foodSpot', ['ngResource']);
+var app = angular.module('foodSpot', ['ngResource', 'ui.bootstrap']);
 app.config(["$routeProvider", function($routeProvider){
 	$routeProvider.when('/home', {templateUrl:'templates/home.html'});
 	$routeProvider.when('/votes/:latitude+:longitude/:eatingTime', {templateUrl:'templates/votes.html'});
@@ -58,6 +58,14 @@ app.directive("blur", function(){
 })
 
 var HomeCtrl = function ($scope, GoogleMaps) {
+        var eatingTime = new Date();
+        if(eatingTime.getMinutes() > 30){
+            eatingTime.setMinutes(30);
+        }else{
+            eatingTime.setMinutes(0);
+        }
+        $scope.eatingTime = eatingTime;
+        $scope.eatingDate = new Date();
 	$scope.geolocate = function(){
 		if($scope.address){
 			GoogleMaps.geolocate($scope.address,function(results){
@@ -67,13 +75,14 @@ var HomeCtrl = function ($scope, GoogleMaps) {
 				});
 			});
 		}
-	}
+	};
 };
 
 var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
-	$scope.foodTrucks = FoodSpot.getEntries($routeParams.latitude, $routeParams.longitude, $routeParams.eatingTime);
+        $scope.eatingTimestamp = new Date($routeParams.eatingTime).getTime();
+	$scope.foodTrucks = FoodSpot.getEntries($routeParams.latitude, $routeParams.longitude, $scope.eatingTimestamp);
 	$scope.vote = function(foodTruck){
-		FoodSpot.vote(foodTruck.id, $routeParams.latitude, $routeParams.longitude, $routeParams.eatingTime);
+		FoodSpot.vote(foodTruck.id, $routeParams.latitude, $routeParams.longitude, $scope.eatingTimestamp);
 		foodTruck.numberOfVotes++;	
 	}
 };
