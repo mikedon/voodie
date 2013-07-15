@@ -1,8 +1,6 @@
-<div class="main-container" ng-controller="VoteCtrl">
-	<ul class="unstyled">
-		<li ng-repeat="ft in foodTrucks.foodTrucks">
-			{{ft.name}} - {{ft.numberOfVotes}}
-			<button ng-click="vote(ft)">Vote</button>
-		</li>
-	</ul>
+<div ng-controller="VoteCtrl">
+	<div ng-repeat="ft in foodTrucks.foodTrucks" class="span4 foodTruck well">
+		<ng-include src="'templates/includes/foodtruck.html'" onLoad="foodTruck=ft"></ng-include>
+		<button class="btn btn-primary" ng-click="vote(ft)">Vote</button>
+	</div>
 </div>

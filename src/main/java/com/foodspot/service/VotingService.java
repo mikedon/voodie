@@ -24,6 +24,7 @@ public class VotingService {
 	@Inject
 	protected VotingDao votingDao;
 
+	// TODO use radius around coordinates, .5 mile?
 	public Number getNumberOfVotes(String foodTruckId, Date eatingTime,
 			String latitude, String longitude) {
 		Location location = locationDao.find(latitude, longitude);

@@ -30,7 +30,7 @@ import com.google.gson.JsonParser;
 public class YelpService {
 
 	private static final String BUSINESSES_KEY = "businesses";
-	private static final String CATEGORY_PARAM = "Food Truck";
+	private static final String CATEGORY_PARAM = "Food Trucks, Food Stands, Street Vendors";
 
 	private OAuthService service;
 	private Token accessToken;

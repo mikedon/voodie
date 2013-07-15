@@ -2,7 +2,16 @@ textarea {
 	resize: none;
 }
 
-.main-container {
-	width: 960px;
+.container-narrow {
+	width: 800px;
 	margin: 0 auto;
+}
+
+.eatingTime {
+    margin-top: 90px;
+}
+
+.foodTruck {
+        padding: 20px;
+        border: 1px solid black;
 }
