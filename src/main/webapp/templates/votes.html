@@ -2,5 +2,6 @@
 	<div ng-repeat="ft in foodTrucks.foodTrucks" class="span4 foodTruck well">
 		<ng-include src="'templates/includes/foodtruck.html'" onLoad="foodTruck=ft"></ng-include>
 		<button class="btn btn-primary" ng-click="vote(ft)">Vote</button>
+		<a class="btn btn-info pull-right" href="#/foodTruck/{{ft.id}}">View Stats</a>
 	</div>
 </div>

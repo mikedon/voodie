@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.foodspot.domain.FoodTruck;
 import com.foodspot.remote.domain.FoodTrucks;
 import com.foodspot.remote.domain.Vote;
+import com.foodspot.remote.domain.Votes;
 import com.foodspot.service.VotingService;
 import com.foodspot.service.YelpService;
 
@@ -56,6 +57,8 @@ public class FoodTruckREST {
 		return Response.ok(foodTrucksRemote).build();
 	}
 
+	// TODO move votes to separate REST @Path
+
 	@Path("/vote")
 	@POST
 	public Response vote(Vote vote) {
@@ -63,6 +66,25 @@ public class FoodTruckREST {
 		votingService.vote(vote.getFoodTruckId(), date, vote.getLatitude(),
 				vote.getLongitude());
 		return Response.ok(Status.OK).build();
+	}
+
+	@Path("/vote/entries")
+	@GET
+	public Response getVotes(@QueryParam("foodTruckId") String foodTruckId,
+			@QueryParam("eatingTime") Long eatingTime) {
+		Date date = new Date(eatingTime);
+		List<com.foodspot.domain.Vote> domainVotes = votingService.getVotes(
+				foodTruckId, date);
+		Votes votes = new Votes();
+		for (com.foodspot.domain.Vote v : domainVotes) {
+			Vote remoteVote = new Vote();
+			remoteVote.setEatingTime(eatingTime);
+			remoteVote.setFoodTruckId(v.getFoodTruckId());
+			remoteVote.setLatitude(v.getLocation().getLatitude());
+			remoteVote.setLongitude(v.getLocation().getLongitude());
+			votes.getVotes().add(remoteVote);
+		}
+		return Response.ok(votes).build();
 	}
 
 }

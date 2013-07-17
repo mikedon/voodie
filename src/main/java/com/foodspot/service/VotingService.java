@@ -1,6 +1,7 @@
 package com.foodspot.service;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -23,6 +24,10 @@ public class VotingService {
 
 	@Inject
 	protected VotingDao votingDao;
+
+	public List<Vote> getVotes(String foodTruckId, Date eatingTime) {
+		return votingDao.getVotes(foodTruckId, eatingTime);
+	}
 
 	// TODO use radius around coordinates, .5 mile?
 	public Number getNumberOfVotes(String foodTruckId, Date eatingTime,

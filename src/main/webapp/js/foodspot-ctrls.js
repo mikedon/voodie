@@ -31,3 +31,7 @@ var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
 		foodTruck.numberOfVotes++;	
 	}
 };
+
+var FoodTruckCtrl = function ($scope, $routeParams, FoodSpot) {
+	$scope.votes = FoodSpot.getVotes($routeParams.id, Date.now());
+};

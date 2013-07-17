@@ -1,12 +1,14 @@
 package com.foodspot.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.foodspot.domain.Location;
+import com.foodspot.domain.Vote;
 
 @Stateless
 public class VotingDao {
@@ -23,6 +25,16 @@ public class VotingDao {
 				.setParameter("foodTruckId", foodTruckId)
 				.setParameter("location", location).getSingleResult();
 		return count;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Vote> getVotes(String foodTruckId, Date eatingTime) {
+		List<Vote> votes = em
+				.createQuery(
+						"select v from Vote v where v.foodTruckId = :foodTruckId and eatingTime = :eatingTime")
+				.setParameter("foodTruckId", foodTruckId)
+				.setParameter("eatingTime", eatingTime).getResultList();
+		return votes;
 	}
 
 }

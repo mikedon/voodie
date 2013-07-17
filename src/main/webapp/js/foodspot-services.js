@@ -25,6 +25,10 @@ app.factory('FoodSpot', function($resource){
 			newVote.longitude = longitude;
 			newVote.eatingTime = eatingTime;
 			newVote.$save();
+		},
+		getVotes : function(foodTruckId, eatingTime){
+			var votes = $resource('rest/foodTruck/vote/entries', {"foodTruckId":foodTruckId, "eatingTime" : eatingTime}).get();
+			return votes;
 		}
 	}
 });
