@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 apply plugin: 'eclipse'
 apply plugin: 'war'
 apply plugin: 'java'
@@ -39,6 +41,17 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
+
+//filter files
+war {
+   eachFile {
+      if (it.name == 'index.html') {
+        it.filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: ['servicesMode' : '-mock'])
+      }
+   }
+}
+
+//unzip
 war.doLast {
   ant.unzip(src: war.archivePath, dest: jboss + '/food-spot-0.1.war/')
   /*copy {
