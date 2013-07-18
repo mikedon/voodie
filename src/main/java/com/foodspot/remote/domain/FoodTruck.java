@@ -18,6 +18,8 @@ public class FoodTruck implements Serializable {
 	private Long rating;
 
 	private Number numberOfVotes;
+	
+	private String address;
 
 	public String getId() {
 		return id;
@@ -49,6 +51,14 @@ public class FoodTruck implements Serializable {
 
 	public void setNumberOfVotes(Number numberOfVotes) {
 		this.numberOfVotes = numberOfVotes;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

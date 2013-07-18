@@ -2,6 +2,7 @@ package com.foodspot.service;
 
 import java.lang.reflect.Type;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import com.foodspot.domain.FoodTruck;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -29,7 +31,11 @@ import com.google.gson.JsonParser;
 @Stateless
 public class YelpService {
 
+	private static final String YELP_SEARCH_API = "http://api.yelp.com/v2/search";
+	private static final String YELP_BIZ_API = "http://api.yelp.com/v2/business";
 	private static final String BUSINESSES_KEY = "businesses";
+	private static final String ADDRESS_KEY = "display_address";
+	private static final String LOCATION_KEY = "location";
 	private static final String CATEGORY_PARAM = "Food Trucks, Food Stands, Street Vendors";
 
 	private OAuthService service;
@@ -43,11 +49,23 @@ public class YelpService {
 		this.accessToken = new Token("rER5Oqi79KQaXw_Tq_S6Pm3XLSDkVxQk",
 				"-vr0hdrAWfMxLEqsmizOZuUuZ64");
 	}
+	
+	public FoodTruck getFoodTruck(String foodTruckId){
+		OAuthRequest request = new OAuthRequest(Verb.GET,
+				YELP_BIZ_API + "/" + foodTruckId);
+		this.service.signRequest(this.accessToken, request);
+		Response response = request.send();
+		JsonParser jsonParser = new JsonParser();
+		JsonObject jsonObject = jsonParser.parse(response.getBody())
+				.getAsJsonObject();
+		Gson gson = getGson();
+		return gson.fromJson(jsonObject, FoodTruck.class);
+	}
 
 	// TODO limits and offset parameters for paging
 	public List<FoodTruck> searchFoodTrucks(String latitude, String longitude) {
 		OAuthRequest request = new OAuthRequest(Verb.GET,
-				"http://api.yelp.com/v2/search");
+				YELP_SEARCH_API);
 		request.addQuerystringParameter("term", CATEGORY_PARAM);
 		request.addQuerystringParameter("ll", latitude + "," + longitude);
 		this.service.signRequest(this.accessToken, request);
@@ -90,6 +108,16 @@ public class YelpService {
 					.excludeFieldsWithoutExposeAnnotation().create();
 			FoodTruck foodTruck = gson.fromJson(foodTruckObj, FoodTruck.class);
 			foodTruck.setExternalId(foodTruckObj.get("id").getAsString());
+			JsonObject locationObj = foodTruckObj.getAsJsonObject(LOCATION_KEY);
+			JsonArray addressArray = locationObj.get(ADDRESS_KEY).getAsJsonArray();
+			Iterator<JsonElement> addressIterator = addressArray.iterator();
+			StringBuilder address = new StringBuilder();
+			while(addressIterator.hasNext()){
+				JsonElement addressField = addressIterator.next();
+				address.append(addressField.getAsString());
+				address.append(" ");
+			}
+			foodTruck.setAddress(address.toString());
 			return foodTruck;
 		}
 

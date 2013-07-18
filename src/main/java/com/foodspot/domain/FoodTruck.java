@@ -35,6 +35,8 @@ public class FoodTruck {
 
 	@Expose
 	private Long reviewCount;
+	
+	private String address;
 
 	public Long getId() {
 		return id;
@@ -98,6 +100,14 @@ public class FoodTruck {
 
 	public void setExternalId(String externalId) {
 		this.externalId = externalId;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

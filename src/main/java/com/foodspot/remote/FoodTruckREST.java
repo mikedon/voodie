@@ -34,6 +34,23 @@ public class FoodTruckREST {
 	@Inject
 	protected VotingService votingService;
 
+	@Path("/info")
+	@GET
+	public Response getFoodTruck(@QueryParam("foodTruckId") String foodTruckId){
+		FoodTruck domainFoodTruck = yelpService.getFoodTruck(foodTruckId);
+		com.foodspot.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(domainFoodTruck); 
+		return Response.ok(remoteFt).build();
+	}
+	
+	protected com.foodspot.remote.domain.FoodTruck mapToRemoteFoodTruck(FoodTruck ft){
+		com.foodspot.remote.domain.FoodTruck remoteFt = new com.foodspot.remote.domain.FoodTruck();
+		remoteFt.setId(ft.getExternalId());
+		remoteFt.setName(ft.getName());
+		remoteFt.setRating(ft.getRating());
+		remoteFt.setAddress(ft.getAddress());
+		return remoteFt;
+	}
+	
 	// TODO returns FoodTrucks > FoodTrucks I want FoodTrucks > FoodTruck
 	@Path("/entries")
 	@GET
@@ -46,12 +63,9 @@ public class FoodTruckREST {
 		FoodTrucks foodTrucksRemote = new FoodTrucks();
 		Date date = new Date(eatingTime);
 		for (FoodTruck ft : foodTrucks) {
-			com.foodspot.remote.domain.FoodTruck remoteFt = new com.foodspot.remote.domain.FoodTruck();
-			remoteFt.setId(ft.getExternalId());
-			remoteFt.setName(ft.getName());
-			remoteFt.setRating(ft.getRating());
+			com.foodspot.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(ft);
 			remoteFt.setNumberOfVotes(votingService.getNumberOfVotes(
-					ft.getExternalId(), date, latitude, longitude));
+			ft.getExternalId(), date, latitude, longitude));
 			foodTrucksRemote.getFoodTrucks().add(remoteFt);
 		}
 		return Response.ok(foodTrucksRemote).build();
