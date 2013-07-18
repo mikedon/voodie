@@ -6,7 +6,7 @@ apply plugin: 'java'
 
 version = '0.1'
 
-def jboss = "/Users/MikeD/workspace/jboss-eap-6.1/standalone/deployments"
+def jboss = "../jboss-eap-6.1/standalone/deployments"
 
 repositories {
     mavenCentral()
