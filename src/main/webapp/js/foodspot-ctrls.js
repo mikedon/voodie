@@ -33,5 +33,18 @@ var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
 };
 
 var FoodTruckCtrl = function ($scope, $routeParams, FoodSpot) {
-	$scope.votes = FoodSpot.getVotes($routeParams.id, Date.now());
+	//FIXME logic duplicated in HomeCtrl
+	var eatingTime = new Date();
+    if(eatingTime.getMinutes() > 30){
+        eatingTime.setMinutes(30);
+    }else{
+        eatingTime.setMinutes(0);
+    }
+    $scope.eatingTime = eatingTime;
+    $scope.eatingDate = new Date();
+    var eatingTimestamp = new Date($scope.eatingDate.getFullYear(), 
+            $scope.eatingDate.getMonth(), $scope.eatingDate.getDate(), 
+            $scope.eatingTime.getHours(), $scope.eatingTime.getMinutes(), 0, 0);
+    
+	$scope.votes = FoodSpot.getVotes($routeParams.id, eatingTimestamp.getTime());
 };

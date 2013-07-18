@@ -1,4 +1,12 @@
 <div ng-controller="FoodTruckCtrl">
+	<form>
+		<div class="row-fluid">
+			<div class="span12">
+				<ng-include src="'templates/includes/date-time-picker.html'"></ng-include>
+			</div>
+		</div>
+	</form>
+	<hr>
 	<div ng-repeat="vote in votes.votes">
 		{{vote.latitude}} -
 		{{vote.longitude}}
