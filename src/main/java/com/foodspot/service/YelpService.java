@@ -63,7 +63,7 @@ public class YelpService {
 	}
 
 	// TODO limits and offset parameters for paging
-	public List<FoodTruck> searchFoodTrucks(String latitude, String longitude) {
+	public List<FoodTruck> searchFoodTrucks(Double latitude, Double longitude) {
 		OAuthRequest request = new OAuthRequest(Verb.GET,
 				YELP_SEARCH_API);
 		request.addQuerystringParameter("term", CATEGORY_PARAM);

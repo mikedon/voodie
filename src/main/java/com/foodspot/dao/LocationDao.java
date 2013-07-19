@@ -16,7 +16,7 @@ public class LocationDao {
 	EntityManager em;
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public Location find(String latitude, String longitude) {
+	public Location find(Double latitude, Double longitude) {
 		Location location = null;
 		try {
 			location = (Location) em

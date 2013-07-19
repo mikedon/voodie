@@ -31,7 +31,7 @@ public class VotingService {
 
 	// TODO use radius around coordinates, .5 mile?
 	public Number getNumberOfVotes(String foodTruckId, Date eatingTime,
-			String latitude, String longitude) {
+			Double latitude, Double longitude) {
 		Location location = locationDao.find(latitude, longitude);
 		if (location == null) {
 			return 0;
@@ -42,8 +42,8 @@ public class VotingService {
 	}
 
 	// TODO round eating time down to nearest 30 minute mark
-	public boolean vote(String foodTruckId, Date eatingTime, String latitude,
-			String longitude) {
+	public boolean vote(String foodTruckId, Date eatingTime, Double latitude,
+			Double longitude) {
 		Vote vote = new Vote();
 		vote.setEatingTime(eatingTime);
 		vote.setFoodTruckId(foodTruckId);

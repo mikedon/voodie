@@ -55,8 +55,8 @@ public class FoodTruckREST {
 	@Path("/entries")
 	@GET
 	public Response getFoodTruckEntries(
-			@QueryParam("latitude") String latitude,
-			@QueryParam("longitude") String longitude,
+			@QueryParam("latitude") Double latitude,
+			@QueryParam("longitude") Double longitude,
 			@QueryParam("eatingTime") Long eatingTime) {
 		List<FoodTruck> foodTrucks = yelpService.searchFoodTrucks(latitude,
 				longitude);
