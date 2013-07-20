@@ -1,11 +1,15 @@
 package com.foodspot.domain;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.google.common.collect.Lists;
 import com.google.gson.annotations.Expose;
 
 @Entity
@@ -20,23 +24,25 @@ public class FoodTruck {
 
 	@Expose
 	private String name;
-
+	
 	@Expose
 	private Long rating;
+	
+	private String ratingImageUrl;
 
-	@Expose
 	private String imageUrl;
 
 	@Expose
 	private String url;
 
-	@Expose
 	private String mobileUrl;
 
-	@Expose
 	private Long reviewCount;
 	
 	private String address;
+	
+	@OneToMany
+	private List<Category> categories;
 
 	public Long getId() {
 		return id;
@@ -108,6 +114,25 @@ public class FoodTruck {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getRatingImageUrl() {
+		return ratingImageUrl;
+	}
+
+	public void setRatingImageUrl(String ratingImageUrl) {
+		this.ratingImageUrl = ratingImageUrl;
+	}
+
+	public List<Category> getCategories() {
+		if(categories == null){
+			categories = Lists.newArrayList();
+		}
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 }

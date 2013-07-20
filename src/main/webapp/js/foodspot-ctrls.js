@@ -25,7 +25,12 @@ var HomeCtrl = function ($scope, $location, GoogleMaps) {
 };
 
 var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
-	$scope.foodTrucks = FoodSpot.getEntries($routeParams.latitude, $routeParams.longitude, $routeParams.eatingTime);
+	$scope.foodTrucks = FoodSpot.getEntries($routeParams.latitude, $routeParams.longitude, function(data){
+		$scope.foodTruckRows = [];
+		for( var i = 0; i < data.foodTrucks.length; i = i + 2 ){
+	        $scope.foodTruckRows.push(i);
+		}
+	});
 	$scope.vote = function(foodTruck){
 		FoodSpot.vote(foodTruck.id, $routeParams.latitude, $routeParams.longitude, $routeParams.eatingTime);
 		foodTruck.numberOfVotes++;	

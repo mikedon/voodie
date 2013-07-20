@@ -1,7 +1,9 @@
 <div ng-controller="VoteCtrl">
-	<div ng-repeat="ft in foodTrucks.foodTrucks" class="span4 foodTruck well">
-		<ng-include src="'templates/includes/foodtruck.html'" onLoad="foodTruck=ft"></ng-include>
-		<button class="btn btn-primary" ng-click="vote(ft)">Vote</button>
-		<a class="btn btn-info pull-right" href="#/foodTruck/{{ft.id}}">View Stats</a>
-	</div>
+	<div class="row-fluid" ng-repeat="i in foodTruckRows">
+        <div class="span6 foodTruck well" ng-repeat="ft in foodTrucks.foodTrucks.slice(i,i+2)">
+			<ng-include src="'templates/includes/foodtruck.html'" onLoad="foodTruck=ft"></ng-include>
+			<button class="btn btn-primary pul-right" ng-click="vote(ft)">Vote</button>
+			<!--  <a class="btn btn-info pull-right" href="#/foodTruck/{{ft.id}}">View Stats</a> -->
+        </div>
+    </div>
 </div>

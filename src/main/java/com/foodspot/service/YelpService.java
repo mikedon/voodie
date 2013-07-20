@@ -16,6 +16,7 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
+import com.foodspot.domain.Category;
 import com.foodspot.domain.FoodTruck;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -36,7 +37,7 @@ public class YelpService {
 	private static final String BUSINESSES_KEY = "businesses";
 	private static final String ADDRESS_KEY = "display_address";
 	private static final String LOCATION_KEY = "location";
-	private static final String CATEGORY_PARAM = "Food Trucks, Food Stands, Street Vendors";
+	private static final String CATEGORY_PARAM = "foodtrucks,foodstands,streetvendors";
 
 	private OAuthService service;
 	private Token accessToken;
@@ -66,7 +67,7 @@ public class YelpService {
 	public List<FoodTruck> searchFoodTrucks(Double latitude, Double longitude) {
 		OAuthRequest request = new OAuthRequest(Verb.GET,
 				YELP_SEARCH_API);
-		request.addQuerystringParameter("term", CATEGORY_PARAM);
+		request.addQuerystringParameter("category_filter", CATEGORY_PARAM);
 		request.addQuerystringParameter("ll", latitude + "," + longitude);
 		this.service.signRequest(this.accessToken, request);
 		Response response = request.send();
@@ -100,6 +101,15 @@ public class YelpService {
 	}
 
 	private class FoodTruckTypeAdapter implements JsonDeserializer<FoodTruck> {
+		
+		protected String getStringValue(JsonObject obj, String key){
+			String value = null;
+			if(obj.has(key)){
+				value = obj.get(key).getAsString();
+			}
+			return value;
+		}
+		
 		@Override
 		public FoodTruck deserialize(JsonElement json, Type typeOfT,
 				JsonDeserializationContext context) throws JsonParseException {
@@ -107,8 +117,26 @@ public class YelpService {
 			Gson gson = new GsonBuilder()
 					.excludeFieldsWithoutExposeAnnotation().create();
 			FoodTruck foodTruck = gson.fromJson(foodTruckObj, FoodTruck.class);
-			foodTruck.setExternalId(foodTruckObj.get("id").getAsString());
+			foodTruck.setExternalId(getStringValue(foodTruckObj,"id"));
+			//categories
+			JsonArray categoriesArray = foodTruckObj.get("categories").getAsJsonArray();
+			Iterator<JsonElement> categoriesIterator = categoriesArray.iterator();
+			while(categoriesIterator.hasNext()){
+				JsonArray jsonCategory = categoriesIterator.next().getAsJsonArray();
+				Category domainCategory = new Category();
+				String name = jsonCategory.get(0).getAsString();
+				String id = jsonCategory.get(1).getAsString();
+				//we skip the categories we search on
+				if(CATEGORY_PARAM.contains(id)){
+					continue;
+				}
+				domainCategory.setName(name);
+				foodTruck.getCategories().add(domainCategory);
+			}
+			foodTruck.setImageUrl(getStringValue(foodTruckObj,"image_url"));
+			foodTruck.setRatingImageUrl(getStringValue(foodTruckObj,"rating_img_url_small"));
 			JsonObject locationObj = foodTruckObj.getAsJsonObject(LOCATION_KEY);
+			//address
 			JsonArray addressArray = locationObj.get(ADDRESS_KEY).getAsJsonArray();
 			Iterator<JsonElement> addressIterator = addressArray.iterator();
 			StringBuilder address = new StringBuilder();

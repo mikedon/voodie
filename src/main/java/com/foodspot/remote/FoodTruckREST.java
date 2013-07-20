@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.foodspot.domain.Category;
 import com.foodspot.domain.FoodTruck;
 import com.foodspot.remote.domain.FoodTrucks;
 import com.foodspot.remote.domain.Vote;
@@ -48,6 +49,12 @@ public class FoodTruckREST {
 		remoteFt.setName(ft.getName());
 		remoteFt.setRating(ft.getRating());
 		remoteFt.setAddress(ft.getAddress());
+		remoteFt.setImageUrl(ft.getImageUrl());
+		remoteFt.setRatingImageUrl(ft.getRatingImageUrl());
+		remoteFt.setUrl(ft.getUrl());
+		for(Category c : ft.getCategories()){
+			remoteFt.getCategories().add(c.getName());
+		}
 		return remoteFt;
 	}
 	
@@ -56,16 +63,12 @@ public class FoodTruckREST {
 	@GET
 	public Response getFoodTruckEntries(
 			@QueryParam("latitude") Double latitude,
-			@QueryParam("longitude") Double longitude,
-			@QueryParam("eatingTime") Long eatingTime) {
+			@QueryParam("longitude") Double longitude) {
 		List<FoodTruck> foodTrucks = yelpService.searchFoodTrucks(latitude,
 				longitude);
 		FoodTrucks foodTrucksRemote = new FoodTrucks();
-		Date date = new Date(eatingTime);
 		for (FoodTruck ft : foodTrucks) {
 			com.foodspot.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(ft);
-			remoteFt.setNumberOfVotes(votingService.getNumberOfVotes(
-			ft.getExternalId(), date, latitude, longitude));
 			foodTrucksRemote.getFoodTrucks().add(remoteFt);
 		}
 		return Response.ok(foodTrucksRemote).build();
