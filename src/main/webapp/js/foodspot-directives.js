@@ -18,3 +18,11 @@ app.directive("blur", function(){
             });
 	}
 });
+
+app.directive("focus", function(){
+    return function($scope, element, attrs){
+        element.bind("focus", function(event) {
+            $scope.$apply(attrs.focus);
+        });
+    }
+});

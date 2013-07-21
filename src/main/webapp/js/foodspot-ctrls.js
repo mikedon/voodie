@@ -1,12 +1,5 @@
-var HomeCtrl = function ($scope, $location, GoogleMaps) {
-	var eatingTime = new Date();
-    if(eatingTime.getMinutes() > 30){
-        eatingTime.setMinutes(30);
-    }else{
-        eatingTime.setMinutes(0);
-    }
-    $scope.eatingTime = eatingTime;
-    $scope.eatingDate = new Date();
+var HomeCtrl = function ($scope, $location, $dialog, EatingTime, GoogleMaps) {
+    $scope.eatingTimestamp = EatingTime.getEatingTime(), 
     $scope.submit = function(){
     	//TODO check if valid
     	if($scope.address){
@@ -14,13 +7,37 @@ var HomeCtrl = function ($scope, $location, GoogleMaps) {
 				$scope.$apply(function(){
 					$scope.latitude = latitude;
 					$scope.longitude = longitude;
-                    var eatingTimestamp = new Date($scope.eatingDate.getFullYear(), 
-                        $scope.eatingDate.getMonth(), $scope.eatingDate.getDate(), 
-                        $scope.eatingTime.getHours(), $scope.eatingTime.getMinutes(), 0, 0);
-					$location.path('/votes/' + $scope.latitude + '+' + $scope.longitude + '/' + eatingTimestamp.getTime());
+					$location.path('/votes/' + $scope.latitude + '+' + $scope.longitude + '/' + $scope.eatingTimestamp.getTime());
 				});
 			});
     	}
+    };
+    $scope.opts = {
+        backdrop: true,
+        keyboard: true,
+        backdropClick: true,
+        backdropFade: true,
+        dialogFade: true,
+        templateUrl: 'templates/includes/date-time-picker.html',
+        controller: 'DateTimeController'
+    };
+    $scope.openDialog = function(){
+        var d = $dialog.dialog($scope.opts);
+        d.open().then(function(){
+            $scope.eatingTimestamp = EatingTime.getEatingTime();
+        });
+    };
+};
+
+var DateTimeController = function($scope, EatingTime, dialog){
+    $scope.eatingDate = EatingTime.roundedTime();
+    $scope.eatingTime = EatingTime.roundedTime();
+    $scope.save = function(){
+        EatingTime.setEatingTime(EatingTime.timeStamp($scope.eatingDate, $scope.eatingTime));
+        dialog.close();
+    };
+    $scope.close = function(){
+        dialog.close();
     };
 };
 

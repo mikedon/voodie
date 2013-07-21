@@ -1,6 +1,11 @@
-<div class="span11">
-	<datepicker ng-model="eatingDate" show-weeks="showWeeks" class="input-block-level" starting-day="1"></datepicker>
+<div class="modal-header clearfix">
+    <h3 class="pull-left">Pick a Date and Time</h3>
+    <button ng-click="close(result)" class="btn pull-right"><i class="icon-remove"></i></button>
 </div>
-<div class="span12">
-	<timepicker ng-model="eatingTime" minute-step="30"readonly-input="true"></timepicker>
+<div class="modal-body">
+    <datepicker ng-model="eatingDate" show-weeks="showWeeks" class="input-block-level" starting-day="1"></datepicker>
+    <timepicker ng-model="eatingTime" minute-step="30"readonly-input="true"></timepicker>
+</div>
+<div class="modal-footer">
+    <button ng-click="save()" class="btn btn-primary pull-right"><i class="icon-ok"></i> Save</button>
 </div>

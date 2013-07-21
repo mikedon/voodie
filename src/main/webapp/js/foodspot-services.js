@@ -36,3 +36,42 @@ app.factory('FoodSpot', function($resource){
 		}
 	}
 });
+
+app.factory('EatingTime', function(){
+    return {
+        roundedTime: function(){
+            var roundedTime = new Date();
+            if(roundedTime.getMinutes() > 30){
+                roundedTime.setMinutes(30);
+            }else{
+                roundedTime.setMinutes(0);
+            }
+            return roundedTime;
+        },
+        timeStamp: function(date, time){
+            var _date,_time;
+            if(!date){
+                _date = this.date;
+            }else{
+                _date = date;
+            }
+            if(!time){
+                _time = this.roundedTime();
+            }else{
+                _time = time;
+            }
+            return new Date(_date.getFullYear(), 
+                _date.getMonth(), _date.getDate(), 
+                _time.getHours(), _time.getMinutes(), 0, 0);
+        },
+        getEatingTime: function(){
+            if(!this._eatingTime){
+                this._eatingTime = this.roundedTime();
+            }
+            return this._eatingTime;
+        },
+        setEatingTime : function(eatingTime){
+            this._eatingTime = eatingTime;
+        }
+    }
+});
