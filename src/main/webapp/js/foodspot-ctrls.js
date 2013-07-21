@@ -19,7 +19,7 @@ var HomeCtrl = function ($scope, $location, $dialog, EatingTime, GoogleMaps) {
         backdropFade: true,
         dialogFade: true,
         templateUrl: 'templates/includes/date-time-picker.html',
-        controller: 'DateTimeController'
+        controller: 'DateTimeCtrl'
     };
     $scope.openDialog = function(){
         var d = $dialog.dialog($scope.opts);
@@ -29,16 +29,18 @@ var HomeCtrl = function ($scope, $location, $dialog, EatingTime, GoogleMaps) {
     };
 };
 
-var DateTimeController = function($scope, EatingTime, dialog){
-    $scope.eatingDate = EatingTime.roundedTime();
-    $scope.eatingTime = EatingTime.roundedTime();
-    $scope.save = function(){
-        EatingTime.setEatingTime(EatingTime.timeStamp($scope.eatingDate, $scope.eatingTime));
+//This controller syntax is slightly different to bind the controller with the view
+var DateTimeCtrl = function($scope, EatingTime, dialog){
+    this.eatingDate = EatingTime.roundedTime();
+    this.eatingTime = EatingTime.roundedTime();
+    this.save = function(){
+        EatingTime.setEatingTime(EatingTime.timeStamp(this.eatingDate, this.eatingTime));
         dialog.close();
     };
-    $scope.close = function(){
+    this.close = function(){
         dialog.close();
     };
+    return $scope.DateTimeCtrl = this;
 };
 
 var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
@@ -54,7 +56,7 @@ var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
 	}
 };
 
-function FoodTruckCtrl($scope, $routeParams, FoodSpot, GoogleMaps) {
+function FoodTruckCtrl($scope, $routeParams, EatingTime, FoodSpot, GoogleMaps) {
 	//get food truck info
 	$scope.foodTruck = FoodSpot.getFoodTruckInfo($routeParams.id, function(data){
 		//get food truck coordinates
@@ -70,18 +72,8 @@ function FoodTruckCtrl($scope, $routeParams, FoodSpot, GoogleMaps) {
     		};
 			$scope.map = new google.maps.Map(document.getElementById("map-canvas"), $scope.mapOptions);
 			//get voting data and create heat map
-			var eatingTime = new Date();
-			if(eatingTime.getMinutes() > 30){
-				eatingTime.setMinutes(30);
-			}else{
-				eatingTime.setMinutes(0);
-			}
-			$scope.eatingTime = eatingTime;
-			$scope.eatingDate = new Date();
-			var eatingTimestamp = new Date($scope.eatingDate.getFullYear(), 
-					$scope.eatingDate.getMonth(), $scope.eatingDate.getDate(), 
-					$scope.eatingTime.getHours(), $scope.eatingTime.getMinutes(), 0, 0);
-			FoodSpot.getVotes($routeParams.id, eatingTimestamp.getTime(), function(data){
+                        $scope.eatingTimestamp = EatingTime.getEatingTime(), 
+			FoodSpot.getVotes($routeParams.id, $scope.eatingTimestamp.getTime(), function(data){
 				var votingData = [];
 				var votes = data.votes;
 				for(var i=0;i<votes.length;i++){
