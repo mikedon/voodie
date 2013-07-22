@@ -5,8 +5,26 @@ app.directive("bsinput", function(){
 			var type = attrs.type || 'text';
 			var id = attrs.id;
 			var label = attrs.label;
-			var html = "<div class='control-group'><label class='control-label' for='" + id + "'>" + label + "</label><div class='controls'><input type='" + type + "' id='" + id + "' class='input-block-level' ng-model='" + id + "'></div></div>" 
-			element.replaceWith(html);
+            var inline = attrs.inline || true;
+            var html = "";
+            if(!inline){
+            	html += "<div class='control-group'>";
+            }
+            if(label){
+                html += "<label class='control-label' for='" + id + "'>" + label + "</label>";
+            }
+            if(!inline){
+                html += "<div class='controls'>";
+            }
+            html += "<input type='" + type + "' id='" + id + "'";
+            if(!inline){
+                html += "class='input-block-level'";
+            }
+            html += "ng-model='" + id + "'>";
+            if(!inline){
+                html += "</div></div>";
+            }
+            element.replaceWith(html);
 		}
 	}
 });

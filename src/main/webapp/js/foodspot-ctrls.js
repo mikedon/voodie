@@ -44,11 +44,18 @@ var DateTimeCtrl = function($scope, EatingTime, dialog){
 };
 
 var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
+    $scope.categories = {};
 	$scope.foodTrucks = FoodSpot.getEntries($routeParams.latitude, $routeParams.longitude, function(data){
 		$scope.foodTruckRows = [];
 		for( var i = 0; i < data.foodTrucks.length; i = i + 2 ){
 	        $scope.foodTruckRows.push(i);
 		}
+        for(var i=0;i<data.foodTrucks.length;i++){
+            for(var c=0;c<data.foodTrucks[i].categories.length; c++){
+                var cat = data.foodTrucks[i].categories[c];
+                $scope.categories[cat] = cat;
+            }
+        }
 	});
 	$scope.vote = function(foodTruck){
 		FoodSpot.vote(foodTruck.id, $routeParams.latitude, $routeParams.longitude, $routeParams.eatingTime);

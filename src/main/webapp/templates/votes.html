@@ -1,6 +1,25 @@
 <div ng-controller="VoteCtrl">
+    <form class="form-inline">
+        <h4>Filters</h4>
+        <hr>
+        <div class="row-fluid">
+            <div class="offset2 span5">
+                <bsinput inline="true" label="Name" id="search.name"></bsinput>
+            </div>
+            <div class="span5">
+                <label for="search.categories">Category</label>
+                <select ng-model="search.categories" name="search.categories" id="search.categories">
+                    <option></option>
+                    <option ng-repeat="c in categories" value="{{c}}">
+                        {{c}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <hr>
+    </form>
 	<div class="row-fluid" ng-repeat="i in foodTruckRows">
-        <div class="span6 foodTruck well" ng-repeat="ft in foodTrucks.foodTrucks.slice(i,i+2)">
+        <div class="span6 foodTruck well" ng-repeat="ft in foodTrucks.foodTrucks.slice(i,i+2) | filter:search">
 			<ng-include src="'templates/includes/foodtruck.html'" onLoad="foodTruck=ft"></ng-include>
 			<button class="btn btn-primary pul-right" ng-click="vote(ft)">Vote</button>
 			<!--  <a class="btn btn-info pull-right" href="#/foodTruck/{{ft.id}}">View Stats</a> -->
