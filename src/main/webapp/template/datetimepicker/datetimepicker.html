@@ -1,0 +1,41 @@
+<table class="well well-large">
+  <thead>
+    <tr class="text-center">
+      <th><button class="btn pull-left" ng-click="move(-1)"><i class="icon-chevron-left"></i></button></th>
+      <th colspan="{{rows[0].length - 2 + showWeekNumbers}}"><button class="btn btn-block" ng-click="toggleMode()"><strong>{{title}}</strong></button></th>
+      <th><button class="btn pull-right" ng-click="move(1)"><i class="icon-chevron-right"></i></button></th>
+    </tr>
+    <tr class="text-center" ng-show="labels.length > 0">
+      <th ng-show="showWeekNumbers">#</th>
+      <th ng-repeat="label in labels">{{label}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="row in rows">
+      <td ng-show="showWeekNumbers" class="text-center"><em>{{ getWeekNumber(row) }}</em></td>
+      <td ng-repeat="dt in row" class="text-center">
+        <button style="width:100%;" class="btn" ng-class="{'btn-info': dt.isSelected}" ng-click="select(dt.date)" ng-disabled="dt.disabled"><span ng-class="{muted: ! dt.isCurrent}">{{dt.label}}</span></button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="text-center">
+      <td><a ng-click="incrementHours()" class="btn btn-link"><i class="icon-chevron-up"></i></a></td>
+      <td>&nbsp;</td>
+      <td><a ng-click="incrementMinutes()" class="btn btn-link"><i class="icon-chevron-up"></i></a></td>
+      <td ng-show="showMeridian"></td>
+    </tr>
+    <tr>
+      <td class="control-group" ng-class="{'error': !validHours}"><input type="text" ng-model="hours" ng-change="updateHours()" class="span1 text-center" ng-mousewheel="incrementHours()" ng-readonly="readonlyInput" maxlength="2" /></td>
+      <td>:</td>
+      <td class="control-group" ng-class="{'error': !validMinutes}"><input type="text" ng-model="minutes" ng-change="updateMinutes()" class="span1 text-center" ng-readonly="readonlyInput" maxlength="2"></td>
+      <td ng-show="showMeridian"><button ng-click="toggleMeridian()" class="btn text-center">{{meridian}}</button></td>
+    </tr>
+    <tr class="text-center">
+      <td><a ng-click="decrementHours()" class="btn btn-link"><i class="icon-chevron-down"></i></a></td>
+      <td>&nbsp;</td>
+      <td><a ng-click="decrementMinutes()" class="btn btn-link"><i class="icon-chevron-down"></i></a></td>
+      <td ng-show="showMeridian"></td>
+    </tr>
+  </tfoot>
+</table>

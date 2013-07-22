@@ -3,8 +3,12 @@
     <button ng-click="DateTimeCtrl.close()" class="btn pull-right"><i class="icon-remove"></i></button>
 </div>
 <div class="modal-body">
-    <datepicker ng-model="DateTimeCtrl.eatingDate" show-weeks="showWeeks" class="input-block-level" starting-day="1"></datepicker>
-    <timepicker ng-model="DateTimeCtrl.eatingTime" minute-step="30"readonly-input="true"></timepicker>
+    <div class="pull-left">
+	    <datepicker ng-model="DateTimeCtrl.eatingDate" show-weeks="showWeeks" class="input-block-level" starting-day="1"></datepicker>
+    </div>
+    <div class="pull-right time-picker">
+	    <timepicker ng-model="DateTimeCtrl.eatingTime" minute-step="30"readonly-input="true"></timepicker>
+    </div>
 </div>
 <div class="modal-footer">
     <button ng-click="DateTimeCtrl.save()" class="btn btn-primary pull-right"><i class="icon-ok"></i> Save</button>

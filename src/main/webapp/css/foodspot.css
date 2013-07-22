@@ -22,3 +22,15 @@ textarea {
 	height: 400px;
 	width: 100%;
 }
+
+.time-picker {
+    margin-top: 10%;
+}
+
+.eating-time-display {
+    margin-top: 6%;
+}
+
+.edit-btn {
+    margin-bottom: 9px;
+}
