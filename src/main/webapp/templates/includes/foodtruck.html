@@ -1,12 +1,19 @@
-<div class="row-fluid">
-	<div class="span4">
-		<img ng-src="{{foodTruck.imageUrl}}"/>
-		<div>Rating: <img ng-src="{{foodTruck.ratingImageUrl}}"/></div>	
-	</div>
-	<div class="span8">
-		<h3><a ng-href="{{foodTruck.url}}">{{foodTruck.name}}</a></h3>
-		<span ng-repeat="c in foodTruck.categories">
-			<span class="badge">{{c}}</span>
-		</span>
+<div ng-controller="FoodTruckCtrl">
+    <form>
+        <div class="row">
+            <div class="offset1 span5">
+                <datepicker ng-model="eatingDate" show-weeks="showWeeks" class="input-block-level" starting-day="1"></datepicker>
+            </div>
+            <div class="time-picker">
+                <timepicker ng-model="eatingTime" minute-step="30"readonly-input="true"></timepicker>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button class="btn pull-right" ng-click="updateMap()">Update</button>
+        </div>
+    </form>
+        <hr>
+	<div class="row-fluid">
+		<div class="span12" id="map-canvas"></div>
 	</div>
 </div>

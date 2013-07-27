@@ -64,6 +64,8 @@ var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
 };
 
 function FoodTruckCtrl($scope, $routeParams, EatingTime, FoodSpot, GoogleMaps) {
+    $scope.eatingDate = EatingTime.roundedTime();
+    $scope.eatingTime = EatingTime.roundedTime();
 	//get food truck info
 	$scope.foodTruck = FoodSpot.getFoodTruckInfo($routeParams.id, function(data){
 		//get food truck coordinates
@@ -79,19 +81,39 @@ function FoodTruckCtrl($scope, $routeParams, EatingTime, FoodSpot, GoogleMaps) {
     		};
 			$scope.map = new google.maps.Map(document.getElementById("map-canvas"), $scope.mapOptions);
 			//get voting data and create heat map
-                        $scope.eatingTimestamp = EatingTime.getEatingTime(), 
-			FoodSpot.getVotes($routeParams.id, $scope.eatingTimestamp.getTime(), function(data){
+            $scope.eatingTimestamp = EatingTime.getEatingTime(), 
+			FoodSpot.getVotes($routeParams.id, EatingTime.getEatingTime().getTime(), function(data){
 				var votingData = [];
 				var votes = data.votes;
 				for(var i=0;i<votes.length;i++){
 					 votingData.push(new google.maps.LatLng(votes[i].latitude, votes[i].longitude))	
 				}
-				var pointArray = new google.maps.MVCArray(votingData);
-				var heatmap = new google.maps.visualization.HeatmapLayer({
-					data: pointArray
+				$scope.pointArray = new google.maps.MVCArray(votingData);
+				$scope.heatmap = new google.maps.visualization.HeatmapLayer({
+					data: $scope.pointArray
 				});
-				heatmap.setMap($scope.map);
+				$scope.heatmap.setMap($scope.map);
 			});
 		});
 	});
+    $scope.updateMap = function(){
+        EatingTime.setEatingTime(EatingTime.timeStamp($scope.eatingDate, $scope.eatingTime));
+        //reset heat map
+        if($scope.heatmap){
+            $scope.heatmap.setMap(null);
+        }
+        //this should be moved to a promise?
+        FoodSpot.getVotes($routeParams.id, EatingTime.getEatingTime().getTime(), function(data){
+			var votingData = [];
+			var votes = data.votes;
+			for(var i=0;i<votes.length;i++){
+				 votingData.push(new google.maps.LatLng(votes[i].latitude, votes[i].longitude))	
+			}
+			$scope.pointArray = new google.maps.MVCArray(votingData);
+			$scope.heatmap = new google.maps.visualization.HeatmapLayer({
+				data: $scope.pointArray
+			});
+			$scope.heatmap.setMap($scope.map);
+		});
+    };
 };

@@ -41,10 +41,13 @@ app.factory('EatingTime', function(){
     return {
         roundedTime: function(){
             var roundedTime = new Date();
+            roundedTime.setMilliseconds(0);
+            roundedTime.setSeconds(0);
             if(roundedTime.getMinutes() > 30){
-                roundedTime.setMinutes(30);
-            }else{
                 roundedTime.setMinutes(0);
+                roundedTime.setHours(roundedTime.getHours() + 1);
+            }else{
+                roundedTime.setMinutes(30);
             }
             return roundedTime;
         },
