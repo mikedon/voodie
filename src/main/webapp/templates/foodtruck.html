@@ -1,12 +1,18 @@
 <div ng-controller="FoodTruckCtrl">
-	<form>
-		<div class="row-fluid">
-			<div class="span12">
-				<ng-include src="'templates/includes/date-time-picker.html'"></ng-include>
-			</div>
-		</div>
-	</form>
-	<hr>
+    <form>
+        <div class="row">
+            <div class="offset1 span5">
+                <datepicker ng-model="eatingDate" show-weeks="showWeeks" class="input-block-level" starting-day="1"></datepicker>
+            </div>
+            <div class="time-picker">
+                <timepicker ng-model="eatingTime" minute-step="30"readonly-input="true"></timepicker>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button class="btn pull-right" ng-click="updateMap()">Update</button>
+        </div>
+    </form>
+        <hr>
 	<div class="row-fluid">
 		<div class="span12" id="map-canvas"></div>
 	</div>
