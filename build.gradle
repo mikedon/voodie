@@ -86,7 +86,7 @@ task openshift {
 	}
 	task pushDeployment(type: GitPush)
 	pushDeployment {
-		remote "orign"
+		remote "remote/origin"
 	}
 	clone.execute()
 	println "copying"
