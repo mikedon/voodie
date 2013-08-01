@@ -1,3 +1,5 @@
+import org.ajoberstar.gradle.git.tasks.*
+
 apply plugin: 'eclipse'
 apply plugin: 'war'
 apply plugin: 'java'
@@ -6,6 +8,11 @@ version = '0.1'
 
 def jboss = "../jboss-eap-6.1/standalone/deployments"
 
+buildscript {
+  	repositories { mavenCentral() }
+  	dependencies { classpath 'org.ajoberstar:gradle-git:0.4.0' }
+}
+	
 repositories {
     mavenCentral()
     maven {
@@ -44,19 +51,51 @@ task wrapper(type: Wrapper) {
 }
 
 //filter files
-war {
+/*war {
    eachFile {
       if (it.name == 'index.html') {
         it.filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: ['servicesMode' : '-mock'])
       }
    }
-}
+}*/
 
 //unzip
-war.doLast {
-  ant.unzip(src: war.archivePath, dest: jboss + '/food-spot-0.1.war/')
-  /*copy {
-  	from "$libsDir/food-spot-0.1.war"
-  	into jboss
-  }*/
+//task development {
+//  ant.unzip(src: war.archivePath, dest: jboss + '/food-spot-0.1.war/')
+//}
+
+task openshift { 
+	task clone(type: GitClone)
+	clone {
+		uri = 'ssh://51f854e64382eccba8000028@foodspot-miked.rhcloud.com/~/git/foodspot.git/'
+		destinationPath = buildDir.name + '/openshift'
+	}
+	task copyDeployment(type: Copy)
+	copyDeployment {
+		println "copying"
+		from war.archivePath
+		into buildDir.name + '/openshift/deployments'
+	}
+	task addDeployment(type: GitAdd)
+	addDeployment {
+		println "adding"
+		repoPath = buildDir.name + '/openshift'
+	}
+	task commitDeployment(type: GitCommit)
+	commitDeployment {
+		println "commiting"
+		message "openshift deployment"
+		commitAll true
+	}
+	task pushDeployment(type: GitPush)
+	pushDeployment {
+		println "pushing"
+		
+	}
+	clone.execute()
+	copyDeployment.execute()
+	addDeployment.execute()
+	commitDeployment.execute()
+	pushDeployment.execute()
 }
+
