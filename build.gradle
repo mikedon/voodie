@@ -6,11 +6,13 @@ apply plugin: 'java'
 
 version = '0.1'
 
-def jboss = "../jboss-eap-6.1/standalone/deployments"
-
 buildscript {
   	repositories { mavenCentral() }
   	dependencies { classpath 'org.ajoberstar:gradle-git:0.4.0' }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.6'
 }
 	
 repositories {
@@ -46,10 +48,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.6'
-}
-
 //filter files
 /*war {
    eachFile {
@@ -60,20 +58,21 @@ task wrapper(type: Wrapper) {
 }*/
 
 //unzip
-//task development {
-//  ant.unzip(src: war.archivePath, dest: jboss + '/food-spot-0.1.war/')
-//}
+task development {
+	def jboss = "../jboss-eap-6.1/standalone/deployments"
+  	ant.unzip(src: war.archivePath, dest: jboss + '/food-spot-0.1.war/')
+}
 
 task openshift { 
 	task clone(type: GitClone)
 	clone {
 		uri = 'ssh://51f854e64382eccba8000028@foodspot-miked.rhcloud.com/~/git/foodspot.git/'
-		destinationPath = buildDir.name + '/openshift'
+		destinationPath = '/tmp/openshift'
 	}
 	task copyDeployment(type: Copy)
 	copyDeployment {
 		from war.archivePath
-		into buildDir.name + '/openshift/deployments'
+		into '/tmp/openshift/deployments'
 	}
 	task addDeployment(type: GitAdd)
 	addDeployment {
@@ -82,13 +81,17 @@ task openshift {
 	task commitDeployment(type: GitCommit)
 	commitDeployment {
 		message "openshift deployment"
+		repoPath = '/tmp/openshift'
 		commitAll true
 	}
 	task pushDeployment(type: GitPush)
 	pushDeployment {
-		repoPath = buildDir.name + '/openshift'
+		repoPath = '/tmp/openshift'
 	}
-	clone.execute()
+	def repo = new File('/tmp/openshift')
+	if(!repo.exists()){
+		clone.execute()
+	}
 	println "copying"
 	copyDeployment.execute()
 	println "adding"
