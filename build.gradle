@@ -72,30 +72,31 @@ task openshift {
 	}
 	task copyDeployment(type: Copy)
 	copyDeployment {
-		println "copying"
 		from war.archivePath
 		into buildDir.name + '/openshift/deployments'
 	}
 	task addDeployment(type: GitAdd)
 	addDeployment {
-		println "adding"
 		repoPath = buildDir.name + '/openshift'
 	}
 	task commitDeployment(type: GitCommit)
 	commitDeployment {
-		println "commiting"
 		message "openshift deployment"
 		commitAll true
 	}
 	task pushDeployment(type: GitPush)
 	pushDeployment {
-		println "pushing"
+		
 		
 	}
 	clone.execute()
+	println "copying"
 	copyDeployment.execute()
+	println "adding"
 	addDeployment.execute()
+	println "commiting"
 	commitDeployment.execute()
+	println "pushing"
 	pushDeployment.execute()
 }
 
