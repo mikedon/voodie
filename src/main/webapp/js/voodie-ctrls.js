@@ -43,12 +43,12 @@ var DateTimeCtrl = function($scope, EatingTime, dialog){
     return $scope.DateTimeCtrl = this;
 };
 
-var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
+var VoteCtrl = function ($scope, $routeParams, Voodie) {
 	$scope.currentPage = 1;
     $scope.categories = {};
     //pagination changes
     $scope.$watch('numPages + currentPage + maxSize', function(){
-    	$scope.foodTrucks = FoodSpot.getEntries($scope.currentPage, $routeParams.latitude, $routeParams.longitude, function(data){
+    	$scope.foodTrucks = Voodie.getEntries($scope.currentPage, $routeParams.latitude, $routeParams.longitude, function(data){
     		$scope.noOfPages = data.noOfPages;
     		$scope.foodTruckRows = [];
     		for( var i = 0; i < data.foodTrucks.length; i = i + 2 ){
@@ -64,16 +64,16 @@ var VoteCtrl = function ($scope, $routeParams, FoodSpot) {
     });
     	
 	$scope.vote = function(foodTruck){
-		FoodSpot.vote(foodTruck.id, $routeParams.latitude, $routeParams.longitude, $routeParams.eatingTime);
+		Voodie.vote(foodTruck.id, $routeParams.latitude, $routeParams.longitude, $routeParams.eatingTime);
 		foodTruck.numberOfVotes++;	
 	};
 };
 
-function FoodTruckCtrl($scope, $routeParams, EatingTime, FoodSpot, GoogleMaps) {
+function FoodTruckCtrl($scope, $routeParams, EatingTime, Voodie, GoogleMaps) {
     $scope.eatingDate = EatingTime.roundedTime();
     $scope.eatingTime = EatingTime.roundedTime();
 	//get food truck info
-	$scope.foodTruck = FoodSpot.getFoodTruckInfo($routeParams.id, function(data){
+	$scope.foodTruck = Voodie.getFoodTruckInfo($routeParams.id, function(data){
 		//get food truck coordinates
     	GoogleMaps.geolocate(data.address,function(longitude, latitude){
 			$scope.latitude = latitude;
@@ -88,7 +88,7 @@ function FoodTruckCtrl($scope, $routeParams, EatingTime, FoodSpot, GoogleMaps) {
 			$scope.map = new google.maps.Map(document.getElementById("map-canvas"), $scope.mapOptions);
 			//get voting data and create heat map
             $scope.eatingTimestamp = EatingTime.getEatingTime(), 
-			FoodSpot.getVotes($routeParams.id, EatingTime.getEatingTime().getTime(), function(data){
+			Voodie.getVotes($routeParams.id, EatingTime.getEatingTime().getTime(), function(data){
 				var votingData = [];
 				var votes = data.votes;
 				for(var i=0;i<votes.length;i++){
@@ -109,7 +109,7 @@ function FoodTruckCtrl($scope, $routeParams, EatingTime, FoodSpot, GoogleMaps) {
             $scope.heatmap.setMap(null);
         }
         //this should be moved to a promise?
-        FoodSpot.getVotes($routeParams.id, EatingTime.getEatingTime().getTime(), function(data){
+        Voodie.getVotes($routeParams.id, EatingTime.getEatingTime().getTime(), function(data){
 			var votingData = [];
 			var votes = data.votes;
 			for(var i=0;i<votes.length;i++){

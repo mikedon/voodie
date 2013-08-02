@@ -11,7 +11,7 @@ app.factory('GoogleMaps', function(){
 	}
 });
 
-app.factory('FoodSpot', function($resource){
+app.factory('Voodie', function($resource){
 	return {
 		getEntries : function(page, latitude, longitude, onSuccess){
 			var foodTrucks = $resource('rest/foodTruck/entries', {"page":page,"latitude":latitude,"longitude":longitude}).get(onSuccess);

@@ -1,4 +1,4 @@
-package com.foodspot.remote;
+package com.voodie.remote;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

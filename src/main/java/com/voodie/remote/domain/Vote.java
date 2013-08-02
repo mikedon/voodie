@@ -1,4 +1,4 @@
-package com.foodspot.remote.domain;
+package com.voodie.remote.domain;
 
 import java.io.Serializable;
 

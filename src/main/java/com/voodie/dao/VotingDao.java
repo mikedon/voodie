@@ -1,4 +1,4 @@
-package com.foodspot.dao;
+package com.voodie.dao;
 
 import java.util.Date;
 import java.util.List;
@@ -7,8 +7,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.foodspot.domain.Location;
-import com.foodspot.domain.Vote;
+import com.voodie.domain.Location;
+import com.voodie.domain.Vote;
 
 @Stateless
 public class VotingDao {

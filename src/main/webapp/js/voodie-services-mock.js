@@ -10,7 +10,7 @@ app.factory('GoogleMaps', function(){
 	}
 });
 
-app.factory('FoodSpot', function($resource){
+app.factory('Voodie', function($resource){
 	return {
 		getEntries : function(latitude, longitude, eatingTime){
 			var foodTrucks = $resource('rest/foodTruck/entries', {"latitude":latitude,"longitude":longitude,"eatingTime":eatingTime}).get();

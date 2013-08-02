@@ -1,4 +1,4 @@
-package com.foodspot.remote;
+package com.voodie.remote;
 
 import java.util.Date;
 import java.util.List;
@@ -15,14 +15,14 @@ import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.foodspot.domain.Category;
-import com.foodspot.domain.FoodTruck;
-import com.foodspot.remote.domain.FoodTrucks;
-import com.foodspot.remote.domain.Vote;
-import com.foodspot.remote.domain.Votes;
-import com.foodspot.service.VotingService;
-import com.foodspot.service.YelpService;
-import com.foodspot.service.YelpService.SearchResults;
+import com.voodie.domain.Category;
+import com.voodie.domain.FoodTruck;
+import com.voodie.remote.domain.FoodTrucks;
+import com.voodie.remote.domain.Vote;
+import com.voodie.remote.domain.Votes;
+import com.voodie.service.VotingService;
+import com.voodie.service.YelpService;
+import com.voodie.service.YelpService.SearchResults;
 
 @Path("/foodTruck")
 @Stateless
@@ -40,13 +40,13 @@ public class FoodTruckREST {
 	@GET
 	public Response getFoodTruck(@QueryParam("foodTruckId") String foodTruckId) {
 		FoodTruck domainFoodTruck = yelpService.getFoodTruck(foodTruckId);
-		com.foodspot.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(domainFoodTruck);
+		com.voodie.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(domainFoodTruck);
 		return Response.ok(remoteFt).build();
 	}
 
-	protected com.foodspot.remote.domain.FoodTruck mapToRemoteFoodTruck(
+	protected com.voodie.remote.domain.FoodTruck mapToRemoteFoodTruck(
 			FoodTruck ft) {
-		com.foodspot.remote.domain.FoodTruck remoteFt = new com.foodspot.remote.domain.FoodTruck();
+		com.voodie.remote.domain.FoodTruck remoteFt = new com.voodie.remote.domain.FoodTruck();
 		remoteFt.setId(ft.getExternalId());
 		remoteFt.setName(ft.getName());
 		remoteFt.setRating(ft.getRating());
@@ -70,7 +70,7 @@ public class FoodTruckREST {
 				latitude, longitude);
 		FoodTrucks foodTrucksRemote = new FoodTrucks();
 		for (FoodTruck ft : searchResults.getFoodTrucks()) {
-			com.foodspot.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(ft);
+			com.voodie.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(ft);
 			foodTrucksRemote.getFoodTrucks().add(remoteFt);
 		}
 		foodTrucksRemote.setNoOfResults(searchResults.getNoOfResults());
@@ -94,10 +94,10 @@ public class FoodTruckREST {
 	public Response getVotes(@QueryParam("foodTruckId") String foodTruckId,
 			@QueryParam("eatingTime") Long eatingTime) {
 		Date date = new Date(eatingTime);
-		List<com.foodspot.domain.Vote> domainVotes = votingService.getVotes(
+		List<com.voodie.domain.Vote> domainVotes = votingService.getVotes(
 				foodTruckId, date);
 		Votes votes = new Votes();
-		for (com.foodspot.domain.Vote v : domainVotes) {
+		for (com.voodie.domain.Vote v : domainVotes) {
 			Vote remoteVote = new Vote();
 			remoteVote.setEatingTime(eatingTime);
 			remoteVote.setFoodTruckId(v.getFoodTruckId());

@@ -1,4 +1,4 @@
-package com.foodspot.dao;
+package com.voodie.dao;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
-import com.foodspot.domain.FoodTruck;
+import com.voodie.domain.FoodTruck;
 
 @Stateless
 public class FoodTruckDao {

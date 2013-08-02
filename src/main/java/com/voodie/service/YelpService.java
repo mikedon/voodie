@@ -1,4 +1,4 @@
-package com.foodspot.service;
+package com.voodie.service;
 
 import java.lang.reflect.Type;
 import java.util.Iterator;
@@ -15,8 +15,6 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
-import com.foodspot.domain.Category;
-import com.foodspot.domain.FoodTruck;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,6 +25,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.voodie.domain.Category;
+import com.voodie.domain.FoodTruck;
 
 @Stateless
 public class YelpService {

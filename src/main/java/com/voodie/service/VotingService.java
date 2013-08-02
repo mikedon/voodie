@@ -1,4 +1,4 @@
-package com.foodspot.service;
+package com.voodie.service;
 
 import java.util.Date;
 import java.util.List;
@@ -8,10 +8,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.foodspot.dao.LocationDao;
-import com.foodspot.dao.VotingDao;
-import com.foodspot.domain.Location;
-import com.foodspot.domain.Vote;
+import com.voodie.dao.LocationDao;
+import com.voodie.dao.VotingDao;
+import com.voodie.domain.Location;
+import com.voodie.domain.Vote;
 
 @Stateless
 public class VotingService {

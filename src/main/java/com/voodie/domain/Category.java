@@ -1,4 +1,4 @@
-package com.foodspot.domain;
+package com.voodie.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
