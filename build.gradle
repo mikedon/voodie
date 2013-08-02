@@ -58,12 +58,13 @@ dependencies {
 }*/
 
 //unzip
-task development {
+task development << {
+	println "unzip war to local jboss"
 	def jboss = "../jboss-eap-6.1/standalone/deployments"
   	ant.unzip(src: war.archivePath, dest: jboss + '/food-spot-0.1.war/')
 }
 
-task openshift { 
+task openshift << { 
 	task clone(type: GitClone)
 	clone {
 		uri = 'ssh://51f854e64382eccba8000028@foodspot-miked.rhcloud.com/~/git/foodspot.git/'
@@ -76,7 +77,7 @@ task openshift {
 	}
 	task addDeployment(type: GitAdd)
 	addDeployment {
-		repoPath = buildDir.name + '/openshift'
+		repoPath = '/tmp/openshift'
 	}
 	task commitDeployment(type: GitCommit)
 	commitDeployment {

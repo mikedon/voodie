@@ -1,4 +1,6 @@
 <div ng-controller="VoteCtrl">
+    <!-- 
+    TODO removing because we have a paged search
     <form class="form-inline">
         <h4>Filters</h4>
         <hr>
@@ -17,7 +19,8 @@
             </div>
         </div>
         <hr>
-    </form>
+    </form>-->
+    <pagination num-pages="noOfPages" current-page="currentPage"></pagination>
 	<div class="row-fluid" ng-repeat="i in foodTruckRows">
         <div class="span6 foodTruck well" ng-repeat="ft in foodTrucks.foodTrucks.slice(i,i+2) | filter:search">
 			<ng-include src="'templates/includes/foodtruck.html'" onLoad="foodTruck=ft"></ng-include>
@@ -25,4 +28,5 @@
 			<!--  <a class="btn btn-info pull-right" href="#/foodTruck/{{ft.id}}">View Stats</a> -->
         </div>
     </div>
+    <pagination num-pages="noOfPages" current-page="currentPage"></pagination>
 </div>

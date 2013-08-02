@@ -18,6 +18,10 @@ public class FoodTrucks implements Serializable {
 
 	private List<FoodTruck> foodTrucks = Lists.newArrayList();
 
+	private Integer noOfResults;
+
+	private Integer noOfPages;
+
 	public List<FoodTruck> getFoodTrucks() {
 		return foodTrucks;
 	}
@@ -25,4 +29,21 @@ public class FoodTrucks implements Serializable {
 	public void setFoodTrucks(List<FoodTruck> foodTrucks) {
 		this.foodTrucks = foodTrucks;
 	}
+
+	public Integer getNoOfResults() {
+		return noOfResults;
+	}
+
+	public void setNoOfResults(Integer noOfResults) {
+		this.noOfResults = noOfResults;
+	}
+
+	public Integer getNoOfPages() {
+		return noOfPages;
+	}
+
+	public void setNoOfPages(Integer noOfPages) {
+		this.noOfPages = noOfPages;
+	}
+
 }

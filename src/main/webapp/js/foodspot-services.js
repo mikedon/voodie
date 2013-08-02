@@ -13,8 +13,8 @@ app.factory('GoogleMaps', function(){
 
 app.factory('FoodSpot', function($resource){
 	return {
-		getEntries : function(latitude, longitude, onSuccess){
-			var foodTrucks = $resource('rest/foodTruck/entries', {"latitude":latitude,"longitude":longitude}).get(onSuccess);
+		getEntries : function(page, latitude, longitude, onSuccess){
+			var foodTrucks = $resource('rest/foodTruck/entries', {"page":page,"latitude":latitude,"longitude":longitude}).get(onSuccess);
             return foodTrucks;
 		},
 		getFoodTruckInfo : function(foodTruckId, onSuccess){

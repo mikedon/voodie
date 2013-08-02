@@ -22,6 +22,7 @@ import com.foodspot.remote.domain.Vote;
 import com.foodspot.remote.domain.Votes;
 import com.foodspot.service.VotingService;
 import com.foodspot.service.YelpService;
+import com.foodspot.service.YelpService.SearchResults;
 
 @Path("/foodTruck")
 @Stateless
@@ -37,13 +38,14 @@ public class FoodTruckREST {
 
 	@Path("/info")
 	@GET
-	public Response getFoodTruck(@QueryParam("foodTruckId") String foodTruckId){
+	public Response getFoodTruck(@QueryParam("foodTruckId") String foodTruckId) {
 		FoodTruck domainFoodTruck = yelpService.getFoodTruck(foodTruckId);
-		com.foodspot.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(domainFoodTruck); 
+		com.foodspot.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(domainFoodTruck);
 		return Response.ok(remoteFt).build();
 	}
-	
-	protected com.foodspot.remote.domain.FoodTruck mapToRemoteFoodTruck(FoodTruck ft){
+
+	protected com.foodspot.remote.domain.FoodTruck mapToRemoteFoodTruck(
+			FoodTruck ft) {
 		com.foodspot.remote.domain.FoodTruck remoteFt = new com.foodspot.remote.domain.FoodTruck();
 		remoteFt.setId(ft.getExternalId());
 		remoteFt.setName(ft.getName());
@@ -52,25 +54,27 @@ public class FoodTruckREST {
 		remoteFt.setImageUrl(ft.getImageUrl());
 		remoteFt.setRatingImageUrl(ft.getRatingImageUrl());
 		remoteFt.setUrl(ft.getUrl());
-		for(Category c : ft.getCategories()){
+		for (Category c : ft.getCategories()) {
 			remoteFt.getCategories().add(c.getName());
 		}
 		return remoteFt;
 	}
-	
+
 	// TODO returns FoodTrucks > FoodTrucks I want FoodTrucks > FoodTruck
 	@Path("/entries")
 	@GET
-	public Response getFoodTruckEntries(
+	public Response getFoodTruckEntries(@QueryParam("page") Integer page,
 			@QueryParam("latitude") Double latitude,
 			@QueryParam("longitude") Double longitude) {
-		List<FoodTruck> foodTrucks = yelpService.searchFoodTrucks(latitude,
-				longitude);
+		SearchResults searchResults = yelpService.searchFoodTrucks(page,
+				latitude, longitude);
 		FoodTrucks foodTrucksRemote = new FoodTrucks();
-		for (FoodTruck ft : foodTrucks) {
+		for (FoodTruck ft : searchResults.getFoodTrucks()) {
 			com.foodspot.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(ft);
 			foodTrucksRemote.getFoodTrucks().add(remoteFt);
 		}
+		foodTrucksRemote.setNoOfResults(searchResults.getNoOfResults());
+		foodTrucksRemote.setNoOfPages(searchResults.getNoOfPages());
 		return Response.ok(foodTrucksRemote).build();
 	}
 
