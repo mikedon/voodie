@@ -4,7 +4,7 @@ apply plugin: 'eclipse'
 apply plugin: 'war'
 apply plugin: 'java'
 
-version = '0.1-alpha'
+version = '0.1'
 
 buildscript {
   	repositories { mavenCentral() }
@@ -61,7 +61,7 @@ dependencies {
 task development << {
 	println "unzip war to local jboss"
 	def jboss = "../jboss-eap-6.1/standalone/deployments"
-  	ant.unzip(src: war.archivePath, dest: jboss + '/voodie-0.1-alpha.war/')
+  	ant.unzip(src: war.archivePath, dest: jboss + '/voodie-' + version + '.war/')
 }
 
 task openshift << { 
