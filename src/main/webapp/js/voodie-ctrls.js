@@ -1,3 +1,14 @@
+var NavbarCtrl = function($scope, $location) {
+	console.log($location.path());
+	$scope.home = function() {
+		return $location.path().indexOf('home') > 0;
+	};
+	$scope.about = function() {
+		console.log($location.path().indexOf('about'));
+		return $location.path().indexOf('about') > 0;
+	};
+};
+
 var HomeCtrl = function ($scope, $location, $dialog, EatingTime, GoogleMaps) {
     $scope.eatingTimestamp = EatingTime.getEatingTime(), 
     $scope.submit = function(){
