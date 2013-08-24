@@ -33,6 +33,14 @@ app.factory('Voodie', function($resource){
 		getVotes : function(foodTruckId, eatingTime, onSuccess){
 			var votes = $resource('rest/foodTruck/vote/entries', {"foodTruckId":foodTruckId, "eatingTime" : eatingTime}).get(onSuccess);
 			return votes;
+		},
+		registerTruck: function(username, password, foodTruckName){
+			var FoodTruckRegistration = $resource('rest/foodTruck/register');
+			var newRegistration = new FoodTruckRegistration();
+			newRegistration.username = username;
+			newRegistration.password = password;
+			newRegistration.name = foodTruckName;
+			newRegistration.$save();
 		}
 	}
 });

@@ -32,9 +32,9 @@ public class FoodTruckDao {
 	public FoodTruck find(String name) {
 		FoodTruck foodTruck = null;
 		try {
-			foodTruck = (FoodTruck) em.createQuery(
-					"from FoodTruck where name = :name").setParameter("name",
-					name);
+			foodTruck = (FoodTruck) em
+					.createQuery("from FoodTruck where name = :name")
+					.setParameter("name", name).getSingleResult();
 		} catch (NoResultException e) {
 		}
 		return foodTruck;

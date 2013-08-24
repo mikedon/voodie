@@ -11,6 +11,8 @@
     	<class>com.voodie.domain.Vote</class>
     	<class>com.voodie.domain.Location</class>
     	<class>com.voodie.domain.FoodTruck</class> 
+    	<class>com.voodie.domain.User</class>
+    	<class>com.voodie.domain.Authorities</class>
         <properties>
 			<property name="format_sql" value="true" />
 			<property name="use_sql_comments" value="true" />

@@ -1,5 +1,4 @@
 var NavbarCtrl = function($scope, $location) {
-	console.log($location.path());
 	$scope.home = function() {
 		return $location.path().indexOf('home') > 0;
 	};
@@ -78,6 +77,12 @@ var VoteCtrl = function ($scope, $routeParams, Voodie) {
 		Voodie.vote(foodTruck.id, $routeParams.latitude, $routeParams.longitude, $routeParams.eatingTime);
 		foodTruck.numberOfVotes++;	
 	};
+};
+
+function FoodTruckRegistrationCtrl($scope, Voodie){
+	$scope.submit = function(){
+		Voodie.registerTruck($scope.username, $scope.password, $scope.foodTruckName);
+	}
 };
 
 function FoodTruckCtrl($scope, $routeParams, EatingTime, Voodie, GoogleMaps) {
