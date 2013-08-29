@@ -62,7 +62,7 @@ public class FoodTruckREST {
 		return Response.ok(foodTrucksRemote).build();
 	}
 
-	@Path("/register")
+	@Path("/secure/register")
 	@POST
 	public Response register(FoodTruckRegistration registration) {
 		boolean response = userService.create(registration.getUsername(),

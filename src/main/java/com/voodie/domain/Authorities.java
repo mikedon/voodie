@@ -10,11 +10,14 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "user",
 		"authority" }))
-public class Authorities {
+public class Authorities implements GrantedAuthority {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(generator = "increment")

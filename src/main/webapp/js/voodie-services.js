@@ -35,7 +35,7 @@ app.factory('Voodie', function($resource){
 			return votes;
 		},
 		registerTruck: function(username, password, foodTruckName){
-			var FoodTruckRegistration = $resource('rest/foodTruck/register');
+			var FoodTruckRegistration = $resource('rest/foodTruck/secure/register');
 			var newRegistration = new FoodTruckRegistration();
 			newRegistration.username = username;
 			newRegistration.password = password;
