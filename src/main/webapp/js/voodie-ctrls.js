@@ -3,7 +3,6 @@ var NavbarCtrl = function($scope, $location) {
 		return $location.path().indexOf('home') > 0;
 	};
 	$scope.about = function() {
-		console.log($location.path().indexOf('about'));
 		return $location.path().indexOf('about') > 0;
 	};
 };

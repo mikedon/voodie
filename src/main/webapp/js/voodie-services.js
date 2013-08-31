@@ -11,6 +11,17 @@ app.factory('GoogleMaps', function(){
 	}
 });
 
+app.factory('User', function(){
+	return {
+		isLoggedIn : false,
+		username: '',
+		roles: [],
+		hasRole: function(role){
+			return this.roles.indexOf(role) > -1;
+		}
+	}
+});
+
 app.factory('Voodie', function($resource){
 	return {
 		getEntries : function(page, latitude, longitude, onSuccess){
