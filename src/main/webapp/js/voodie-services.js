@@ -11,14 +11,40 @@ app.factory('GoogleMaps', function(){
 	}
 });
 
-app.factory('User', function(){
+app.factory('User', function($resource, $http, $location, $rootScope){
 	return {
-		isLoggedIn : false,
+		loggedIn : false,
 		username: '',
+		password: '',
 		roles: [],
+		isLoggedIn : function(){
+			return this.loggedIn;
+		},
 		hasRole: function(role){
 			return this.roles.indexOf(role) > -1;
-		}
+		},
+		login : function(redirect){
+			var that = this;
+            var payload = 'j_username=' + this.username + '&j_password=' + this.password;
+            var config = {
+                headers: {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
+            }
+	        $http.post('j_spring_security_check', payload,config)
+	        .success(function(data) {
+	        	if(data.hasErrors){
+	        		that.username = '';
+	        		that.password = '';
+	        		that.roles = [];
+	        		$rootScope.error = data.errorMsgs;
+	        		return;
+	        	}else{
+	        		that.password = '';
+	        		that.loggedIn = true;
+	        		$location.path(redirect);
+	        		return;
+	        	}
+            })
+        }
 	}
 });
 
@@ -46,7 +72,7 @@ app.factory('Voodie', function($resource){
 			return votes;
 		},
 		registerTruck: function(username, password, foodTruckName){
-			var FoodTruckRegistration = $resource('rest/foodTruck/secure/register');
+			var FoodTruckRegistration = $resource('rest/foodTruck/register');
 			var newRegistration = new FoodTruckRegistration();
 			newRegistration.username = username;
 			newRegistration.password = password;

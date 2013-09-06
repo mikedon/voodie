@@ -1,10 +1,17 @@
-var NavbarCtrl = function($scope, $location) {
+var NavbarCtrl = function($scope, $location, User) {
 	$scope.home = function() {
 		return $location.path().indexOf('home') > 0;
 	};
 	$scope.about = function() {
 		return $location.path().indexOf('about') > 0;
 	};
+	$scope.login = function() {
+		return $location.path().indexOf('login') > 0;
+	};
+	$scope.register = function() {
+		return $location.path().indexOf('register') > 0;
+	};
+	$scope.currentUser = User;
 };
 
 var HomeCtrl = function ($scope, $location, $dialog, EatingTime, GoogleMaps) {
@@ -83,6 +90,14 @@ function FoodTruckRegistrationCtrl($scope, Voodie){
 		Voodie.registerTruck($scope.username, $scope.password, $scope.foodTruckName);
 	}
 };
+
+function LoginCtrl($scope, User){
+	$scope.submit = function(){
+		User.username = $scope.username;
+		User.password = $scope.password;
+		User.login("home");
+	}
+}
 
 function FoodTruckCtrl($scope, $routeParams, EatingTime, Voodie, GoogleMaps) {
     $scope.eatingDate = EatingTime.roundedTime();

@@ -16,14 +16,16 @@
   	  http://www.springframework.org/schema/jee 
   	  http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
-
+	<!-- <debug/> -->
 	<context:component-scan base-package="com.voodie" />
 	<context:annotation-config/>
 	
 	<http use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
 		<intercept-url pattern="/**/secure/**" access="isAuthenticated()" />
 
-		<form-login authentication-success-handler-ref="voodieSavedRequestAwareAuthenticationSuccessHandler" />
+		<form-login 
+			authentication-success-handler-ref="voodieSavedRequestAwareAuthenticationSuccessHandler" 
+			authentication-failure-handler-ref="loginFailureHandler"/>
 
 		<logout />
 	</http>
@@ -31,10 +33,10 @@
 	<beans:bean id="voodieSavedRequestAwareAuthenticationSuccessHandler"
 		class="com.voodie.web.VoodieSavedRequestAwareAuthenticationSuccessHandler" />
 
-	<beans:bean id="restAuthenticationEntryPoint" class="com.voodie.web.RestAuthenticationEntryPoint" />
+	<!-- <beans:bean id="restAuthenticationEntryPoint" class="com.voodie.web.RestAuthenticationEntryPoint" /> -->
 
-	<beans:bean id="encoder"
-		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	<!-- <beans:bean id="encoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" /> -->
 	
 	<jee:jndi-lookup id="entityManagerFactory" jndi-name="java:/persistence/voodie"/>
 	<beans:bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>

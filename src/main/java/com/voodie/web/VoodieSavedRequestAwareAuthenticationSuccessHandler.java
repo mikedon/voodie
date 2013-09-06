@@ -7,11 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.StringUtils;
+
+import com.google.gson.Gson;
 
 public class VoodieSavedRequestAwareAuthenticationSuccessHandler extends
 		SimpleUrlAuthenticationSuccessHandler {
@@ -40,10 +43,13 @@ public class VoodieSavedRequestAwareAuthenticationSuccessHandler extends
 
 		clearAuthenticationAttributes(request);
 
-		// Use the DefaultSavedRequest URL
-		// final String targetUrl = savedRequest.getRedirectUrl();
-		// logger.debug("Redirecting to DefaultSavedRequest Url: " + targetUrl);
-		// getRedirectStrategy().sendRedirect(request, response, targetUrl);
+		LoginResponse user = new LoginResponse();
+		for (GrantedAuthority a : authentication.getAuthorities()) {
+			user.getRoles().add(a.getAuthority());
+		}
+		Gson gson = new Gson();
+		String json = gson.toJson(user);
+		response.getOutputStream().print(json);
 	}
 
 	public void setRequestCache(final RequestCache requestCache) {

@@ -19,6 +19,8 @@ public class Authorities implements GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final String FOOD_TRUCK = "Food Truck";
+
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")

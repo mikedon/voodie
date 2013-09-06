@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.voodie.domain.Authorities;
 import com.voodie.domain.Category;
 import com.voodie.domain.FoodTruck;
 import com.voodie.remote.domain.FoodTruckRegistration;
@@ -62,17 +63,18 @@ public class FoodTruckREST {
 		return Response.ok(foodTrucksRemote).build();
 	}
 
-	@Path("/secure/register")
+	@Path("/register")
 	@POST
 	public Response register(FoodTruckRegistration registration) {
 		boolean response = userService.create(registration.getUsername(),
-				registration.getPassword());
+				registration.getPassword(), Authorities.FOOD_TRUCK);
 		if (response) {
 			response = foodTruckService.create(registration.getName());
 			if (response) {
 				return Response.ok().build();
 			}
 		}
+		// TODO want to return something else...not an error code
 		return Response.status(Status.CONFLICT).build();
 	}
 

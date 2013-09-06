@@ -1,9 +1,9 @@
-Login
-<div ng-controller="FoodTruckRegistrationCtrl">
+<div ng-controller="LoginCtrl">
+	<h2>Login</h2>
+	<alert ng-repeat="alert in error" type="error">{{alert}}</alert>
     <form>
        	<bsinput label="username" id="username"></bsinput>
        	<bsinput label="password" type="password" id="password"></bsinput>
-       	<bsinput label="foodTruckName" id="foodTruckName"/></bsinput>
         <div class="form-actions">
             <button class="btn pull-right" ng-click="submit()">Submit</button>
         </div>
