@@ -17,6 +17,9 @@ app.config(["$routeProvider", function($routeProvider){
  */
 app.run(['$rootScope', '$location', 'User', function ($root, $location, User){
 	$root.$on('$routeChangeSuccess', function(event, currRoute){
+		if(!User.isInitialized()){
+			User.initialize();
+		}
 		if(currRoute.access && currRoute.access.requiresLogin){
 			if(!User.isLoggedIn){
 				console.log("Route Requires Login")
@@ -25,11 +28,5 @@ app.run(['$rootScope', '$location', 'User', function ($root, $location, User){
 				console.log("Route Requires Role: " + currRoute.access.role);
 			}
 		}
-		/*
-		* IMPORTANT:
-		* It's not difficult to fool the previous control,
-		* so it's really IMPORTANT to repeat the control also in the backend,
-		* before sending back from the server reserved information.
-		*/
 	});
 }]);

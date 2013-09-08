@@ -5,6 +5,9 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import com.google.common.base.Preconditions;
 import com.voodie.dao.UserDao;
 import com.voodie.domain.Authorities;
@@ -48,5 +51,11 @@ public class UserService {
 		Preconditions.checkNotNull(role);
 		Authorities authority = userDao.findRole(role);
 		return authority;
+	}
+
+	public String getCurrentUser() {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		return auth.getName();
 	}
 }

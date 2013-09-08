@@ -13,15 +13,23 @@ app.factory('GoogleMaps', function(){
 
 app.factory('User', function($resource, $http, $location, $rootScope){
 	return {
+		initialized : false,
 		loggedIn : false,
 		username: '',
 		password: '',
 		roles: [],
+		isInitialized : function(){
+			return this.initialized;
+		},
 		isLoggedIn : function(){
 			return this.loggedIn;
 		},
 		hasRole: function(role){
 			return this.roles.indexOf(role) > -1;
+		},
+		initialize : function(){
+			console.log("call server to get user info");
+			return $resource('rest/user/secure/currentUser').get();
 		},
 		login : function(redirect){
 			var that = this;
