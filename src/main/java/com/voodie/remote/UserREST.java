@@ -8,6 +8,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.voodie.remote.domain.User;
 import com.voodie.service.UserService;
 
 @Path("/user")
@@ -26,6 +27,11 @@ public class UserREST {
 	@Path("/secure/currentUser")
 	@GET
 	public Response getCurrentUser() {
-		return Response.ok(userService.getCurrentUser()).build();
+		User user = new User();
+		String currentUser = userService.getCurrentUser();
+		if (currentUser != null) {
+			user.setUsername(currentUser);
+		}
+		return Response.ok(user).build();
 	}
 }

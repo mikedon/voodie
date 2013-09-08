@@ -10,6 +10,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
+
 /**
  * 
  * http://www.baeldung.com/2011/10/31/securing-a-restful-web-service-with-spring
@@ -26,7 +28,12 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request,
 			HttpServletResponse response, AuthenticationException authException)
 			throws IOException, ServletException {
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+		Response resp = new Response();
+		resp.getErrorMsgs().add("Authentication Required");
+		resp.setHasErrors(true);
+		Gson gson = new Gson();
+		String json = gson.toJson(resp);
+		response.getOutputStream().print(json);
 	}
 
 }

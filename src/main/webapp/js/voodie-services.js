@@ -11,7 +11,7 @@ app.factory('GoogleMaps', function(){
 	}
 });
 
-app.factory('User', function($resource, $http, $location, $rootScope){
+app.factory('User', function($resource, $http, $location, $rootScope, $q){
 	return {
 		initialized : false,
 		loggedIn : false,
@@ -28,8 +28,25 @@ app.factory('User', function($resource, $http, $location, $rootScope){
 			return this.roles.indexOf(role) > -1;
 		},
 		initialize : function(){
-			console.log("call server to get user info");
-			return $resource('rest/user/secure/currentUser').get();
+			/**
+			 * intialize the User object with currently logged in user. 
+			 */
+			var d = $q.defer();
+			var that = this;
+			if(!this.initialized){
+				var user = $resource('rest/user/secure/currentUser');
+				user.get({}, function(value, responseHeaders){
+					if(value.username){
+						that.username = value.username;
+						that.initialized = true;
+						that.loggedIn = true;
+					}
+					d.resolve(that)
+				});
+			}else{
+				d.resolve(that);
+			}
+			return d.promise;
 		},
 		login : function(redirect){
 			var that = this;
@@ -52,6 +69,15 @@ app.factory('User', function($resource, $http, $location, $rootScope){
 	        		return;
 	        	}
             })
+        },
+        logout : function(redirect){
+        	var that = this;
+        	this.isLoggedIn = false;
+        	this.username = '';
+        	this.roles = [];
+        	$http.get('j_spring_security_logout').success(function(data){
+        		$location.path(redirect);
+        	});
         }
 	}
 });

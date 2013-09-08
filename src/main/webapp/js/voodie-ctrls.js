@@ -12,6 +12,9 @@ var NavbarCtrl = function($scope, $location, User) {
 		return $location.path().indexOf('register') > 0;
 	};
 	$scope.currentUser = User;
+	$scope.logout = function(){
+		User.logout('login');
+	}
 };
 
 var HomeCtrl = function ($scope, $location, $dialog, EatingTime, GoogleMaps) {
