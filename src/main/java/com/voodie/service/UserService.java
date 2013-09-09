@@ -35,13 +35,10 @@ public class UserService {
 			newUser.setEnabled(true);
 			em.persist(newUser);
 			for (String r : roles) {
-				Authorities a = findRole(r);
-				if (a == null) {
-					a = new Authorities();
-					a.setAuthority(r);
-					a.setUser(newUser);
-					em.persist(a);
-				}
+				Authorities a = new Authorities();
+				a.setAuthority(r);
+				a.setUser(newUser);
+				em.persist(a);
 			}
 			return true;
 		}
@@ -53,9 +50,12 @@ public class UserService {
 		return authority;
 	}
 
-	public String getCurrentUser() {
+	public User getCurrentUser() {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
-		return auth.getName();
+		if (auth.isAuthenticated()) {
+			return userDao.find(auth.getName());
+		}
+		return null;
 	}
 }

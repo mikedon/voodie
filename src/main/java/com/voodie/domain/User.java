@@ -1,16 +1,20 @@
 package com.voodie.domain;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 public class User implements UserDetails {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@NotNull
@@ -20,6 +24,9 @@ public class User implements UserDetails {
 	private String password;
 
 	private Boolean enabled;
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Authorities> authorities;
 
 	public String getUsername() {
 		return username;
@@ -46,8 +53,19 @@ public class User implements UserDetails {
 	}
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+	public List<Authorities> getAuthorities() {
+		if (authorities == null) {
+			authorities = new ArrayList<Authorities>();
+		}
+		return authorities;
+	}
+
+	public void setAuthorities(List<Authorities> authorities) {
+		this.authorities = authorities;
+	}
+
+	public void addAuthority(Authorities authority) {
+		getAuthorities().add(authority);
 	}
 
 	@Override

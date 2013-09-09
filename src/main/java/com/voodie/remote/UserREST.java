@@ -8,6 +8,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.voodie.domain.Authorities;
 import com.voodie.remote.domain.User;
 import com.voodie.service.UserService;
 
@@ -28,9 +29,12 @@ public class UserREST {
 	@GET
 	public Response getCurrentUser() {
 		User user = new User();
-		String currentUser = userService.getCurrentUser();
+		com.voodie.domain.User currentUser = userService.getCurrentUser();
 		if (currentUser != null) {
-			user.setUsername(currentUser);
+			user.setUsername(currentUser.getUsername());
+			for (Authorities authority : currentUser.getAuthorities()) {
+				user.getRoles().add(authority.getAuthority());
+			}
 		}
 		return Response.ok(user).build();
 	}

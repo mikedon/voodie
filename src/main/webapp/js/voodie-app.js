@@ -21,7 +21,7 @@ app.config(["$routeProvider", function($routeProvider){
 	$routeProvider.when('/profile/foodTruck', {
 		templateUrl : 'templates/foodtruck-profile.html', 
 		resolve: Resolve,
-		access : {requiresLogin : true, role : "FoodTruck"}});
+		access : {requiresLogin : true, role : "Food Truck"}});
 	$routeProvider.otherwise({redirectTo: '/home'});
 }]);
 

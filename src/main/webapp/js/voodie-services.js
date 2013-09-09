@@ -38,6 +38,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 				user.get({}, function(value, responseHeaders){
 					if(value.username){
 						that.username = value.username;
+						that.roles = value.roles;
 						that.initialized = true;
 						that.loggedIn = true;
 					}
