@@ -94,6 +94,11 @@ function FoodTruckRegistrationCtrl($scope, Voodie){
 	}
 };
 
+function FoodTruckProfileCtrl($scope, User){
+
+
+}
+
 function LoginCtrl($scope, User){
 	$scope.submit = function(){
 		User.username = $scope.username;

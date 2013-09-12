@@ -44,9 +44,21 @@ public class FoodTruckREST {
 	@GET
 	public Response getFoodTruck(@QueryParam("foodTruckId") String foodTruckId) {
 		FoodTruck domainFoodTruck = yelpService.getFoodTruck(foodTruckId);
-		com.voodie.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(domainFoodTruck);
+		com.voodie.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(domainFoodTruck, null);
 		return Response.ok(remoteFt).build();
 	}
+
+    @Path("/secure/profile")
+    @GET
+    public Response getProfile(@QueryParam("foodTruckId") String foodTruckId){
+        FoodTruck domainFoodTruck = foodTruckService.find(foodTruckId);
+        if(domainFoodTruck != null){
+            User user = userService.getCurrentUser();
+            com.voodie.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(domainFoodTruck, user);
+            return Response.ok(remoteFt).build();
+        }
+        return Response.ok().build();
+    }
 
 	// TODO returns FoodTrucks > FoodTrucks I want FoodTrucks > FoodTruck
 	@Path("/entries")
@@ -58,7 +70,7 @@ public class FoodTruckREST {
 				latitude, longitude);
 		FoodTrucks foodTrucksRemote = new FoodTrucks();
 		for (FoodTruck ft : searchResults.getFoodTrucks()) {
-			com.voodie.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(ft);
+			com.voodie.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(ft, null);
 			foodTrucksRemote.getFoodTrucks().add(remoteFt);
 		}
 		foodTrucksRemote.setNoOfResults(searchResults.getNoOfResults());
@@ -86,10 +98,15 @@ public class FoodTruckREST {
 	// ----------------------
 
 	protected com.voodie.remote.domain.FoodTruck mapToRemoteFoodTruck(
-			FoodTruck ft) {
+			FoodTruck ft, User user) {
 		com.voodie.remote.domain.FoodTruck remoteFt = new com.voodie.remote.domain.FoodTruck();
 		remoteFt.setId(ft.getExternalId());
 		remoteFt.setName(ft.getName());
+        if(user != null){
+            remoteFt.setFirstName(user.getFirstName());
+            remoteFt.setLastName(user.getLastName());
+            remoteFt.setUsername(user.getUsername());
+        }
 		remoteFt.setRating(ft.getRating());
 		remoteFt.setAddress(ft.getAddress());
 		remoteFt.setImageUrl(ft.getImageUrl());

@@ -10,6 +10,9 @@
 		<li ng-class="{'active':register()}" ng-switch="currentUser.isLoggedIn()">
 			<a ng-switch-when="false" href="#/register/foodTruck">Register</a>
 		</li>
+        <li ng-class="{'active':profile()}" ng-switch="currentUser.hasRole('Food Truck')">
+            <a ng-switch-when="true" href="#/profile/foodTruck">Profile</a>
+        </li>
 		<li ng-class="{'active':about()}"><a href="#/about">About</a></li>
 	</ul>
 	<h3 class="muted"><a href="#/home">Voodie</a></h3>

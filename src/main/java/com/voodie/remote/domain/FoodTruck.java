@@ -1,13 +1,12 @@
 package com.voodie.remote.domain;
 
-import java.io.Serializable;
-import java.util.List;
+import com.google.common.collect.Lists;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.google.common.collect.Lists;
+import java.io.Serializable;
+import java.util.List;
 
 @SuppressWarnings("serial")
 @XmlRootElement
@@ -15,6 +14,12 @@ import com.google.common.collect.Lists;
 public class FoodTruck implements Serializable {
 
 	private String id;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String username;
 
 	private String name;
 	
@@ -93,4 +98,28 @@ public class FoodTruck implements Serializable {
 	public void setCategories(List<String> categories) {
 		this.categories = categories;
 	}
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 }
