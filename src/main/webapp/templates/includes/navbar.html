@@ -1,6 +1,5 @@
 <div ng-controller="NavbarCtrl" class="masthead">
 	<ul class="nav nav-pills pull-right">
-		<!-- switch login link to logout when authenticated -->
 		<li ng-class="{'active':login()}" ng-switch="currentUser.isLoggedIn()">
 			<a ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
 			<a ng-switch-when="false" href="#/login">Login</a>

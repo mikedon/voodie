@@ -18,7 +18,7 @@ var NavbarCtrl = function($scope, $location, User) {
 };
 
 var HomeCtrl = function ($scope, $location, $dialog, EatingTime, GoogleMaps) {
-    $scope.eatingTimestamp = EatingTime.getEatingTime(), 
+    $scope.eatingTimestamp = EatingTime.getEatingTime();
     $scope.submit = function(){
     	//TODO check if valid
     	if($scope.address){

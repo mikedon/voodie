@@ -72,8 +72,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
             })
         },
         logout : function(redirect){
-        	var that = this;
-        	this.isLoggedIn = false;
+        	this.loggedIn = false;
         	this.username = '';
         	this.roles = [];
         	$http.get('j_spring_security_logout').success(function(data){
