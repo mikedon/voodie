@@ -32,6 +32,8 @@ public class UserREST {
 		com.voodie.domain.User currentUser = userService.getCurrentUser();
 		if (currentUser != null) {
 			user.setUsername(currentUser.getUsername());
+            user.setFirstName(currentUser.getFirstName());
+            user.setLastName(currentUser.getLastName());
 			for (Authorities authority : currentUser.getAuthorities()) {
 				user.getRoles().add(authority.getAuthority());
 			}

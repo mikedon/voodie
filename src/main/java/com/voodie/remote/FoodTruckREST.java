@@ -1,5 +1,21 @@
 package com.voodie.remote;
 
+import com.voodie.domain.Authorities;
+import com.voodie.domain.Category;
+import com.voodie.domain.FoodTruck;
+import com.voodie.domain.User;
+import com.voodie.remote.domain.FoodTruckRegistration;
+import com.voodie.remote.domain.FoodTrucks;
+import com.voodie.service.FoodTruckService;
+import com.voodie.service.UserService;
+import com.voodie.service.YelpService;
+import com.voodie.service.YelpService.SearchResults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -8,19 +24,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.voodie.domain.Authorities;
-import com.voodie.domain.Category;
-import com.voodie.domain.FoodTruck;
-import com.voodie.remote.domain.FoodTruckRegistration;
-import com.voodie.remote.domain.FoodTrucks;
-import com.voodie.service.FoodTruckService;
-import com.voodie.service.UserService;
-import com.voodie.service.YelpService;
-import com.voodie.service.YelpService.SearchResults;
 
 @Path("/foodTruck")
 @Stateless
@@ -66,11 +69,13 @@ public class FoodTruckREST {
 	@Path("/register")
 	@POST
 	public Response register(FoodTruckRegistration registration) {
-		boolean response = userService.create(registration.getUsername(),
+		User user = userService.create(registration.getFirstName(), registration.getLastName(), registration.getUsername(),
 				registration.getPassword(), Authorities.FOOD_TRUCK);
-		if (response) {
-			response = foodTruckService.create(registration.getName());
-			if (response) {
+		if (user != null) {
+			boolean foodTruckCreated = foodTruckService.create(registration.getName());
+			if (foodTruckCreated) {
+                Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(auth);
 				return Response.ok().build();
 			}
 		}

@@ -14,6 +14,8 @@ import com.google.common.collect.Lists;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User implements Serializable {
 
+    private String firstName;
+    private String lastName;
 	private String username;
 	private List<String> roles = Lists.newArrayList();
 
@@ -33,4 +35,19 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }

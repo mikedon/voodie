@@ -90,7 +90,7 @@ var VoteCtrl = function ($scope, $routeParams, Voodie) {
 
 function FoodTruckRegistrationCtrl($scope, Voodie){
 	$scope.submit = function(){
-		Voodie.registerTruck($scope.username, $scope.password, $scope.foodTruckName);
+		Voodie.registerTruck($scope, 'home');
 	}
 };
 

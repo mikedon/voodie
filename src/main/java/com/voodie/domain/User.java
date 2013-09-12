@@ -25,6 +25,10 @@ public class User implements UserDetails {
 
 	private Boolean enabled;
 
+    private String firstName;
+
+    private String lastName;
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private List<Authorities> authorities;
 
@@ -87,4 +91,20 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		return enabled;
 	}
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }

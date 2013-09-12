@@ -18,14 +18,14 @@ public class FoodTruckService {
 	@Inject
 	protected FoodTruckDao foodTruckDao;
 
-	public boolean create(String name) {
-		Preconditions.checkNotNull(name);
-		FoodTruck existing = foodTruckDao.find(name);
+	public boolean create(String foodTruckName) {
+		Preconditions.checkNotNull(foodTruckName);
+		FoodTruck existing = foodTruckDao.find(foodTruckName);
 		if (existing != null) {
 			return false;
 		} else {
 			FoodTruck newFoodTruck = new FoodTruck();
-			newFoodTruck.setName(name);
+			newFoodTruck.setName(foodTruckName);
 			em.persist(newFoodTruck);
 			return true;
 		}

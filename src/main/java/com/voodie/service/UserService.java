@@ -1,17 +1,16 @@
 package com.voodie.service;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import com.google.common.base.Preconditions;
 import com.voodie.dao.UserDao;
 import com.voodie.domain.Authorities;
 import com.voodie.domain.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Stateless
 public class UserService {
@@ -22,14 +21,16 @@ public class UserService {
 	@Inject
 	protected UserDao userDao;
 
-	public boolean create(String username, String password, String... roles) {
+	public User create(String firstName, String lastName, String username, String password, String... roles) {
 		Preconditions.checkNotNull(username);
 		User existing = userDao.find(username);
 		if (existing != null) {
-			return false;
+			return null;
 		} else {
 			User newUser = new User();
 			newUser.setUsername(username);
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
 			// TODO hash
 			newUser.setPassword(password);
 			newUser.setEnabled(true);
@@ -40,7 +41,7 @@ public class UserService {
 				a.setUser(newUser);
 				em.persist(a);
 			}
-			return true;
+			return newUser;
 		}
 	}
 

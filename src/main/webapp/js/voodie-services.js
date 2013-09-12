@@ -16,8 +16,19 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 		initialized : false,
 		loggedIn : false,
 		username: '',
+        firstName: '',
+        lastName: '',
 		password: '',
 		roles: [],
+        reset : function(){
+            this.initialized = false;
+            this.loggedIn = false;
+            this.username = '';
+            this.firstName = '';
+            this.lastName = '';
+            this.password = '';
+            this.roles = [];
+        },
 		isInitialized : function(){
 			return this.initialized;
 		},
@@ -38,6 +49,8 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 				user.get({}, function(value, responseHeaders){
 					if(value.username){
 						that.username = value.username;
+                        that.firstName = value.firstName;
+                        that.lastName = value.lastName;
 						that.roles = value.roles;
 						that.initialized = true;
 						that.loggedIn = true;
@@ -58,9 +71,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 	        $http.post('j_spring_security_check', payload,config)
 	        .success(function(data) {
 	        	if(data.hasErrors){
-	        		that.username = '';
-	        		that.password = '';
-	        		that.roles = [];
+                    that.reset();
 	        		$rootScope.error = data.errorMsgs;
 	        		return;
 	        	}else{
@@ -72,9 +83,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
             })
         },
         logout : function(redirect){
-        	this.loggedIn = false;
-        	this.username = '';
-        	this.roles = [];
+            this.reset();
         	$http.get('j_spring_security_logout').success(function(data){
         		$location.path(redirect);
         	});
@@ -82,7 +91,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 	}
 });
 
-app.factory('Voodie', function($resource){
+app.factory('Voodie', function($resource, $location){
 	return {
 		getEntries : function(page, latitude, longitude, onSuccess){
 			var foodTrucks = $resource('rest/foodTruck/entries', {"page":page,"latitude":latitude,"longitude":longitude}).get(onSuccess);
@@ -105,13 +114,17 @@ app.factory('Voodie', function($resource){
 			var votes = $resource('rest/foodTruck/vote/entries', {"foodTruckId":foodTruckId, "eatingTime" : eatingTime}).get(onSuccess);
 			return votes;
 		},
-		registerTruck: function(username, password, foodTruckName){
+		registerTruck: function(truck, redirect){
 			var FoodTruckRegistration = $resource('rest/foodTruck/register');
 			var newRegistration = new FoodTruckRegistration();
-			newRegistration.username = username;
-			newRegistration.password = password;
-			newRegistration.name = foodTruckName;
-			newRegistration.$save();
+            newRegistration.firstName = truck.firstName;
+            newRegistration.lastName = truck.lastName;
+			newRegistration.username = truck.username;
+			newRegistration.password = truck.password;
+			newRegistration.name = truck.foodTruckName;
+			newRegistration.$save(function(){
+                $location.path(redirect);
+            });
 		}
 	}
 });

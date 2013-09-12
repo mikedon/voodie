@@ -1,5 +1,8 @@
 <div ng-controller="NavbarCtrl" class="masthead">
 	<ul class="nav nav-pills pull-right">
+        <li ng-hide="!currentUser.isLoggedIn()">
+            <span>Hello {{currentUser.firstName}}</span>
+        </li>
 		<li ng-class="{'active':login()}" ng-switch="currentUser.isLoggedIn()">
 			<a ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
 			<a ng-switch-when="false" href="#/login">Login</a>
@@ -10,6 +13,5 @@
 		<li ng-class="{'active':about()}"><a href="#/about">About</a></li>
 	</ul>
 	<h3 class="muted"><a href="#/home">Voodie</a></h3>
-	<span ng-hide="!currentUser.isLoggedIn()" >Hello {{currentUser.username}}</span>
 </div>
 <hr>
