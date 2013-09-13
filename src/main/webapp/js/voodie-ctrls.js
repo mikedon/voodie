@@ -94,9 +94,8 @@ function FoodTruckRegistrationCtrl($scope, Voodie){
 	}
 };
 
-function FoodTruckProfileCtrl($scope, User){
-
-
+function FoodTruckProfileCtrl($scope, Voodie, User){
+    $scope.foodTruck = Voodie.getFoodTruckProfile(User.username);
 }
 
 function LoginCtrl($scope, User){

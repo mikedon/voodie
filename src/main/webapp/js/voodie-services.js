@@ -125,7 +125,11 @@ app.factory('Voodie', function($resource, $location){
 			newRegistration.$save(function(){
                 $location.path(redirect);
             });
-		}
+		},
+        getFoodTruckProfile: function(foodTruckId){
+            var foodTruck = $resource('rest/foodTruck/secure/profile', {"foodTruckId" : foodTruckId}).get();
+            return foodTruck;
+        }
 	}
 });
 
