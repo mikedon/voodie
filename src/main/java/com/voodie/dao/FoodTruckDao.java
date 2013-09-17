@@ -1,13 +1,13 @@
 package com.voodie.dao;
 
+import com.voodie.domain.FoodTruck;
+
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-
-import com.voodie.domain.FoodTruck;
 
 @Stateless
 public class FoodTruckDao {
@@ -29,14 +29,14 @@ public class FoodTruckDao {
 		return foodTruck;
 	}
 
-	public FoodTruck find(String name) {
-		FoodTruck foodTruck = null;
-		try {
-			foodTruck = (FoodTruck) em
-					.createQuery("from FoodTruck where name = :name")
-					.setParameter("name", name).getSingleResult();
-		} catch (NoResultException e) {
-		}
-		return foodTruck;
-	}
+    public FoodTruck findByUser(String username){
+        FoodTruck foodTruck = null;
+        try {
+            foodTruck = (FoodTruck) em
+                    .createQuery("from FoodTruck where user.username = :username")
+                    .setParameter("username", username).getSingleResult();
+        } catch (NoResultException e) {
+        }
+        return foodTruck;
+    }
 }

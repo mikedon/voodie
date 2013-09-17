@@ -94,6 +94,36 @@ function FoodTruckRegistrationCtrl($scope, Voodie){
 	}
 };
 
+function FoodTruckElectionCtrl($scope, Voodie, User, GoogleMaps){
+    $scope.elections = Voodie.getElections(User.username);
+    $scope.election = {
+        candidates : []
+    };
+    $scope.candidate  = {};
+    $scope.submit = function(){
+        Voodie.createElection($scope.election, function(){
+            $scope.elections = Voodie.getElections(User.username);
+        });
+    };
+    $scope.addCandidate = function(){
+        var address = $scope.candidate.address;
+        if(address){
+            GoogleMaps.geolocate(address,function(longitude, latitude){
+                $scope.$apply(function(){
+                    var candidate = {
+                        "latitude" : latitude,
+                        "longitude" : longitude,
+                        "displayName": $scope.candidate.displayName
+                    };
+                    //FIXME lat/long not set
+                    $scope.election.candidates.push(candidate);
+                    $scope.candidate = {};
+                });
+            });
+        }
+    };
+};
+
 function FoodTruckProfileCtrl($scope, Voodie, User){
     $scope.foodTruck = Voodie.getFoodTruckProfile(User.username);
 }

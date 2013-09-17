@@ -52,8 +52,8 @@ public class FoodTruckREST {
 
     @Path("/secure/profile")
     @GET
-    public Response getProfile(@QueryParam("foodTruckId") String foodTruckId){
-        FoodTruck domainFoodTruck = foodTruckService.find(foodTruckId);
+    public Response getProfile(@QueryParam("username") String username){
+        FoodTruck domainFoodTruck = foodTruckService.find(username);
         if(domainFoodTruck != null){
             User user = userService.getCurrentUser();
             com.voodie.remote.domain.FoodTruck remoteFt = mapToRemoteFoodTruck(domainFoodTruck, user);
@@ -86,7 +86,7 @@ public class FoodTruckREST {
 		User user = userService.create(registration.getFirstName(), registration.getLastName(), registration.getUsername(),
 				registration.getPassword(), Authorities.FOOD_TRUCK);
 		if (user != null) {
-			boolean foodTruckCreated = foodTruckService.create(registration.getName());
+			boolean foodTruckCreated = foodTruckService.create(user, registration.getName());
 			if (foodTruckCreated) {
                 Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
@@ -108,7 +108,8 @@ public class FoodTruckREST {
             candidate.setLatitude(remoteCandidate.getLatitude());
             candidates.add(candidate);
         }
-        if(foodTruckService.createElection(remoteElection.getTitle(),
+        if(foodTruckService.createElection(userService.getCurrentUser().getUsername(),
+                remoteElection.getTitle(),
                 remoteElection.getServingStartTime(),
                 remoteElection.getServingEndTime(),
                 remoteElection.getPollOpeningDate(),
@@ -121,9 +122,9 @@ public class FoodTruckREST {
 
     @Path("/secure/getAllElections")
     @GET
-    public Response getAllElections(@QueryParam("foodTruckId") String foodTruckId){
+    public Response getAllElections(@QueryParam("username") String username){
         List<com.voodie.remote.domain.Election> remoteElections = Lists.newArrayList();
-        List<Election> domainElections = foodTruckService.findAllElections(foodTruckId);
+        List<Election> domainElections = foodTruckService.findAllElections(username);
         for(Election domainElection : domainElections){
             com.voodie.remote.domain.Election remoteElection = new com.voodie.remote.domain.Election();
             remoteElection.setServingStartTime(domainElection.getServingStartTime());

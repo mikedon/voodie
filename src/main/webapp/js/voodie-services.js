@@ -126,9 +126,26 @@ app.factory('Voodie', function($resource, $location){
                 $location.path(redirect);
             });
 		},
-        getFoodTruckProfile: function(foodTruckId){
-            var foodTruck = $resource('rest/foodTruck/secure/profile', {"foodTruckId" : foodTruckId}).get();
+        getFoodTruckProfile: function(username){
+            var foodTruck = $resource('rest/foodTruck/secure/profile', {"username" : username}).get();
             return foodTruck;
+        },
+        createElection: function(election, onSuccess){
+            var Election = $resource('rest/foodTruck/secure/createElection');
+            var newElection = new Election();
+            newElection.title = election.title;
+            newElection.servingStartTime = election.servingStartTime;
+            newElection.servingEndTime = election.servingEndTime;
+            newElection.pollOpeningDate = election.pollOpeningDate;
+            newElection.pollClosingDate = election.pollClosingDate;
+            newElection.allWriteIn = election.allowWriteIn;
+            newElection.candidates = election.candidates;
+            //TODO add success message
+            newElection.$save(onSuccess);
+        },
+        getElections: function(username){
+            var elections = $resource('rest/foodTruck/secure/getAllElections', {"username":username}).query();
+            return elections;
         }
 	}
 });

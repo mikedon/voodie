@@ -15,10 +15,11 @@ public class Election {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    private String id;
+    private Long id;
 
     private String title;
 
+    @Enumerated(EnumType.STRING)
     private ElectionStatus status;
 
     private Date pollClosingDate;
@@ -31,16 +32,19 @@ public class Election {
 
     private Boolean allowWriteIn;
 
-    @OneToMany
+    @ManyToOne
+    private FoodTruck foodTruck;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Candidate> candidates;
 
     // ---------------------------------
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -106,5 +110,13 @@ public class Election {
 
     public void setCandidates(List<Candidate> candidates) {
         this.candidates = candidates;
+    }
+
+    public FoodTruck getFoodTruck() {
+        return foodTruck;
+    }
+
+    public void setFoodTruck(FoodTruck foodTruck) {
+        this.foodTruck = foodTruck;
     }
 }

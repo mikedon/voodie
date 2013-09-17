@@ -16,7 +16,7 @@ public class Candidate {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    private String id;
+    private Long id;
 
     private String displayName;
 
@@ -39,11 +39,11 @@ public class Candidate {
         this.displayName = displayName;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

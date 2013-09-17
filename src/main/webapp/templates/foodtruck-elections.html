@@ -1,0 +1,29 @@
+<div ng-controller="FoodTruckElectionCtrl">
+    <h2>Elections</h2>
+    <ul>
+        <li ng-repeat="e in elections">
+            {{ e.title }}
+        </li>
+    </ul>
+    <h2>Create New Election</h2>
+    <form>
+        <bsinput label="Title" id="election.title"></bsinput>
+        <bsinput label="Serving Start Time" type="date" id="election.servingStartTime"></bsinput>
+        <bsinput label="Serving End Time" type="date" id="election.servingEndTime"></bsinput>
+        <bsinput label="Polling Start Date" type="date" id="election.pollOpeningDate"></bsinput>
+        <bsinput label="Polling End Date" type="date" id="election.pollClosingDate"></bsinput>
+        <bsinput label="Allow Write In?" type="Boolean" id="election.allowWriteIn"></bsinput>
+        <h4>Candidates</h4>
+        <ul>
+            <li ng-repeat="c in election.candidates">
+                {{ c.displayName }}
+            </li>
+        </ul>
+        <bsinput label="Display Name" id="candidate.displayName"></bsinput>
+        <bsinput label="Address" id="candidate.address"></bsinput>
+        <button class="btn" ng-click="addCandidate()">Add Candidate</button>
+        <div class="form-actions">
+            <button class="btn pull-right" ng-click="submit()">Submit</button>
+        </div>
+    </form>
+</div>

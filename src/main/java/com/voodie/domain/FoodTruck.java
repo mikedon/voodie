@@ -4,10 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.annotations.Expose;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -44,6 +41,9 @@ public class FoodTruck {
 
     @OneToMany
     private List<Election> elections;
+
+    @ManyToOne
+    private User user;
 
     // ---------------------------------
 
@@ -144,5 +144,13 @@ public class FoodTruck {
 
     public void setElections(List<Election> elections) {
         this.elections = elections;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
