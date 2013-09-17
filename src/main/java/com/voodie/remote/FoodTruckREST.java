@@ -1,11 +1,12 @@
 package com.voodie.remote;
 
-import com.voodie.domain.Authorities;
-import com.voodie.domain.Category;
+import com.google.common.collect.Lists;
+import com.voodie.domain.*;
+import com.voodie.domain.Candidate;
+import com.voodie.domain.Election;
 import com.voodie.domain.FoodTruck;
 import com.voodie.domain.User;
-import com.voodie.remote.domain.FoodTruckRegistration;
-import com.voodie.remote.domain.FoodTrucks;
+import com.voodie.remote.domain.*;
 import com.voodie.service.FoodTruckService;
 import com.voodie.service.UserService;
 import com.voodie.service.YelpService;
@@ -24,6 +25,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.util.List;
 
 @Path("/foodTruck")
 @Stateless
@@ -95,7 +97,54 @@ public class FoodTruckREST {
 		return Response.status(Status.CONFLICT).build();
 	}
 
-	// ----------------------
+    @Path("/secure/createElection")
+    @POST
+    public Response createElection(com.voodie.remote.domain.Election remoteElection){
+        List<Candidate> candidates = Lists.newArrayList();
+        for(com.voodie.remote.domain.Candidate remoteCandidate : remoteElection.getCandidates()){
+            Candidate candidate = new Candidate();
+            candidate.setDisplayName(remoteCandidate.getDisplayName());
+            candidate.setLongitude(remoteCandidate.getLongitude());
+            candidate.setLatitude(remoteCandidate.getLatitude());
+            candidates.add(candidate);
+        }
+        if(foodTruckService.createElection(remoteElection.getTitle(),
+                remoteElection.getServingStartTime(),
+                remoteElection.getServingEndTime(),
+                remoteElection.getPollOpeningDate(),
+                remoteElection.getPollClosingDate(), candidates) != null){
+            return Response.ok().build();
+        }
+        // TODO want to return something else...not an error code
+        return Response.status(Status.CONFLICT).build();
+    }
+
+    @Path("/secure/getAllElections")
+    @GET
+    public Response getAllElections(@QueryParam("foodTruckId") String foodTruckId){
+        List<com.voodie.remote.domain.Election> remoteElections = Lists.newArrayList();
+        List<Election> domainElections = foodTruckService.findAllElections(foodTruckId);
+        for(Election domainElection : domainElections){
+            com.voodie.remote.domain.Election remoteElection = new com.voodie.remote.domain.Election();
+            remoteElection.setServingStartTime(domainElection.getServingStartTime());
+            remoteElection.setServingEndTime(domainElection.getServingEndTime());
+            remoteElection.setPollOpeningDate(domainElection.getPollOpeningDate());
+            remoteElection.setPollClosingDate(domainElection.getPollClosingDate());
+            remoteElection.setAllowWriteIn(domainElection.getAllowWriteIn());
+            remoteElection.setTitle(domainElection.getTitle());
+            for(Candidate domainCandidate : domainElection.getCandidates()){
+                com.voodie.remote.domain.Candidate remoteCandidate = new com.voodie.remote.domain.Candidate();
+                remoteCandidate.setDisplayName(domainCandidate.getDisplayName());
+                remoteCandidate.setLatitude(domainCandidate.getLatitude());
+                remoteCandidate.setLongitude(domainCandidate.getLongitude());
+                remoteElection.getCandidates().add(remoteCandidate);
+            }
+            remoteElections.add(remoteElection);
+        }
+        return Response.ok(remoteElections).build();
+    }
+
+    // ---------------------------------
 
 	protected com.voodie.remote.domain.FoodTruck mapToRemoteFoodTruck(
 			FoodTruck ft, User user) {

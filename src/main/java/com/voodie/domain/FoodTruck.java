@@ -1,16 +1,14 @@
 package com.voodie.domain;
 
-import java.util.List;
+import com.google.common.collect.Lists;
+import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import com.google.common.collect.Lists;
-import com.google.gson.annotations.Expose;
+import java.util.List;
 
 @Entity
 public class FoodTruck {
@@ -43,6 +41,11 @@ public class FoodTruck {
 	
 	@OneToMany
 	private List<Category> categories;
+
+    @OneToMany
+    private List<Election> elections;
+
+    // ---------------------------------
 
 	public Long getId() {
 		return id;
@@ -135,4 +138,11 @@ public class FoodTruck {
 		this.categories = categories;
 	}
 
+    public List<Election> getElections() {
+        return elections;
+    }
+
+    public void setElections(List<Election> elections) {
+        this.elections = elections;
+    }
 }
