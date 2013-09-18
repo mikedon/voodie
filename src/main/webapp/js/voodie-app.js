@@ -9,20 +9,20 @@ app.config(["$routeProvider", function($routeProvider){
 	$routeProvider.when('/votes/:latitude+:longitude/:eatingTime', {
 		templateUrl:'templates/votes.html', 
 		resolve: Resolve});
-	$routeProvider.when('/foodTruck/:id', {
-		templateUrl: 'templates/foodtruck.html', 
-		resolve: Resolve});
+//	$routeProvider.when('/foodTruck/:id', {
+//		templateUrl: 'templates/foodtruck.html',
+//		resolve: Resolve});
 	$routeProvider.when('/login', {
 		templateUrl: 'templates/login.html', 
 		resolve: Resolve});
 	$routeProvider.when('/register/foodTruck', {
 		templateUrl : 'templates/foodtruck-registration.html', 
 		resolve: Resolve});
-	$routeProvider.when('/profile/foodTruck', {
+	$routeProvider.when('/foodTruck/profile', {
 		templateUrl : 'templates/foodtruck-profile.html', 
 		resolve: Resolve,
 		access : {requiresLogin : true, role : "Food Truck"}});
-    $routeProvider.when('/profile/foodTruck/elections', {
+    $routeProvider.when('/foodTruck/elections', {
         templateUrl : 'templates/foodtruck-elections.html',
         resolve: Resolve,
         access: {requiresLogin : true, role : "Food Truck"}});

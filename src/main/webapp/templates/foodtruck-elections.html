@@ -5,25 +5,51 @@
             {{ e.title }}
         </li>
     </ul>
-    <h2>Create New Election</h2>
+    <h3>Create New Election</h3>
     <form>
-        <bsinput label="Title" id="election.title"></bsinput>
-        <bsinput label="Serving Start Time" type="date" id="election.servingStartTime"></bsinput>
-        <bsinput label="Serving End Time" type="date" id="election.servingEndTime"></bsinput>
-        <bsinput label="Polling Start Date" type="date" id="election.pollOpeningDate"></bsinput>
-        <bsinput label="Polling End Date" type="date" id="election.pollClosingDate"></bsinput>
-        <bsinput label="Allow Write In?" type="Boolean" id="election.allowWriteIn"></bsinput>
-        <h4>Candidates</h4>
-        <ul>
-            <li ng-repeat="c in election.candidates">
-                {{ c.displayName }}
-            </li>
-        </ul>
-        <bsinput label="Display Name" id="candidate.displayName"></bsinput>
-        <bsinput label="Address" id="candidate.address"></bsinput>
-        <button class="btn" ng-click="addCandidate()">Add Candidate</button>
+        <div class="row-fluid">
+            <div class="span6">
+                <bsinput label="Title" id="election.title"></bsinput>
+                <!-- TODO move date logic to bsinput directive -->
+                <div class="control-group">
+                    <div><label class="control-label">Serving Start Time</label></div>
+                    <span class="lead">{{election.servingStartTime | date:'MM/dd/yyyy @ h:mma'}}</span>
+                    <button class="btn btn-small edit-btn" ng-click="openDialog('servingStartTime')"><i class="icon-edit"></i></button>
+                </div>
+                <div class="control-group">
+                    <div><label class="control-label">Serving End Time</label></div>
+                    <span class="lead">{{election.servingEndTime | date:'MM/dd/yyyy @ h:mma'}}</span>
+                    <button class="btn btn-small edit-btn" ng-click="openDialog('servingEndTime')"><i class="icon-edit"></i></button>
+                </div>
+                <!-- TODO these should just be dates not date time -->
+                <div class="control-group">
+                    <div><label class="control-label">Poll Opening Date</label></div>
+                    <span class="lead">{{election.pollOpeningDate | date:'MM/dd/yyyy'}}</span>
+                    <button class="btn btn-small edit-btn" ng-click="openDialog('pollOpeningDate')"><i class="icon-edit"></i></button>
+                </div>
+                <div class="control-group">
+                    <div><label class="control-label">Poll Closing Date</label></div>
+                    <span class="lead">{{election.pollClosingDate | date:'MM/dd/yyyy'}}</span>
+                    <button class="btn btn-small edit-btn" ng-click="openDialog('pollClosingDate')"><i class="icon-edit"></i></button>
+                </div>
+                <bsinput label="Allow Write In?" type="checkbox" id="election.allowWriteIn"></bsinput>
+            </div>
+            <div class="span6">
+                <h4>Candidates</h4>
+                <ul>
+                    <li ng-repeat="c in election.candidates">
+                        {{ c.displayName }}
+                    </li>
+                </ul>
+                <bsinput label="Display Name" id="candidate.displayName"></bsinput>
+                <bsinput label="Address" id="candidate.address"></bsinput>
+                <div>
+                    <button class="btn" ng-click="addCandidate()">Add Candidate</button>
+                </div>
+            </div>
+        </div>
         <div class="form-actions">
-            <button class="btn pull-right" ng-click="submit()">Submit</button>
+            <button class="btn pull-right" ng-click="submit()">Create</button>
         </div>
     </form>
 </div>

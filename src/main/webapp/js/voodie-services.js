@@ -4,7 +4,7 @@ app.factory('GoogleMaps', function(){
 		geolocate : function(address, onSuccess){
 			this.googleMaps.geocode({"address": address}, function(results, status){
 				if(status == google.maps.GeocoderStatus.OK){
-					onSuccess(results[0].geometry.location.kb, results[0].geometry.location.jb);
+					onSuccess(results[0].geometry.location.lng(), results[0].geometry.location.lat());
 				}
 			});
 		}
@@ -138,7 +138,7 @@ app.factory('Voodie', function($resource, $location){
             newElection.servingEndTime = election.servingEndTime;
             newElection.pollOpeningDate = election.pollOpeningDate;
             newElection.pollClosingDate = election.pollClosingDate;
-            newElection.allWriteIn = election.allowWriteIn;
+            newElection.allowWriteIn = election.allowWriteIn;
             newElection.candidates = election.candidates;
             //TODO add success message
             newElection.$save(onSuccess);

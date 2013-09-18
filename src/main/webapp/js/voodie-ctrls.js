@@ -11,6 +11,12 @@ var NavbarCtrl = function($scope, $location, User) {
 	$scope.register = function() {
 		return $location.path().indexOf('register') > 0;
 	};
+    $scope.profile = function() {
+        return $location.path().indexOf('profile') > 0;
+    };
+    $scope.elections = function() {
+        return $location.path().indexOf('elections') > 0;
+    }
 	$scope.currentUser = User;
 	$scope.logout = function(){
 		User.logout('login');
@@ -94,15 +100,23 @@ function FoodTruckRegistrationCtrl($scope, Voodie){
 	}
 };
 
-function FoodTruckElectionCtrl($scope, Voodie, User, GoogleMaps){
-    $scope.elections = Voodie.getElections(User.username);
-    $scope.election = {
-        candidates : []
+function FoodTruckElectionCtrl($scope, $dialog, Voodie, User, GoogleMaps, EatingTime){
+    function reset(){
+        $scope.elections = Voodie.getElections(User.username);
+        $scope.election = {
+            //TODO smart defaults?
+            servingStartTime : EatingTime.roundedTime(),
+            servingEndTime : EatingTime.roundedTime(),
+            pollOpeningDate : EatingTime.roundedTime(),
+            pollClosingDate : EatingTime.roundedTime(),
+            candidates : []
+        };
+        $scope.candidate  = {};
     };
-    $scope.candidate  = {};
+    reset();
     $scope.submit = function(){
         Voodie.createElection($scope.election, function(){
-            $scope.elections = Voodie.getElections(User.username);
+              reset();
         });
     };
     $scope.addCandidate = function(){
@@ -121,6 +135,21 @@ function FoodTruckElectionCtrl($scope, Voodie, User, GoogleMaps){
                 });
             });
         }
+    };
+    $scope.opts = {
+        backdrop: true,
+        keyboard: true,
+        backdropClick: true,
+        backdropFade: true,
+        dialogFade: true,
+        templateUrl: 'templates/includes/date-time-picker.html',
+        controller: 'DateTimeCtrl'
+    };
+    $scope.openDialog = function(time){
+        var d = $dialog.dialog($scope.opts);
+        d.open().then(function(){
+            $scope.election[time] = EatingTime.getEatingTime();
+        });
     };
 };
 
