@@ -146,6 +146,10 @@ app.factory('Voodie', function($resource, $location){
         getElections: function(username){
             var elections = $resource('rest/foodTruck/secure/getAllElections', {"username":username}).query();
             return elections;
+        },
+        getAllElections: function(){
+            var elections = $resource('rest/election/getAll').query();
+            return elections;
         }
 	}
 });

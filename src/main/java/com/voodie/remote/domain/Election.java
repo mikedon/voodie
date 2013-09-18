@@ -12,6 +12,7 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Election {
+    private Long id;
     private String title;
     private Date servingStartTime;
     private Date servingEndTime;
@@ -76,5 +77,13 @@ public class Election {
 
     public void setAllowWriteIn(Boolean allowWriteIn) {
         this.allowWriteIn = allowWriteIn;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

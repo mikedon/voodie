@@ -6,6 +6,10 @@ app.config(["$routeProvider", function($routeProvider){
 	$routeProvider.when('/about', {
 		templateUrl:'templates/about.html', 
 		resolve: Resolve});
+    $routeProvider.when('/elections', {
+        templateUrl:'templates/elections.html',
+        resolve:Resolve
+    })
 	$routeProvider.when('/votes/:latitude+:longitude/:eatingTime', {
 		templateUrl:'templates/votes.html', 
 		resolve: Resolve});

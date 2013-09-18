@@ -68,6 +68,10 @@ var DateTimeCtrl = function($scope, EatingTime, dialog){
     return $scope.DateTimeCtrl = this;
 };
 
+var ElectionsCtrl = function($scope, Voodie){
+    $scope.elections =  $scope.elections = Voodie.getAllElections();
+};
+
 var VoteCtrl = function ($scope, $routeParams, Voodie) {
 	$scope.currentPage = 1;
     $scope.categories = {};

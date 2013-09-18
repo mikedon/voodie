@@ -9,6 +9,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Voodie
@@ -31,6 +32,14 @@ public class ElectionDao extends AbstractDao<Election> {
         } catch (NoResultException e) {
         }
         return election;
+    }
+
+    public List<Election> findAllInProgress(Date pollOpeningDate, Date pollClosingDate){
+        return em.createQuery("from Election where status = :status and pollOpeningDate <= :pollOpeningDate and pollClosingDate >= :pollClosingDate")
+                .setParameter("status", ElectionStatus.IN_PROGRESS)
+                .setParameter("pollOpeningDate", pollOpeningDate)
+                .setParameter("pollClosingDate", pollClosingDate)
+                .getResultList();
     }
 
 }
