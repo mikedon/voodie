@@ -15,7 +15,7 @@ var NavbarCtrl = function($scope, $location, User) {
         return $location.path().indexOf('profile') > 0;
     };
     $scope.elections = function() {
-        return $location.path().indexOf('elections') > 0;
+        return $location.path().indexOf('foodTruck/elections') > 0;
     }
 	$scope.currentUser = User;
 	$scope.logout = function(){
@@ -165,7 +165,7 @@ function LoginCtrl($scope, User){
 	$scope.submit = function(){
 		User.username = $scope.username;
 		User.password = $scope.password;
-		User.login("home");
+		User.login("elections");
 	}
 }
 

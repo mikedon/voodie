@@ -30,7 +30,7 @@ app.config(["$routeProvider", function($routeProvider){
         templateUrl : 'templates/foodtruck-elections.html',
         resolve: Resolve,
         access: {requiresLogin : true, role : "Food Truck"}});
-	$routeProvider.otherwise({redirectTo: '/home'});
+	$routeProvider.otherwise({redirectTo: '/elections'});
 }]);
 
 /**
