@@ -88,8 +88,7 @@ public class FoodTruckREST {
 		if (user != null) {
 			boolean foodTruckCreated = foodTruckService.create(user, registration.getName());
 			if (foodTruckCreated) {
-                Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                userService.autoLogin(user);
 				return Response.ok().build();
 			}
 		}

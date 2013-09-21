@@ -34,8 +34,9 @@ public class ElectionDao extends AbstractDao<Election> {
         return election;
     }
 
+    @SuppressWarnings({"unchecked"})
     public List<Election> findAllInProgress(Date pollOpeningDate, Date pollClosingDate){
-        return em.createQuery("from Election where status = :status and pollOpeningDate <= :pollOpeningDate and pollClosingDate >= :pollClosingDate")
+        return (List<Election>) em.createQuery("from Election where status = :status and pollOpeningDate <= :pollOpeningDate and pollClosingDate >= :pollClosingDate")
                 .setParameter("status", ElectionStatus.IN_PROGRESS)
                 .setParameter("pollOpeningDate", pollOpeningDate)
                 .setParameter("pollClosingDate", pollClosingDate)

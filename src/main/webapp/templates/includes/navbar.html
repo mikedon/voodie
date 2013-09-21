@@ -8,13 +8,16 @@
 			<a ng-switch-when="false" href="#/login">Login</a>
 		</li>
 		<li ng-class="{'active':register()}" ng-switch="currentUser.isLoggedIn()">
-			<a ng-switch-when="false" href="#/register/foodTruck">Register</a>
+			<a ng-switch-when="false" href="#/register">Register</a>
 		</li>
         <li ng-class="{'active':elections()}" ng-switch="currentUser.hasRole('Food Truck')">
             <a ng-switch-when="true" href="#/foodTruck/elections">Elections</a>
         </li>
         <li ng-class="{'active':profile()}" ng-switch="currentUser.hasRole('Food Truck')">
             <a ng-switch-when="true" href="#/foodTruck/profile">Profile</a>
+        </li>
+        <li ng-class="{'active':profile()}" ng-switch="currentUser.hasRole('Foodie')">
+            <a ng-switch-when="true" href="#/foodie/profile">Profile</a>
         </li>
 		<li ng-class="{'active':about()}"><a href="#/about">About</a></li>
 	</ul>

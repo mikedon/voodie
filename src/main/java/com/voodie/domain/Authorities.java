@@ -20,6 +20,7 @@ public class Authorities implements GrantedAuthority {
 	private static final long serialVersionUID = 1L;
 
 	public static final String FOOD_TRUCK = "Food Truck";
+    public static final String FOODIE = "Foodie";
 
 	@Id
 	@GeneratedValue(generator = "increment")

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.voodie.dao.UserDao;
 import com.voodie.domain.Authorities;
 import com.voodie.domain.User;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -59,4 +60,9 @@ public class UserService {
 		}
 		return null;
 	}
+
+    public void autoLogin(User user){
+        Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+    }
 }

@@ -100,9 +100,15 @@ var VoteCtrl = function ($scope, $routeParams, Voodie) {
 
 function FoodTruckRegistrationCtrl($scope, Voodie){
 	$scope.submit = function(){
-		Voodie.registerTruck($scope, 'home');
+		Voodie.registerTruck($scope, 'foodTruck/elections');
 	}
 };
+
+function FoodieRegistrationCtrl($scope, Voodie){
+    $scope.submit = function(){
+        Voodie.registerFoodie($scope, 'elections');
+    }
+}
 
 function FoodTruckElectionCtrl($scope, $dialog, Voodie, User, GoogleMaps, EatingTime){
     function reset(){
@@ -159,6 +165,10 @@ function FoodTruckElectionCtrl($scope, $dialog, Voodie, User, GoogleMaps, Eating
 
 function FoodTruckProfileCtrl($scope, Voodie, User){
     $scope.foodTruck = Voodie.getFoodTruckProfile(User.username);
+}
+
+function FoodieProfileCtrl($scope, Voodie, User){
+    $scope.foodie = Voodie.getFoodieProfile(User.username);
 }
 
 function LoginCtrl($scope, User){

@@ -11,6 +11,7 @@
     	<class>com.voodie.domain.Vote</class>
     	<class>com.voodie.domain.Location</class>
     	<class>com.voodie.domain.FoodTruck</class>
+        <class>com.voodie.domain.Foodie</class>
         <class>com.voodie.domain.Election</class>
         <class>com.voodie.domain.Candidate</class>
     	<class>com.voodie.domain.User</class>

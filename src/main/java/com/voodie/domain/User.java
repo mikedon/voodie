@@ -1,17 +1,14 @@
 package com.voodie.domain;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.security.core.userdetails.UserDetails;
-
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "username"}))
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -28,6 +25,8 @@ public class User implements UserDetails {
     private String firstName;
 
     private String lastName;
+
+    private String emailAddress;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private List<Authorities> authorities;
@@ -106,5 +105,13 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

@@ -126,9 +126,24 @@ app.factory('Voodie', function($resource, $location){
                 $location.path(redirect);
             });
 		},
+        registerFoodie: function(truck, redirect){
+            var FoodieRegistration = $resource('rest/foodie/register');
+            var newRegistration = new FoodieRegistration();
+            newRegistration.firstName = truck.firstName;
+            newRegistration.lastName = truck.lastName;
+            newRegistration.username = truck.username;
+            newRegistration.password = truck.password;
+            newRegistration.$save(function(){
+                $location.path(redirect);
+            });
+        },
         getFoodTruckProfile: function(username){
             var foodTruck = $resource('rest/foodTruck/secure/profile', {"username" : username}).get();
             return foodTruck;
+        },
+        getFoodieProfile: function(username){
+            var foodie = $resource('rest/foodie/secure/profile', {"username" : username}).get();
+            return foodie;
         },
         createElection: function(election, onSuccess){
             var Election = $resource('rest/foodTruck/secure/createElection');

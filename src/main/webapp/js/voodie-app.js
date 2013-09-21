@@ -1,5 +1,6 @@
 var app = angular.module('voodie', ['ngResource', 'ui.bootstrap']);
 app.config(["$routeProvider", function($routeProvider){
+    //TODO extract into JSON object and refactor logic to use that
 	$routeProvider.when('/home', {
 		templateUrl:'templates/home.html', 
 		resolve: Resolve});
@@ -8,8 +9,10 @@ app.config(["$routeProvider", function($routeProvider){
 		resolve: Resolve});
     $routeProvider.when('/elections', {
         templateUrl:'templates/elections.html',
-        resolve:Resolve
-    })
+        resolve:Resolve});
+    $routeProvider.when('/register', {
+        templateUrl: 'templates/registration.html',
+        resolve:Resolve});
 	$routeProvider.when('/votes/:latitude+:longitude/:eatingTime', {
 		templateUrl:'templates/votes.html', 
 		resolve: Resolve});
@@ -19,7 +22,14 @@ app.config(["$routeProvider", function($routeProvider){
 	$routeProvider.when('/login', {
 		templateUrl: 'templates/login.html', 
 		resolve: Resolve});
-	$routeProvider.when('/register/foodTruck', {
+    $routeProvider.when('/foodie/registration', {
+        templateUrl : 'templates/foodie-registration.html',
+        resolve: Resolve});
+    $routeProvider.when('/foodie/profile', {
+        templateUrl : 'templates/foodie-profile.html',
+        resolve: Resolve,
+        access : {requiresLogin : true, role : "Foodie"}});
+	$routeProvider.when('/foodTruck/registration', {
 		templateUrl : 'templates/foodtruck-registration.html', 
 		resolve: Resolve});
 	$routeProvider.when('/foodTruck/profile', {
