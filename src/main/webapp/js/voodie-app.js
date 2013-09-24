@@ -2,42 +2,36 @@ var app = angular.module('voodie', ['ngResource', 'ui.bootstrap']);
 app.config(["$routeProvider", function($routeProvider){
     //TODO extract into JSON object and refactor logic to use that
 	$routeProvider.when('/home', {
-		templateUrl:'templates/home.html', 
+		templateUrl:'routes/home.html',
 		resolve: Resolve});
 	$routeProvider.when('/about', {
-		templateUrl:'templates/about.html', 
+		templateUrl:'routes/about.html',
 		resolve: Resolve});
     $routeProvider.when('/elections', {
-        templateUrl:'templates/elections.html',
+        templateUrl:'routes/election/elections.html',
         resolve:Resolve});
     $routeProvider.when('/register', {
-        templateUrl: 'templates/registration.html',
+        templateUrl: 'routes/registration.html',
         resolve:Resolve});
-	$routeProvider.when('/votes/:latitude+:longitude/:eatingTime', {
-		templateUrl:'templates/votes.html', 
-		resolve: Resolve});
-//	$routeProvider.when('/foodTruck/:id', {
-//		templateUrl: 'templates/foodtruck.html',
-//		resolve: Resolve});
 	$routeProvider.when('/login', {
-		templateUrl: 'templates/login.html', 
+		templateUrl: 'routes/login.html',
 		resolve: Resolve});
     $routeProvider.when('/foodie/registration', {
-        templateUrl : 'templates/foodie-registration.html',
+        templateUrl : 'routes/foodie/registration.html',
         resolve: Resolve});
     $routeProvider.when('/foodie/profile', {
-        templateUrl : 'templates/foodie-profile.html',
+        templateUrl : 'routes/foodie/profile.html',
         resolve: Resolve,
         access : {requiresLogin : true, role : "Foodie"}});
-	$routeProvider.when('/foodTruck/registration', {
-		templateUrl : 'templates/foodtruck-registration.html', 
+	$routeProvider.when('/foodtruck/registration', {
+		templateUrl : 'routes/foodtruck/registration.html',
 		resolve: Resolve});
-	$routeProvider.when('/foodTruck/profile', {
-		templateUrl : 'templates/foodtruck-profile.html', 
+	$routeProvider.when('/foodtruck/profile', {
+		templateUrl : 'routes/foodtruck/profile.html',
 		resolve: Resolve,
 		access : {requiresLogin : true, role : "Food Truck"}});
-    $routeProvider.when('/foodTruck/elections', {
-        templateUrl : 'templates/foodtruck-elections.html',
+    $routeProvider.when('/foodtruck/elections', {
+        templateUrl : 'routes/foodtruck/elections.html',
         resolve: Resolve,
         access: {requiresLogin : true, role : "Food Truck"}});
 	$routeProvider.otherwise({redirectTo: '/elections'});

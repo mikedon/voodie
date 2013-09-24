@@ -15,7 +15,7 @@ var NavbarCtrl = function($scope, $location, User) {
         return $location.path().indexOf('profile') > 0;
     };
     $scope.elections = function() {
-        return $location.path().indexOf('foodTruck/elections') > 0;
+        return $location.path().indexOf('foodtruck/elections') > 0;
     }
 	$scope.currentUser = User;
 	$scope.logout = function(){
@@ -43,7 +43,7 @@ var HomeCtrl = function ($scope, $location, $dialog, EatingTime, GoogleMaps) {
         backdropClick: true,
         backdropFade: true,
         dialogFade: true,
-        templateUrl: 'templates/includes/date-time-picker.html',
+        templateUrl: 'includes/date-time-picker.html',
         controller: 'DateTimeCtrl'
     };
     $scope.openDialog = function(){
@@ -100,7 +100,7 @@ var VoteCtrl = function ($scope, $routeParams, Voodie) {
 
 function FoodTruckRegistrationCtrl($scope, Voodie){
 	$scope.submit = function(){
-		Voodie.registerTruck($scope, 'foodTruck/elections');
+		Voodie.registerTruck($scope, 'foodtruck/elections');
 	}
 };
 
@@ -152,7 +152,7 @@ function FoodTruckElectionCtrl($scope, $dialog, Voodie, User, GoogleMaps, Eating
         backdropClick: true,
         backdropFade: true,
         dialogFade: true,
-        templateUrl: 'templates/includes/date-time-picker.html',
+        templateUrl: 'includes/date-time-picker.html',
         controller: 'DateTimeCtrl'
     };
     $scope.openDialog = function(time){

@@ -11,10 +11,10 @@
 			<a ng-switch-when="false" href="#/register">Register</a>
 		</li>
         <li ng-class="{'active':elections()}" ng-switch="currentUser.hasRole('Food Truck')">
-            <a ng-switch-when="true" href="#/foodTruck/elections">Elections</a>
+            <a ng-switch-when="true" href="#/foodtruck/elections">Elections</a>
         </li>
         <li ng-class="{'active':profile()}" ng-switch="currentUser.hasRole('Food Truck')">
-            <a ng-switch-when="true" href="#/foodTruck/profile">Profile</a>
+            <a ng-switch-when="true" href="#/foodtruck/profile">Profile</a>
         </li>
         <li ng-class="{'active':profile()}" ng-switch="currentUser.hasRole('Foodie')">
             <a ng-switch-when="true" href="#/foodie/profile">Profile</a>

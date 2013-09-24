@@ -45,7 +45,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 			var d = $q.defer();
 			var that = this;
 			if(!this.initialized){
-				var user = $resource('rest/user/secure/currentUser');
+				var user = $resource('api/user/secure/currentUser');
 				user.get({}, function(value, responseHeaders){
 					if(value.username){
 						that.username = value.username;
@@ -93,16 +93,8 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 
 app.factory('Voodie', function($resource, $location){
 	return {
-		getEntries : function(page, latitude, longitude, onSuccess){
-			var foodTrucks = $resource('rest/foodTruck/entries', {"page":page,"latitude":latitude,"longitude":longitude}).get(onSuccess);
-            return foodTrucks;
-		},
-		getFoodTruckInfo : function(foodTruckId, onSuccess){
-			var foodTruck = $resource('rest/foodTruck/info', {"foodTruckId" : foodTruckId}).get(onSuccess);
-			return foodTruck;
-		},
 		vote : function(foodTruckId, latitude, longitude, eatingTime){
-			var Vote = $resource('rest/foodTruck/vote');
+			var Vote = $resource('api/election/vote');
 			var newVote = new Vote();
 			newVote.foodTruckId = foodTruckId;
 			newVote.latitude = latitude;
@@ -110,12 +102,8 @@ app.factory('Voodie', function($resource, $location){
 			newVote.eatingTime = eatingTime;
 			newVote.$save();
 		},
-		getVotes : function(foodTruckId, eatingTime, onSuccess){
-			var votes = $resource('rest/foodTruck/vote/entries', {"foodTruckId":foodTruckId, "eatingTime" : eatingTime}).get(onSuccess);
-			return votes;
-		},
 		registerTruck: function(truck, redirect){
-			var FoodTruckRegistration = $resource('rest/foodTruck/register');
+			var FoodTruckRegistration = $resource('api/foodtruck/register');
 			var newRegistration = new FoodTruckRegistration();
             newRegistration.firstName = truck.firstName;
             newRegistration.lastName = truck.lastName;
@@ -127,7 +115,7 @@ app.factory('Voodie', function($resource, $location){
             });
 		},
         registerFoodie: function(truck, redirect){
-            var FoodieRegistration = $resource('rest/foodie/register');
+            var FoodieRegistration = $resource('api/foodie/register');
             var newRegistration = new FoodieRegistration();
             newRegistration.firstName = truck.firstName;
             newRegistration.lastName = truck.lastName;
@@ -138,15 +126,15 @@ app.factory('Voodie', function($resource, $location){
             });
         },
         getFoodTruckProfile: function(username){
-            var foodTruck = $resource('rest/foodTruck/secure/profile', {"username" : username}).get();
+            var foodTruck = $resource('api/foodtruck/secure/profile', {"username" : username}).get();
             return foodTruck;
         },
         getFoodieProfile: function(username){
-            var foodie = $resource('rest/foodie/secure/profile', {"username" : username}).get();
+            var foodie = $resource('api/foodie/secure/profile', {"username" : username}).get();
             return foodie;
         },
         createElection: function(election, onSuccess){
-            var Election = $resource('rest/foodTruck/secure/createElection');
+            var Election = $resource('api/election/secure/createElection');
             var newElection = new Election();
             newElection.title = election.title;
             newElection.servingStartTime = election.servingStartTime;
@@ -159,11 +147,11 @@ app.factory('Voodie', function($resource, $location){
             newElection.$save(onSuccess);
         },
         getElections: function(username){
-            var elections = $resource('rest/foodTruck/secure/getAllElections', {"username":username}).query();
+            var elections = $resource('api/election/secure/getAllElections', {"username":username}).query();
             return elections;
         },
         getAllElections: function(){
-            var elections = $resource('rest/election/getAll').query();
+            var elections = $resource('api/election/query').query();
             return elections;
         }
 	}
