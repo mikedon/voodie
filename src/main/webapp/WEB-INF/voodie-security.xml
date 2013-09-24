@@ -41,13 +41,8 @@
 	<jee:jndi-lookup id="entityManagerFactory" jndi-name="java:/persistence/voodie"/>
 	<beans:bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 	
-	<beans:bean id="voodieUserService" class="com.voodie.service.VoodieUserDetailsService" />
-	<beans:bean id="userDao" class="com.voodie.dao.UserDao">
-		<!-- <beans:property name="entityManager">
-        	<beans:bean class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-            	<beans:property name="persistenceUnitName" value="voodie" />
-        	</beans:bean>
-    	</beans:property> -->
+	<beans:bean id="voodieUserService" class="com.voodie.web.VoodieUserDetailsService" />
+	<beans:bean id="userDao" class="com.voodie.domain.identity.UserDao">
 	</beans:bean>
 	<authentication-manager>
 		<authentication-provider user-service-ref="voodieUserService">

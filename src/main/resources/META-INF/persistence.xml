@@ -8,14 +8,13 @@
       <persistence-unit name="voodie">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
     	<jta-data-source>java:/jboss/datasources/MysqlDS</jta-data-source>
-    	<class>com.voodie.domain.Vote</class>
-    	<class>com.voodie.domain.Location</class>
-    	<class>com.voodie.domain.FoodTruck</class>
-        <class>com.voodie.domain.Foodie</class>
-        <class>com.voodie.domain.Election</class>
-        <class>com.voodie.domain.Candidate</class>
-    	<class>com.voodie.domain.User</class>
-    	<class>com.voodie.domain.Authorities</class>
+    	<class>com.voodie.domain.election.Vote</class>
+    	<class>com.voodie.domain.foodtruck.FoodTruck</class>
+        <class>com.voodie.domain.foodie.Foodie</class>
+        <class>com.voodie.domain.election.Election</class>
+        <class>com.voodie.domain.election.Candidate</class>
+    	<class>com.voodie.domain.identity.User</class>
+    	<class>com.voodie.domain.identity.Authorities</class>
         <properties>
         	<property name="jboss.entity.manager.factory.jndi.name" value="java:/persistence/voodie"/>
 			<property name="format_sql" value="true" />
