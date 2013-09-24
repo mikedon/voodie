@@ -29,6 +29,9 @@ public class Candidate {
     @OneToMany
     private List<Vote> votes;
 
+    @ManyToOne
+    private Election election;
+
     // ---------------------------------
 
     public String getDisplayName() {
@@ -77,5 +80,13 @@ public class Candidate {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public Election getElection() {
+        return election;
+    }
+
+    public void setElection(Election election) {
+        this.election = election;
     }
 }

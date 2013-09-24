@@ -68,8 +68,22 @@ var DateTimeCtrl = function($scope, EatingTime, dialog){
     return $scope.DateTimeCtrl = this;
 };
 
-var ElectionsCtrl = function($scope, Voodie){
-    $scope.elections =  $scope.elections = Voodie.getAllElections();
+var ElectionsCtrl = function($scope, $location, Voodie){
+    $scope.elections = Voodie.getAllElections();
+    $scope.goToElection = function(election){
+        //TODO polite check to see if they are allowed to vote
+        $location.path('election/' + election.id);
+    }
+};
+
+var ElectionCtrl = function($scope, $routeParams, $location, Voodie){
+    $scope.election = Voodie.getElection($routeParams.e);
+    $scope.candidateChoice = "";
+    $scope.vote = function(){
+        Voodie.vote($scope.candidateChoice, function(data){
+            $location.path('/elections');
+        })
+    }
 };
 
 var VoteCtrl = function ($scope, $routeParams, Voodie) {

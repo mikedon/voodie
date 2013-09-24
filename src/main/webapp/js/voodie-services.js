@@ -93,15 +93,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 
 app.factory('Voodie', function($resource, $location){
 	return {
-		vote : function(foodTruckId, latitude, longitude, eatingTime){
-			var Vote = $resource('api/election/vote');
-			var newVote = new Vote();
-			newVote.foodTruckId = foodTruckId;
-			newVote.latitude = latitude;
-			newVote.longitude = longitude;
-			newVote.eatingTime = eatingTime;
-			newVote.$save();
-		},
+        //TODO abstract all voodie services so api path is set in one place
 		registerTruck: function(truck, redirect){
 			var FoodTruckRegistration = $resource('api/foodtruck/register');
 			var newRegistration = new FoodTruckRegistration();
@@ -153,6 +145,16 @@ app.factory('Voodie', function($resource, $location){
         getAllElections: function(){
             var elections = $resource('api/election/query').query();
             return elections;
+        },
+        getElection: function(election){
+            var election = $resource('api/election/secure/getElection', {"election":election}).get();
+            return election;
+        },
+        vote: function(candidate, onSuccess){
+            var Vote = $resource('api/election/secure/vote');
+            var newVote = new Vote();
+            newVote.candidate = candidate;
+            newVote.$save(onSuccess);
         }
 	}
 });

@@ -10,6 +10,10 @@ app.config(["$routeProvider", function($routeProvider){
     $routeProvider.when('/elections', {
         templateUrl:'routes/election/elections.html',
         resolve:Resolve});
+    $routeProvider.when('/election/:e', {
+        templateUrl:'routes/election/election.html',
+        resolve:Resolve,
+        access: {requiresLogin: true, role : "Foodie"}});
     $routeProvider.when('/register', {
         templateUrl: 'routes/registration.html',
         resolve:Resolve});
@@ -48,8 +52,6 @@ var Resolve = {
 
 /**
  * http://blog.brunoscopelliti.com/deal-with-users-authentication-in-an-angularjs-web-app
- * 
- * see comments on better ways to do this not using directive
  */
 app.run(['$rootScope', '$location', 'User', function ($root, $location, User){
 	$root.$on('$routeChangeSuccess', function(event, currRoute){

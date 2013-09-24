@@ -1,12 +1,11 @@
 package com.voodie.domain.foodie;
 
+import com.voodie.domain.election.Vote;
 import com.voodie.domain.identity.User;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Voodie
@@ -26,6 +25,9 @@ public class Foodie {
 
     @ManyToOne
     private User user;
+
+    @OneToMany
+    private List<Vote> votes;
 
     // ---------------------------------
 
@@ -51,5 +53,13 @@ public class Foodie {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 }

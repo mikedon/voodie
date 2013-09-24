@@ -1,10 +1,8 @@
 package com.voodie.domain.service;
 
 import com.google.common.base.Preconditions;
-import com.voodie.domain.election.Candidate;
-import com.voodie.domain.election.Election;
-import com.voodie.domain.election.ElectionDao;
-import com.voodie.domain.election.ElectionStatus;
+import com.voodie.domain.election.*;
+import com.voodie.domain.foodie.Foodie;
 import com.voodie.domain.foodtruck.FoodTruck;
 import com.voodie.domain.foodtruck.FoodTruckDao;
 
@@ -25,9 +23,25 @@ public class ElectionService {
 	protected ElectionDao electionDao;
 
     @Inject
+    protected VotingDao votingDao;
+
+    @Inject
     protected FoodTruckDao foodTruckDao;
 
     // ---------------------------------
+
+    //TODO foodie cant vote for same election twice
+    public Vote vote(Foodie foodie, Candidate candidate){
+        Vote existing = votingDao.findByUserAndCandidate(foodie, candidate);
+        if(existing == null){
+            Vote vote = new Vote();
+            vote.setCandidate(candidate);
+            vote.setFoodie(foodie);
+            em.persist(vote);
+            return vote;
+        }
+        return null;
+    }
 
 	public List<Election> getAllElectionsInProgress(Date pollOpeningDate, Date pollClosingDate) {
 		return electionDao.findAllInProgress(pollOpeningDate, pollClosingDate);
@@ -38,6 +52,14 @@ public class ElectionService {
         Preconditions.checkNotNull(servingEndTime);
         Election existing = electionDao.findInProgress(foodTruck, servingStartTime, servingEndTime);
         return existing;
+    }
+
+    public Election findElection(Long electionId){
+        return em.find(Election.class, electionId);
+    }
+
+    public Candidate findCandidate(Long candidateId){
+        return em.find(Candidate.class, candidateId);
     }
 
     public Election createElection(String username, String title, Date servingStartTime, Date servingEndTime, Date pollOpeningDate, Date pollClosingDate, List<Candidate> candidates){

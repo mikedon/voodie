@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Candidate {
 
+    private Long id;
+
     private String displayName;
 
     private Double longitude;
@@ -43,5 +45,13 @@ public class Candidate {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
