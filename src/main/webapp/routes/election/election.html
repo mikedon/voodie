@@ -1,4 +1,5 @@
 <div ng-controller="ElectionCtrl">
+    <alert ng-repeat="alert in error" type="error">{{alert}}</alert>
 	<div class="row-fluid">
         <div>
             <h2>{{ election.title }}</h2>

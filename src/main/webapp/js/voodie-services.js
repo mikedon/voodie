@@ -91,7 +91,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 	}
 });
 
-app.factory('Voodie', function($resource, $location){
+app.factory('Voodie', function($resource, $location, $rootScope){
 	return {
         //TODO abstract all voodie services so api path is set in one place
 		registerTruck: function(truck, redirect){
@@ -154,7 +154,14 @@ app.factory('Voodie', function($resource, $location){
             var Vote = $resource('api/election/secure/vote');
             var newVote = new Vote();
             newVote.candidate = candidate;
-            newVote.$save(onSuccess);
+            newVote.$save(function(data){
+                if(data.hasErrors){
+                    $rootScope.error = data.errorMsgs;
+                    return;
+                }else{
+                    onSuccess(data);
+                }
+            });
         }
 	}
 });

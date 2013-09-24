@@ -55,6 +55,8 @@ var Resolve = {
  */
 app.run(['$rootScope', '$location', 'User', function ($root, $location, User){
 	$root.$on('$routeChangeSuccess', function(event, currRoute){
+        //clear out error msgs...better way?
+        $root.error = [];
 		if(currRoute.access && currRoute.access.requiresLogin){
 			if(!User.isLoggedIn()){
 				console.log("Route Requires Login")

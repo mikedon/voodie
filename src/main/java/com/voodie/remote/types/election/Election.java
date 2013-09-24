@@ -18,7 +18,7 @@ public class Election {
     private Date servingEndTime;
     private Date pollOpeningDate;
     private Date pollClosingDate;
-    private Boolean allowWriteIn;
+    private Boolean allowWriteIn = false;
     private List<Candidate> candidates = Lists.newArrayList();
 
     // ---------------------------------

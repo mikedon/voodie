@@ -5,6 +5,7 @@ import com.voodie.domain.election.*;
 import com.voodie.domain.foodie.Foodie;
 import com.voodie.domain.foodtruck.FoodTruck;
 import com.voodie.domain.foodtruck.FoodTruckDao;
+import com.voodie.util.DateUtil;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -30,10 +31,8 @@ public class ElectionService {
 
     // ---------------------------------
 
-    //TODO foodie cant vote for same election twice
     public Vote vote(Foodie foodie, Candidate candidate){
-        Vote existing = votingDao.findByUserAndCandidate(foodie, candidate);
-        if(existing == null){
+        if(!hasFoodieAlreadyVoted(foodie, candidate)){
             Vote vote = new Vote();
             vote.setCandidate(candidate);
             vote.setFoodie(foodie);
@@ -62,17 +61,22 @@ public class ElectionService {
         return em.find(Candidate.class, candidateId);
     }
 
-    public Election createElection(String username, String title, Date servingStartTime, Date servingEndTime, Date pollOpeningDate, Date pollClosingDate, List<Candidate> candidates){
+    public Election createElection(String username, String title, Date servingStartTime, Date servingEndTime, Date pollOpeningDate, Date pollClosingDate, List<Candidate> candidates, Boolean allowWriteIn){
         FoodTruck foodTruck = foodTruckDao.findByUser(username);
         if(findElection(foodTruck, servingStartTime, servingEndTime) == null){
             Election election = new Election();
             election.setServingStartTime(servingStartTime);
             election.setServingEndTime(servingEndTime);
-            election.setPollClosingDate(pollClosingDate);
-            election.setPollOpeningDate(pollOpeningDate);
+            election.setPollClosingDate(DateUtil.truncateHours(pollClosingDate));
+            election.setPollOpeningDate(DateUtil.truncateHours(pollOpeningDate));
             election.setTitle(title);
             election.setStatus(ElectionStatus.IN_PROGRESS);
             election.setCandidates(candidates);
+            for(Candidate c : candidates){
+                c.setElection(election);
+            }
+            election.setAllowWriteIn(allowWriteIn);
+            election.setFoodTruck(foodTruck);
             em.persist(election);
             foodTruck.getElections().add(election);
             em.merge(foodTruck);
@@ -81,4 +85,13 @@ public class ElectionService {
         return null;
     }
 
+    protected boolean hasFoodieAlreadyVoted(Foodie foodie, Candidate candidate){
+        Vote existing = null;
+        for(Candidate c : candidate.getElection().getCandidates()){
+            if(votingDao.findByUserAndCandidate(foodie, c) != null){
+                return true;
+            }
+        }
+        return false;
+    }
 }

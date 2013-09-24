@@ -10,7 +10,8 @@ import java.util.List;
  * User: MikeD
  */
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "longitude", "latitude" }))
+@Table(uniqueConstraints =
+    @UniqueConstraint(columnNames = { "longitude", "latitude", "election_id" }))
 public class Candidate {
 
     @Id

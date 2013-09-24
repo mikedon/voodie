@@ -6,6 +6,7 @@ import com.voodie.domain.service.ElectionService;
 import com.voodie.domain.service.FoodTruckService;
 import com.voodie.domain.service.FoodieService;
 import com.voodie.domain.service.UserService;
+import com.voodie.remote.types.ErrorResponse;
 import com.voodie.remote.types.election.Candidate;
 import com.voodie.remote.types.election.Election;
 import com.voodie.remote.types.election.Vote;
@@ -43,8 +44,14 @@ public class ElectionREST {
     public Response vote(Vote vote){
         Foodie foodie = foodieService.find(userService.getCurrentUser().getUsername());
         com.voodie.domain.election.Candidate candidate = electionService.findCandidate(vote.getCandidate());
-        electionService.vote(foodie, candidate);
-        return Response.ok().build();
+        if(electionService.vote(foodie, candidate) != null){
+            return Response.ok().build();
+        }else{
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setHasErrors(true);
+            errorResponse.getErrorMsgs().add("Duplicate Votes");
+            return Response.ok(errorResponse).build();
+        }
     }
 
 
@@ -138,7 +145,7 @@ public class ElectionREST {
                 remoteElection.getServingStartTime(),
                 remoteElection.getServingEndTime(),
                 remoteElection.getPollOpeningDate(),
-                remoteElection.getPollClosingDate(), candidates) != null){
+                remoteElection.getPollClosingDate(), candidates, remoteElection.getAllowWriteIn()) != null){
             return Response.ok().build();
         }
         // TODO want to return something else...not an error code
