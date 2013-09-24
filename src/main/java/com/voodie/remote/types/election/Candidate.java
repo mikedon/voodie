@@ -21,6 +21,8 @@ public class Candidate {
 
     private Double latitude;
 
+    private Long numberOfVotes;
+
     // ---------------------------------
 
     public String getDisplayName() {
@@ -53,5 +55,13 @@ public class Candidate {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getNumberOfVotes() {
+        return numberOfVotes;
+    }
+
+    public void setNumberOfVotes(Long numberOfVotes) {
+        this.numberOfVotes = numberOfVotes;
     }
 }

@@ -1,10 +1,33 @@
 <div ng-controller="FoodTruckElectionCtrl">
     <h2>Elections</h2>
-    <ul>
-        <li ng-repeat="e in elections">
-            {{ e.title }}
-        </li>
-    </ul>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Poll Opening Date</th>
+                <th>Poll Closing Date</th>
+                <th>Serving Start Time</th>
+                <th>Serving End Time</th>
+                <th>Candidates</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="e in elections">
+                <td>{{ e.title }}</td>
+                <td>{{ e.pollOpeningDate | date:'MM/dd/yyyy'}}</td>
+                <td>{{ e.pollClosingDate | date:'MM/dd/yyyy'}}</td>
+                <td>{{ e.servingStartTime | date:'MM/dd/yyyy @ h:mma' }}</td>
+                <td>{{ e.servingEndTime | date:'MM/dd/yyyy @ h:mma'}}</td>
+                <td>
+                    <ul>
+                        <li ng-repeat="c in e.candidates">
+                            {{ c.displayName }} - {{ c.numberOfVotes }}
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <h3>Create New Election</h3>
     <form>
         <div class="row-fluid">

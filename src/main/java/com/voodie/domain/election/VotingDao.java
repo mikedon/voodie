@@ -26,4 +26,11 @@ public class VotingDao {
         return vote;
     }
 
+    public Long getNumberOfVotesForCandidate(Candidate candidate){
+        String sql = "select count(*) from Vote where candidate = :candidate";
+        return (Long) em.createQuery(sql)
+                .setParameter("candidate", candidate)
+                .getSingleResult();
+    }
+
 }

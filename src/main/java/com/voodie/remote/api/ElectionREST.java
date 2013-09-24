@@ -1,6 +1,7 @@
 package com.voodie.remote.api;
 
 import com.google.common.collect.Lists;
+import com.voodie.domain.election.VotingDao;
 import com.voodie.domain.foodie.Foodie;
 import com.voodie.domain.service.ElectionService;
 import com.voodie.domain.service.FoodTruckService;
@@ -36,6 +37,9 @@ public class ElectionREST {
 
     @Inject
     protected UserService userService;
+
+    @Inject
+    protected VotingDao votingDao;
 
     // ---------------------------------
 
@@ -122,6 +126,7 @@ public class ElectionREST {
                 remoteCandidate.setDisplayName(domainCandidate.getDisplayName());
                 remoteCandidate.setLatitude(domainCandidate.getLatitude());
                 remoteCandidate.setLongitude(domainCandidate.getLongitude());
+                remoteCandidate.setNumberOfVotes(votingDao.getNumberOfVotesForCandidate(domainCandidate));
                 remoteElection.getCandidates().add(remoteCandidate);
             }
             remoteElections.add(remoteElection);
