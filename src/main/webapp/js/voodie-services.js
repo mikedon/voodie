@@ -162,6 +162,23 @@ app.factory('Voodie', function($resource, $location, $rootScope){
                     onSuccess(data);
                 }
             });
+        },
+        getElectionForSelection: function(election){
+            var election = $resource('api/election/secure/getElectionForSelection', {"election":election}).get();
+            return election;
+        },
+        selectCandidate: function(candidate, onSuccess){
+            var Candidate = $resource('api/election/secure/selectCandidate');
+            var newCandidate = new Candidate();
+            newCandidate.id = candidate;
+            newCandidate.$save(function(data){
+                if(data.hasErrors){
+                    $rootScope.error = data.errorMsgs;
+                    return;
+                }else{
+                    onSuccess(data);
+                }
+            });
         }
 	}
 });

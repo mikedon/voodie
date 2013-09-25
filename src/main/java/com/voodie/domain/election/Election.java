@@ -32,6 +32,9 @@ public class Election {
 
     private Boolean allowWriteIn;
 
+    @OneToOne
+    private Candidate selectedCandidated;
+
     @ManyToOne
     private FoodTruck foodTruck;
 
@@ -118,5 +121,13 @@ public class Election {
 
     public void setFoodTruck(FoodTruck foodTruck) {
         this.foodTruck = foodTruck;
+    }
+
+    public Candidate getSelectedCandidated() {
+        return selectedCandidated;
+    }
+
+    public void setSelectedCandidated(Candidate selectedCandidated) {
+        this.selectedCandidated = selectedCandidated;
     }
 }

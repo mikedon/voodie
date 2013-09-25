@@ -20,6 +20,7 @@ public class Election {
     private Date pollOpeningDate;
     private Date pollClosingDate;
     private Boolean allowWriteIn = false;
+    private String status;
     private List<Candidate> candidates = Lists.newArrayList();
 
     // ---------------------------------
@@ -94,5 +95,13 @@ public class Election {
 
     public void setFoodTruckName(String foodTruckName) {
         this.foodTruckName = foodTruckName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

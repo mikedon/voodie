@@ -124,7 +124,7 @@ function FoodieRegistrationCtrl($scope, Voodie){
     }
 }
 
-function FoodTruckElectionCtrl($scope, $dialog, Voodie, User, GoogleMaps, EatingTime){
+function FoodTruckElectionCtrl($scope, $dialog, $location, Voodie, User, GoogleMaps, EatingTime){
     function reset(){
         $scope.elections = Voodie.getElections(User.username);
         $scope.election = {
@@ -175,7 +175,19 @@ function FoodTruckElectionCtrl($scope, $dialog, Voodie, User, GoogleMaps, Eating
             $scope.election[time] = EatingTime.getEatingTime();
         });
     };
+    $scope.chooseCandidate = function(election){
+        $location.path("foodtruck/selection/" + election.id)
+    }
 };
+
+function FoodTruckSelectionCtrl($scope, $routeParams, $location, Voodie){
+    $scope.election = Voodie.getElectionForSelection($routeParams.e);
+    $scope.makeSelection = function(candidate){
+        Voodie.selectCandidate($scope.selectedCandidate, function(data){
+            $location.path('/foodtruck/elections');
+        });
+    };
+}
 
 function FoodTruckProfileCtrl($scope, Voodie, User){
     $scope.foodTruck = Voodie.getFoodTruckProfile(User.username);

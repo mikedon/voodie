@@ -31,6 +31,14 @@ public class ElectionService {
 
     // ---------------------------------
 
+    public Election selectCandidate(Candidate candidate){
+        Election election = candidate.getElection();
+        election.setSelectedCandidated(candidate);
+        election.setStatus(ElectionStatus.CLOSED);
+        election = em.merge(election);
+        return election;
+    }
+
     public Vote vote(Foodie foodie, Candidate candidate){
         if(!hasFoodieAlreadyVoted(foodie, candidate)){
             Vote vote = new Vote();
@@ -84,6 +92,8 @@ public class ElectionService {
         }
         return null;
     }
+
+    // ---------------------------------
 
     protected boolean hasFoodieAlreadyVoted(Foodie foodie, Candidate candidate){
         Vote existing = null;
