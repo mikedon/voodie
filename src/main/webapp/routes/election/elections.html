@@ -1,6 +1,12 @@
 <div ng-controller="ElectionsCtrl">
 	<div class="row-fluid" ng-repeat="e in elections">
-		<ng-include src="'includes/election.html'" onLoad="election=e"></ng-include>
-		<button class="btn btn-primary pul-right" ng-click="goToElection(e)">Vote!</button>
+        <div class="row-fluid">
+            <div class="span12">
+                <span>{{ e.foodTruckName }}</span>
+                <span>{{ e.title }}</span>
+            </div>
+            <button class="btn btn-primary pul-right" ng-click="goToElection(e)">Vote!</button>
+        </div>
+
     </div>
 </div>

@@ -89,6 +89,7 @@ public class ElectionREST {
         List<Election> remoteElections = Lists.newArrayList();
         for(com.voodie.domain.election.Election domainElection : domainElections){
             Election remoteElection = new Election();
+            remoteElection.setFoodTruckName(domainElection.getFoodTruck().getName());
             remoteElection.setId(domainElection.getId());
             remoteElection.setTitle(domainElection.getTitle());
             remoteElection.setAllowWriteIn(domainElection.getAllowWriteIn());

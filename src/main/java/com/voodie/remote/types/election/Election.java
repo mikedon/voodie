@@ -13,6 +13,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Election {
     private Long id;
+    private String foodTruckName;
     private String title;
     private Date servingStartTime;
     private Date servingEndTime;
@@ -85,5 +86,13 @@ public class Election {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFoodTruckName() {
+        return foodTruckName;
+    }
+
+    public void setFoodTruckName(String foodTruckName) {
+        this.foodTruckName = foodTruckName;
     }
 }
