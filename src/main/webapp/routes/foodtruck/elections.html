@@ -28,6 +28,7 @@
                 </td>
                 <td>
                     <button ng-click="chooseCandidate(e)" ng-hide="e.status != 'IN_PROGRESS'" class="btn btn-primary btn-small">Make Selection</button>
+                    <a target="_blank" ng-href="/voodie/secure/checkInQrCode?e={{ e.id }}" ng-hide="e.status == CLOSED">Get Check In</a>
                 </td>
             </tr>
         </tbody>

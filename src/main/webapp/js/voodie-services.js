@@ -179,6 +179,19 @@ app.factory('Voodie', function($resource, $location, $rootScope){
                     onSuccess(data);
                 }
             });
+        },
+        checkIn: function(election, onSuccess){
+            var CheckIn = $resource('api/election/secure/checkIn');
+            var newCheckIn = new CheckIn();
+            newCheckIn.election = election;
+            newCheckIn.$save(function(data){
+                if(data.hasErrors){
+                    $rootScope.error = data.errorMsgs;
+                    return;
+                }else{
+                    onSuccess(data);
+                }
+            })
         }
 	}
 });

@@ -1,0 +1,8 @@
+<div ng-controller="CheckInCtrl">
+
+    <div ng-switch="checkedIn">
+        <button ng-switch-when="false" ng-click="checkIn()" class="btn btn-large btn-primary">Check In!</button>
+        <span ng-switch-when="true">Thanks for checking into election {{ election.title }}!</span>
+    </div>
+
+</div>

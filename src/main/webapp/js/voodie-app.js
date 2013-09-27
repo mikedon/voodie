@@ -14,6 +14,10 @@ app.config(["$routeProvider", function($routeProvider){
         templateUrl:'routes/election/election.html',
         resolve:Resolve,
         access: {requiresLogin: true, role : "Foodie"}});
+    $routeProvider.when('/election/checkin/:e', {
+        templateUrl:'routes/election/checkin.html',
+        resolve:Resolve,
+        access: {requiresLogin: true, role : "Foodie"}});
     $routeProvider.when('/register', {
         templateUrl: 'routes/registration.html',
         resolve:Resolve});

@@ -13,6 +13,7 @@
         <class>com.voodie.domain.foodie.Foodie</class>
         <class>com.voodie.domain.election.Election</class>
         <class>com.voodie.domain.election.Candidate</class>
+        <class>com.voodie.domain.election.CheckIn</class>
     	<class>com.voodie.domain.identity.User</class>
     	<class>com.voodie.domain.identity.Authorities</class>
         <properties>

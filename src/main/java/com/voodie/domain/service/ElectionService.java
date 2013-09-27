@@ -93,6 +93,14 @@ public class ElectionService {
         return null;
     }
 
+    public CheckIn createCheckIn(Foodie foodie, Election election){
+        CheckIn checkIn = new CheckIn();
+        checkIn.setFoodie(foodie);
+        checkIn.setElection(election);
+        em.persist(checkIn);
+        return checkIn;
+    }
+
     // ---------------------------------
 
     protected boolean hasFoodieAlreadyVoted(Foodie foodie, Candidate candidate){

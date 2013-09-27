@@ -9,6 +9,7 @@ import com.voodie.domain.service.FoodieService;
 import com.voodie.domain.service.UserService;
 import com.voodie.remote.types.ErrorResponse;
 import com.voodie.remote.types.election.Candidate;
+import com.voodie.remote.types.election.CheckIn;
 import com.voodie.remote.types.election.Election;
 import com.voodie.remote.types.election.Vote;
 
@@ -197,5 +198,14 @@ public class ElectionREST {
         }
         // TODO want to return something else...not an error code
         return Response.status(Response.Status.CONFLICT).build();
+    }
+
+    @Path("/secure/checkIn")
+    @POST
+    public Response checkIn(CheckIn checkIn){
+        //TODO validate election
+        electionService.createCheckIn(foodieService.find(userService.getCurrentUser().getUsername())
+                , electionService.findElection(checkIn.getElection()));
+        return Response.ok().build();
     }
 }

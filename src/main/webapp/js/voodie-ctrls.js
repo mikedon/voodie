@@ -205,6 +205,17 @@ function LoginCtrl($scope, User){
 	}
 }
 
+function CheckInCtrl($scope, $routeParams, $location, Voodie){
+    $scope.election = Voodie.getElection($routeParams.e);
+    $scope.checkedIn = false;
+    $scope.checkIn = function(){
+        Voodie.checkIn($scope.election.id, function(data){
+//            $location.path('elections');
+            $scope.checkedIn = true;
+        });
+    }
+}
+
 function FoodTruckCtrl($scope, $routeParams, EatingTime, Voodie, GoogleMaps) {
     $scope.eatingDate = EatingTime.roundedTime();
     $scope.eatingTime = EatingTime.roundedTime();
