@@ -6,6 +6,7 @@ import com.voodie.domain.service.FoodieService;
 import com.voodie.domain.service.UserService;
 import com.voodie.remote.types.foodie.Foodie;
 import com.voodie.remote.types.foodie.FoodieRegistration;
+import org.dozer.Mapper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -26,6 +27,9 @@ public class FoodieREST {
     @Inject
     protected FoodieService foodieService;
 
+    @Inject
+    protected Mapper mapper;
+
     // ---------------------------------
 
     @Path("/secure/profile")
@@ -33,12 +37,7 @@ public class FoodieREST {
     public Response getProfile(@QueryParam("username") String username){
         com.voodie.domain.foodie.Foodie domainFoodie = foodieService.find(username);
         if(domainFoodie != null){
-            User user = userService.getCurrentUser();
-            Foodie remoteFoodie = new Foodie();
-            remoteFoodie.setKarma(domainFoodie.getKarma());
-            remoteFoodie.setUsername(domainFoodie.getUser().getUsername());
-            remoteFoodie.setFirstName(domainFoodie.getUser().getFirstName());
-            remoteFoodie.setLastName(domainFoodie.getUser().getLastName());
+            Foodie remoteFoodie = mapper.map(domainFoodie, Foodie.class);
             return Response.ok(remoteFoodie).build();
         }
         return Response.ok().build();
@@ -56,7 +55,7 @@ public class FoodieREST {
 				return Response.ok().build();
 			}
 		}
-//		// TODO want to return something else...not an error code
+		// TODO want to return something else...not an error code
 		return Response.status(Status.CONFLICT).build();
 	}
 

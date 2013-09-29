@@ -12,6 +12,7 @@ import com.voodie.remote.types.election.Candidate;
 import com.voodie.remote.types.election.CheckIn;
 import com.voodie.remote.types.election.Election;
 import com.voodie.remote.types.election.Vote;
+import org.dozer.Mapper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -41,6 +42,9 @@ public class ElectionREST {
 
     @Inject
     protected VotingDao votingDao;
+
+    @Inject
+    protected Mapper mapper;
 
     // ---------------------------------
 
@@ -78,47 +82,15 @@ public class ElectionREST {
     @Path("/secure/getElectionForSelection")
     @GET
     public Response getElectionForSelection(@QueryParam("election") Long election){
-        com.voodie.domain.election.Election domainElection = electionService.findElection(election);
-        Election remoteElection = new Election();
-        remoteElection.setId(domainElection.getId());
-        remoteElection.setTitle(domainElection.getTitle());
-        remoteElection.setAllowWriteIn(domainElection.getAllowWriteIn());
-        remoteElection.setServingStartTime(domainElection.getServingStartTime());
-        remoteElection.setServingEndTime(domainElection.getServingEndTime());
-        remoteElection.setPollClosingDate(domainElection.getPollClosingDate());
-        remoteElection.setPollOpeningDate(domainElection.getPollOpeningDate());
-        for(com.voodie.domain.election.Candidate domainCandidate : domainElection.getCandidates()){
-            Candidate remoteCandidate = new Candidate();
-            remoteCandidate.setId(domainCandidate.getId());
-            remoteCandidate.setDisplayName(domainCandidate.getDisplayName());
-            remoteCandidate.setLatitude(domainCandidate.getLatitude());
-            remoteCandidate.setLongitude(domainCandidate.getLongitude());
-            remoteCandidate.setNumberOfVotes(votingDao.getNumberOfVotesForCandidate(domainCandidate));
-            remoteElection.getCandidates().add(remoteCandidate);
-        }
+        Election remoteElection = getRemoteElection(election);
+        setNumberOfVotesForElection(remoteElection);
         return Response.ok(remoteElection).build();
     }
 
     @Path("/secure/getElection")
     @GET
     public Response getElection(@QueryParam("election") Long election){
-        com.voodie.domain.election.Election domainElection = electionService.findElection(election);
-        Election remoteElection = new Election();
-        remoteElection.setId(domainElection.getId());
-        remoteElection.setTitle(domainElection.getTitle());
-        remoteElection.setAllowWriteIn(domainElection.getAllowWriteIn());
-        remoteElection.setServingStartTime(domainElection.getServingStartTime());
-        remoteElection.setServingEndTime(domainElection.getServingEndTime());
-        remoteElection.setPollClosingDate(domainElection.getPollClosingDate());
-        remoteElection.setPollOpeningDate(domainElection.getPollOpeningDate());
-        for(com.voodie.domain.election.Candidate domainCandidate : domainElection.getCandidates()){
-            Candidate remoteCandidate = new Candidate();
-            remoteCandidate.setId(domainCandidate.getId());
-            remoteCandidate.setDisplayName(domainCandidate.getDisplayName());
-            remoteCandidate.setLatitude(domainCandidate.getLatitude());
-            remoteCandidate.setLongitude(domainCandidate.getLongitude());
-            remoteElection.getCandidates().add(remoteCandidate);
-        }
+        Election remoteElection = getRemoteElection(election);
         return Response.ok(remoteElection).build();
     }
 
@@ -128,23 +100,7 @@ public class ElectionREST {
 		List<com.voodie.domain.election.Election> domainElections = electionService.getAllElectionsInProgress(new Date(), new Date());
         List<Election> remoteElections = Lists.newArrayList();
         for(com.voodie.domain.election.Election domainElection : domainElections){
-            Election remoteElection = new Election();
-            remoteElection.setFoodTruckName(domainElection.getFoodTruck().getName());
-            remoteElection.setId(domainElection.getId());
-            remoteElection.setTitle(domainElection.getTitle());
-            remoteElection.setAllowWriteIn(domainElection.getAllowWriteIn());
-            remoteElection.setServingStartTime(domainElection.getServingStartTime());
-            remoteElection.setServingEndTime(domainElection.getServingEndTime());
-            remoteElection.setPollClosingDate(domainElection.getPollClosingDate());
-            remoteElection.setPollOpeningDate(domainElection.getPollOpeningDate());
-            for(com.voodie.domain.election.Candidate domainCandidate : domainElection.getCandidates()){
-                Candidate remoteCandidate = new Candidate();
-                remoteCandidate.setDisplayName(domainCandidate.getDisplayName());
-                remoteCandidate.setLatitude(domainCandidate.getLatitude());
-                remoteCandidate.setLongitude(domainCandidate.getLongitude());
-                remoteElection.getCandidates().add(remoteCandidate);
-            }
-            remoteElections.add(remoteElection);
+            remoteElections.add(mapper.map(domainElection, Election.class));
         }
 		return Response.ok(remoteElections).build();
 	}
@@ -155,23 +111,8 @@ public class ElectionREST {
         List<Election> remoteElections = Lists.newArrayList();
         List<com.voodie.domain.election.Election> domainElections = foodTruckService.findAllElections(username);
         for(com.voodie.domain.election.Election domainElection : domainElections){
-            Election remoteElection = new Election();
-            remoteElection.setId(domainElection.getId());
-            remoteElection.setServingStartTime(domainElection.getServingStartTime());
-            remoteElection.setServingEndTime(domainElection.getServingEndTime());
-            remoteElection.setPollOpeningDate(domainElection.getPollOpeningDate());
-            remoteElection.setPollClosingDate(domainElection.getPollClosingDate());
-            remoteElection.setAllowWriteIn(domainElection.getAllowWriteIn());
-            remoteElection.setTitle(domainElection.getTitle());
-            remoteElection.setStatus(domainElection.getStatus().name());
-            for(com.voodie.domain.election.Candidate domainCandidate : domainElection.getCandidates()){
-                Candidate remoteCandidate = new Candidate();
-                remoteCandidate.setDisplayName(domainCandidate.getDisplayName());
-                remoteCandidate.setLatitude(domainCandidate.getLatitude());
-                remoteCandidate.setLongitude(domainCandidate.getLongitude());
-                remoteCandidate.setNumberOfVotes(votingDao.getNumberOfVotesForCandidate(domainCandidate));
-                remoteElection.getCandidates().add(remoteCandidate);
-            }
+            Election remoteElection = mapper.map(domainElection, Election.class);
+            setNumberOfVotesForElection(remoteElection);
             remoteElections.add(remoteElection);
         }
         return Response.ok(remoteElections).build();
@@ -182,11 +123,9 @@ public class ElectionREST {
     public Response createElection(Election remoteElection){
         List<com.voodie.domain.election.Candidate> candidates = Lists.newArrayList();
         for(Candidate remoteCandidate : remoteElection.getCandidates()){
-            com.voodie.domain.election.Candidate candidate = new com.voodie.domain.election.Candidate();
-            candidate.setDisplayName(remoteCandidate.getDisplayName());
-            candidate.setLongitude(remoteCandidate.getLongitude());
-            candidate.setLatitude(remoteCandidate.getLatitude());
-            candidates.add(candidate);
+            com.voodie.domain.election.Candidate domainCandidate =
+                    mapper.map(remoteCandidate, com.voodie.domain.election.Candidate.class);
+            candidates.add(domainCandidate);
         }
         if(electionService.createElection(userService.getCurrentUser().getUsername(),
                 remoteElection.getTitle(),
@@ -207,5 +146,20 @@ public class ElectionREST {
         electionService.createCheckIn(foodieService.find(userService.getCurrentUser().getUsername())
                 , electionService.findElection(checkIn.getElection()));
         return Response.ok().build();
+    }
+
+    // ---------------------------------
+
+    protected Election getRemoteElection(Long electionId){
+        com.voodie.domain.election.Election domainElection = electionService.findElection(electionId);
+        Election remoteElection = new Election();
+        mapper.map(domainElection, remoteElection);
+        return remoteElection;
+    }
+
+    protected void setNumberOfVotesForElection(Election election){
+        for(Candidate c : election.getCandidates()){
+            c.setNumberOfVotes(votingDao.getNumberOfVotesForCandidate(c.getId()));
+        }
     }
 }
