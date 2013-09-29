@@ -1,12 +1,12 @@
 package com.voodie.remote.api;
 
-import com.voodie.domain.foodtruck.Category;
 import com.voodie.domain.identity.Authorities;
 import com.voodie.domain.identity.User;
 import com.voodie.domain.service.FoodTruckService;
 import com.voodie.domain.service.UserService;
 import com.voodie.remote.types.foodtruck.FoodTruck;
 import com.voodie.remote.types.foodtruck.FoodTruckRegistration;
+import org.dozer.Mapper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -28,6 +28,9 @@ public class FoodTruckREST {
 	@Inject
 	protected UserService userService;
 
+    @Inject
+    protected Mapper mapper;
+
     // ---------------------------------
 
     @Path("/secure/profile")
@@ -35,9 +38,8 @@ public class FoodTruckREST {
     public Response getProfile(@QueryParam("username") String username){
         com.voodie.domain.foodtruck.FoodTruck domainFoodTruck = foodTruckService.find(username);
         if(domainFoodTruck != null){
-            User user = userService.getCurrentUser();
-            FoodTruck remoteFt = mapToRemoteFoodTruck(domainFoodTruck, user);
-            return Response.ok(remoteFt).build();
+            FoodTruck remoteFoodTruck = mapper.map(domainFoodTruck, FoodTruck.class);
+            return Response.ok(remoteFoodTruck).build();
         }
         return Response.ok().build();
     }
@@ -56,30 +58,6 @@ public class FoodTruckREST {
 		}
 		// TODO want to return something else...not an error code
 		return Response.status(Status.CONFLICT).build();
-	}
-
-
-    // ---------------------------------
-
-	protected FoodTruck mapToRemoteFoodTruck(
-			com.voodie.domain.foodtruck.FoodTruck ft, User user) {
-		FoodTruck remoteFt = new FoodTruck();
-		remoteFt.setId(ft.getExternalId());
-		remoteFt.setName(ft.getName());
-        if(user != null){
-            remoteFt.setFirstName(user.getFirstName());
-            remoteFt.setLastName(user.getLastName());
-            remoteFt.setUsername(user.getUsername());
-        }
-		remoteFt.setRating(ft.getRating());
-		remoteFt.setAddress(ft.getAddress());
-		remoteFt.setImageUrl(ft.getImageUrl());
-		remoteFt.setRatingImageUrl(ft.getRatingImageUrl());
-		remoteFt.setUrl(ft.getUrl());
-		for (Category c : ft.getCategories()) {
-			remoteFt.getCategories().add(c.getName());
-		}
-		return remoteFt;
 	}
 
 }

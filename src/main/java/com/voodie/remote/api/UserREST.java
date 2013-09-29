@@ -2,14 +2,13 @@ package com.voodie.remote.api;
 
 import com.voodie.domain.service.UserService;
 import com.voodie.remote.types.identity.User;
+import org.dozer.Mapper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 @Path("/user")
 @Stateless
@@ -18,13 +17,10 @@ public class UserREST {
 	@Inject
 	protected UserService userService;
 
-    // ---------------------------------
+    @Inject
+    protected Mapper mapper;
 
-	@Path("/secure/roles")
-	@GET
-	public Response getRoles(@QueryParam("user") String user) {
-		return Response.ok(Status.OK).build();
-	}
+    // ---------------------------------
 
 	@Path("/secure/currentUser")
 	@GET
@@ -32,12 +28,7 @@ public class UserREST {
 		User user = new User();
 		com.voodie.domain.identity.User currentUser = userService.getCurrentUser();
 		if (currentUser != null) {
-			user.setUsername(currentUser.getUsername());
-            user.setFirstName(currentUser.getFirstName());
-            user.setLastName(currentUser.getLastName());
-			for (com.voodie.domain.identity.Authorities authority : currentUser.getAuthorities()) {
-				user.getRoles().add(authority.getAuthority());
-			}
+            mapper.map(currentUser, user);
 		}
 		return Response.ok(user).build();
 	}

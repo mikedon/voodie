@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <configuration>
+        <custom-converters>
+            <converter type="com.voodie.mapping.UserConverter">
+                <class-a>com.voodie.remote.types.identity.User</class-a>
+                <class-b>com.voodie.domain.identity.User</class-b>
+            </converter>
+        </custom-converters>
+    </configuration>
+
+    <mapping>
+        <class-a>com.voodie.domain.foodtruck.FoodTruck</class-a>
+        <class-b>com.voodie.remote.types.foodtruck.FoodTruck</class-b>
+        <field>
+            <a>user.firstName</a>
+            <b>firstName</b>
+        </field>
+        <field>
+            <a>user.lastName</a>
+            <b>lastName</b>
+        </field>
+        <field>
+            <a>user.username</a>
+            <b>username</b>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>com.voodie.domain.foodie.Foodie</class-a>
+        <class-b>com.voodie.remote.types.foodie.Foodie</class-b>
+        <field>
+            <a>user.firstName</a>
+            <b>firstName</b>
+        </field>
+        <field>
+            <a>user.lastName</a>
+            <b>lastName</b>
+        </field>
+        <field>
+            <a>user.username</a>
+            <b>username</b>
+        </field>
+    </mapping>
+</mappings>
