@@ -3,10 +3,13 @@ package com.voodie.jmx;
 import org.apache.deltaspike.core.api.jmx.JmxManaged;
 import org.apache.deltaspike.core.api.jmx.MBean;
 
+import javax.enterprise.context.ApplicationScoped;
+
 /**
  * Voodie
  * User: MikeD
  */
+@ApplicationScoped
 @MBean(description = "check in configuration")
 public class CheckInConfiguration{
 
@@ -17,7 +20,7 @@ public class CheckInConfiguration{
         return checkInUrl;
     }
 
-    public void setCheckInUrl(String checkInUrl) {
+    public void setCheckInUrl(final String checkInUrl) {
         this.checkInUrl = checkInUrl;
     }
 

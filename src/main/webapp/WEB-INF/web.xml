@@ -22,4 +22,29 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+    <servlet>
+        <servlet-name>JmxMiniConsoleServlet</servlet-name>
+        <servlet-class>org.jminix.console.servlet.MiniConsoleServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>JmxMiniConsoleServlet</servlet-name>
+        <url-pattern>/jmx/*</url-pattern>
+    </servlet-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Resources-Protected</web-resource-name>
+            <url-pattern>/jmx/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>MYAPPL_ADMIN</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>ApplicationRealm</realm-name>
+    </login-config>
+
 </web-app>
