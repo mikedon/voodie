@@ -1,11 +1,13 @@
 package com.voodie.domain.service;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.voodie.domain.election.*;
 import com.voodie.domain.foodie.Foodie;
 import com.voodie.domain.foodtruck.FoodTruck;
 import com.voodie.domain.foodtruck.FoodTruckDao;
 import com.voodie.util.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -58,6 +60,9 @@ public class ElectionService {
     }
 
 	public List<Election> getAllElectionsInProgress(String district, Date pollOpeningDate, Date pollClosingDate) {
+        if(StringUtils.isEmpty(district)){
+            return Lists.newArrayList();
+        }
 		return electionDao.findAllInProgress(district, pollOpeningDate, pollClosingDate);
 	}
 

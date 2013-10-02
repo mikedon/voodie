@@ -1,5 +1,16 @@
 <div ng-controller="ElectionsCtrl">
-	<div class="row-fluid" ng-repeat="e in elections">
+    <h3>Step 1: Select District</h3>
+    <div class="control-group">
+        <label class="control-label" for="district">District: </label>
+        <div class="controls">
+            <select id="district" ng-model="district">
+                <option value=""></option>
+                <option ng-repeat="d in districts" value="{{d.name}}">{{d.name}}</option>
+            </select>
+        </div>
+    </div>
+    <h3 ng-hide="elections.length == 0">Step 2: Pick Election</h3>
+    <div class="row-fluid" ng-repeat="e in elections">
         <div class="row-fluid">
             <div class="span12">
                 <span>{{ e.foodTruckName }}</span>

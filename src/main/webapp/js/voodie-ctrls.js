@@ -69,11 +69,15 @@ var DateTimeCtrl = function($scope, EatingTime, dialog){
 };
 
 var ElectionsCtrl = function($scope, $location, Voodie){
-    $scope.elections = Voodie.getAllElections("");
+    $scope.district = "";
+    $scope.districts = Voodie.getDistricts();
     $scope.goToElection = function(election){
         //TODO polite check to see if they are allowed to vote
         $location.path('election/' + election.id);
     }
+    $scope.$watch('district', function(){
+        $scope.elections = Voodie.getAllElections($scope.district);
+    });
 };
 
 var ElectionCtrl = function($scope, $routeParams, $location, Voodie){
