@@ -35,6 +35,10 @@ public class FoodTruck implements Serializable {
 
 	private String address;
 
+    private String district;
+
+    // ---------------------------------
+
 	public String getId() {
 		return id;
 	}
@@ -121,5 +125,13 @@ public class FoodTruck implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 }

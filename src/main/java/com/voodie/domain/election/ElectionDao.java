@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
 
@@ -34,12 +35,20 @@ public class ElectionDao extends AbstractDao<Election> {
     }
 
     @SuppressWarnings({"unchecked"})
-    public List<Election> findAllInProgress(Date pollOpeningDate, Date pollClosingDate){
-        return (List<Election>) em.createQuery("from Election where status = :status and pollOpeningDate <= :pollOpeningDate and pollClosingDate >= :pollClosingDate")
-                .setParameter("status", ElectionStatus.IN_PROGRESS)
-                .setParameter("pollOpeningDate", pollOpeningDate)
-                .setParameter("pollClosingDate", pollClosingDate)
-                .getResultList();
+    public List<Election> findAllInProgress(String district, Date pollOpeningDate, Date pollClosingDate){
+        String sql = "from Election where status = :status and " +
+                "pollOpeningDate <= :pollOpeningDate and pollClosingDate >= :pollClosingDate";
+        if(district != null && district != ""){
+            sql += " and foodTruck.district.name = :district";
+        }
+        Query qry = em.createQuery(sql);
+        qry.setParameter("status", ElectionStatus.IN_PROGRESS);
+        qry.setParameter("pollOpeningDate", pollOpeningDate);
+        qry.setParameter("pollClosingDate", pollClosingDate);
+        if(district != null && district != ""){
+            qry.setParameter("district", district);
+        }
+        return qry.getResultList();
     }
 
 }

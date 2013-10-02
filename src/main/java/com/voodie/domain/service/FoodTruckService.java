@@ -1,6 +1,8 @@
 package com.voodie.domain.service;
 
 import com.google.common.base.Preconditions;
+import com.voodie.domain.election.District;
+import com.voodie.domain.election.DistrictDao;
 import com.voodie.domain.election.Election;
 import com.voodie.domain.election.ElectionDao;
 import com.voodie.domain.foodtruck.FoodTruck;
@@ -26,16 +28,23 @@ public class FoodTruckService {
     @Inject
     protected ElectionDao electionDao;
 
-	public boolean create(User user, String foodTruckName) {
+    @Inject
+    protected DistrictDao districtDao;
+
+    // ---------------------------------
+
+	public boolean create(User user, String foodTruckName, String districtName) {
 		Preconditions.checkNotNull(foodTruckName);
 		FoodTruck existing = foodTruckDao.findByUser(user.getUsername());
 		if (existing != null) {
 			return false;
 		} else {
+            District district = districtDao.findDistrict(districtName);
 			FoodTruck newFoodTruck = new FoodTruck();
             newFoodTruck.setUser(user);
 			newFoodTruck.setName(foodTruckName);
-			em.persist(newFoodTruck);
+			newFoodTruck.setDistrict(district);
+            em.persist(newFoodTruck);
 			return true;
 		}
 	}

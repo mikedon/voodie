@@ -102,6 +102,7 @@ app.factory('Voodie', function($resource, $location, $rootScope){
 			newRegistration.username = truck.username;
 			newRegistration.password = truck.password;
 			newRegistration.name = truck.foodTruckName;
+            newRegistration.district = truck.district;
 			newRegistration.$save(function(){
                 $location.path(redirect);
             });
@@ -142,8 +143,8 @@ app.factory('Voodie', function($resource, $location, $rootScope){
             var elections = $resource('api/election/secure/getAllElections', {"username":username}).query();
             return elections;
         },
-        getAllElections: function(){
-            var elections = $resource('api/election/query').query();
+        getAllElections: function(district){
+            var elections = $resource('api/election/query', {"district": district}).query();
             return elections;
         },
         getElection: function(election){
@@ -192,6 +193,10 @@ app.factory('Voodie', function($resource, $location, $rootScope){
                     onSuccess(data);
                 }
             })
+        },
+        getDistricts: function(){
+            var districts = $resource('api/election/districts').query();
+            return districts;
         }
 	}
 });

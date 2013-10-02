@@ -2,6 +2,7 @@ package com.voodie.domain.foodtruck;
 
 import com.google.common.collect.Lists;
 import com.google.gson.annotations.Expose;
+import com.voodie.domain.election.District;
 import com.voodie.domain.election.Election;
 import com.voodie.domain.identity.User;
 import org.hibernate.annotations.GenericGenerator;
@@ -46,6 +47,9 @@ public class FoodTruck {
 
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private District district;
 
     // ---------------------------------
 
@@ -154,5 +158,13 @@ public class FoodTruck {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public District getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(District district) {
+        this.district = district;
     }
 }

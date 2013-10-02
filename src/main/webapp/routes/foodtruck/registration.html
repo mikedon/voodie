@@ -3,8 +3,17 @@
     <form>
         <bsinput label="First Name" id="firstName"></bsinput>
         <bsinput label="Last Name" id="lastName"></bsinput>
+        <div class="control-group">
+            <label class="control-label" for="district">District: </label>
+            <div class="controls">
+                <select id="district" ng-model="district">
+                    <option value=""></option>
+                    <option ng-repeat="d in districts" value="{{d.name}}">{{d.name}}</option>
+                </select>
+            </div>
+        </div>
         <bsinput label="Food Truck Name" id="foodTruckName"/></bsinput>
-       	<bsinput label="Username" id="username"></bsinput>
+        <bsinput label="Username" id="username"></bsinput>
        	<bsinput label="Password" type="password" id="password"></bsinput>
         <div class="form-actions">
             <button class="btn pull-right" ng-click="submit()">Submit</button>

@@ -27,6 +27,10 @@
             <a>user.username</a>
             <b>username</b>
         </field>
+        <field>
+            <a>district.name</a>
+            <b>district</b>
+        </field>
     </mapping>
     <mapping>
         <class-a>com.voodie.domain.foodie.Foodie</class-a>

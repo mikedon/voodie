@@ -50,7 +50,7 @@ public class FoodTruckREST {
 		User user = userService.create(registration.getFirstName(), registration.getLastName(), registration.getUsername(),
 				registration.getPassword(), Authorities.FOOD_TRUCK);
 		if (user != null) {
-			boolean foodTruckCreated = foodTruckService.create(user, registration.getName());
+			boolean foodTruckCreated = foodTruckService.create(user, registration.getName(), registration.getDistrict());
 			if (foodTruckCreated) {
                 userService.autoLogin(user);
 				return Response.ok().build();

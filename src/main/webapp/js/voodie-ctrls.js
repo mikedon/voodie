@@ -69,7 +69,7 @@ var DateTimeCtrl = function($scope, EatingTime, dialog){
 };
 
 var ElectionsCtrl = function($scope, $location, Voodie){
-    $scope.elections = Voodie.getAllElections();
+    $scope.elections = Voodie.getAllElections("");
     $scope.goToElection = function(election){
         //TODO polite check to see if they are allowed to vote
         $location.path('election/' + election.id);
@@ -113,6 +113,7 @@ var VoteCtrl = function ($scope, $routeParams, Voodie) {
 };
 
 function FoodTruckRegistrationCtrl($scope, Voodie){
+    $scope.districts = Voodie.getDistricts();
 	$scope.submit = function(){
 		Voodie.registerTruck($scope, 'foodtruck/elections');
 	}

@@ -13,6 +13,9 @@ public class FoodTruckRegistration {
 	private String name;
 	private String username;
 	private String password;
+    private String district;
+
+    // ---------------------------------
 
 	public String getName() {
 		return name;
@@ -52,5 +55,13 @@ public class FoodTruckRegistration {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 }

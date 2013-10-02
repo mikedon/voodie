@@ -8,10 +8,7 @@ import com.voodie.domain.service.FoodTruckService;
 import com.voodie.domain.service.FoodieService;
 import com.voodie.domain.service.UserService;
 import com.voodie.remote.types.ErrorResponse;
-import com.voodie.remote.types.election.Candidate;
-import com.voodie.remote.types.election.CheckIn;
-import com.voodie.remote.types.election.Election;
-import com.voodie.remote.types.election.Vote;
+import com.voodie.remote.types.election.*;
 import org.dozer.Mapper;
 
 import javax.ejb.Stateless;
@@ -47,6 +44,16 @@ public class ElectionREST {
     protected Mapper mapper;
 
     // ---------------------------------
+
+    @Path("/districts")
+    @GET
+    public Response getDistricts(){
+        List<District> remoteDistricts = Lists.newArrayList();
+        for(com.voodie.domain.election.District d : electionService.getDistricts()){
+            remoteDistricts.add(mapper.map(d, District.class));
+        }
+        return Response.ok(remoteDistricts).build();
+    }
 
     @Path("/secure/vote")
     @POST
@@ -96,8 +103,8 @@ public class ElectionREST {
 
 	@Path("/query")
 	@GET
-	public Response query() {
-		List<com.voodie.domain.election.Election> domainElections = electionService.getAllElectionsInProgress(new Date(), new Date());
+	public Response query(@QueryParam("district") String district) {
+		List<com.voodie.domain.election.Election> domainElections = electionService.getAllElectionsInProgress(district, new Date(), new Date());
         List<Election> remoteElections = Lists.newArrayList();
         for(com.voodie.domain.election.Election domainElection : domainElections){
             remoteElections.add(mapper.map(domainElection, Election.class));

@@ -29,7 +29,14 @@ public class ElectionService {
     @Inject
     protected FoodTruckDao foodTruckDao;
 
+    @Inject
+    protected DistrictDao districtDao;
+
     // ---------------------------------
+
+    public List<District> getDistricts(){
+        return districtDao.getDistricts();
+    }
 
     public Election selectCandidate(Candidate candidate){
         Election election = candidate.getElection();
@@ -50,8 +57,8 @@ public class ElectionService {
         return null;
     }
 
-	public List<Election> getAllElectionsInProgress(Date pollOpeningDate, Date pollClosingDate) {
-		return electionDao.findAllInProgress(pollOpeningDate, pollClosingDate);
+	public List<Election> getAllElectionsInProgress(String district, Date pollOpeningDate, Date pollClosingDate) {
+		return electionDao.findAllInProgress(district, pollOpeningDate, pollClosingDate);
 	}
 
     public Election findElection(FoodTruck foodTruck, Date servingStartTime, Date servingEndTime){
