@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.voodie.domain.identity.Authorities;
 import com.voodie.domain.identity.User;
 import com.voodie.domain.identity.UserDao;
+import com.voodie.util.UserUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,8 +33,7 @@ public class UserService {
 			newUser.setUsername(username);
             newUser.setFirstName(firstName);
             newUser.setLastName(lastName);
-			// TODO hash
-			newUser.setPassword(password);
+			newUser.setPassword(UserUtil.encodePassword(password));
 			newUser.setEnabled(true);
 			em.persist(newUser);
 			for (String r : roles) {

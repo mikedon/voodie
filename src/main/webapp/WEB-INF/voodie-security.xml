@@ -35,8 +35,8 @@
 
 	<!-- <beans:bean id="restAuthenticationEntryPoint" class="com.voodie.web.RestAuthenticationEntryPoint" /> -->
 
-	<!-- <beans:bean id="encoder"
-		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" /> -->
+	<beans:bean id="encoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	
 	<jee:jndi-lookup id="entityManagerFactory" jndi-name="java:/persistence/voodie"/>
 	<beans:bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
@@ -46,6 +46,7 @@
 	</beans:bean>
 	<authentication-manager>
 		<authentication-provider user-service-ref="voodieUserService">
+            <password-encoder ref="encoder"/>
 		</authentication-provider>
 	</authentication-manager>
 
