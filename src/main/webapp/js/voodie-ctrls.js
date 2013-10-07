@@ -78,7 +78,12 @@ var ElectionsCtrl = function($scope, $location, Voodie){
     }
     $scope.$watch('district + startDate + endDate', function(){
         if(!$scope.renderNoFiltersText()){
-            $scope.elections = Voodie.getAllElections($scope.district, $scope.startDate, $scope.endDate);
+            $scope.elections = Voodie.getAllElections($scope.district, $scope.startDate, $scope.endDate, function(data){
+                $scope.electionRows = [];
+                for( var i = 0; i < data.length; i = i + 2 ){
+                    $scope.electionRows.push(i);
+                }
+            });
         }
     });
     // date filters

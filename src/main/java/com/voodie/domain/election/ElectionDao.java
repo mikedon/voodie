@@ -36,16 +36,16 @@ public class ElectionDao extends AbstractDao<Election> {
     }
 
     @SuppressWarnings({"unchecked"})
-    public List<Election> findAllInProgress(String district, Date pollOpeningDate, Date pollClosingDate){
+    public List<Election> findAllInProgress(String district, Date servingStartTime, Date servingEndTime){
         String sql = "from Election where status = :status and " +
-                "pollOpeningDate <= :pollOpeningDate and pollClosingDate >= :pollClosingDate";
+                "servingStartTime >= :servingStartTime and servingEndTime <= :servingEndTime";
         if(!StringUtils.isEmpty(district)){
             sql += " and foodTruck.district.name = :district";
         }
         Query qry = em.createQuery(sql);
         qry.setParameter("status", ElectionStatus.IN_PROGRESS);
-        qry.setParameter("pollOpeningDate", pollOpeningDate);
-        qry.setParameter("pollClosingDate", pollClosingDate);
+        qry.setParameter("servingStartTime", servingStartTime);
+        qry.setParameter("servingEndTime", servingEndTime);
         if(!StringUtils.isEmpty(district)){
             qry.setParameter("district", district);
         }

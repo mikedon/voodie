@@ -59,11 +59,11 @@ public class ElectionService {
         return null;
     }
 
-	public List<Election> getAllElectionsInProgress(String district, Date pollOpeningDate, Date pollClosingDate) {
+	public List<Election> getAllElectionsInProgress(String district, Date servingStartTime, Date servingEndTime) {
         if(StringUtils.isEmpty(district)){
             return Lists.newArrayList();
         }
-		return electionDao.findAllInProgress(district, pollOpeningDate, pollClosingDate);
+		return electionDao.findAllInProgress(district, servingStartTime, servingEndTime);
 	}
 
     public Election findElection(FoodTruck foodTruck, Date servingStartTime, Date servingEndTime){

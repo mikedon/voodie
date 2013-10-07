@@ -91,7 +91,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 	}
 });
 
-app.factory('Voodie', function($resource, $location, $rootScope){
+app.factory('Voodie', function($resource, $location, $rootScope, $filter){
 	return {
         //TODO abstract all voodie services so api path is set in one place
 		registerTruck: function(truck, redirect){
@@ -143,8 +143,10 @@ app.factory('Voodie', function($resource, $location, $rootScope){
             var elections = $resource('api/election/secure/getAllElections', {"username":username}).query();
             return elections;
         },
-        getAllElections: function(district, startDate, endDate){
-            var elections = $resource('api/election/query', {"district": district, "startDate": startDate, "endDate": endDate}).query();
+        getAllElections: function(district, startDate, endDate, onSuccess){
+            var startDate = $filter('date')(startDate);
+            var endDate = $filter('date')(endDate);
+            var elections = $resource('api/election/query', {"district": district, "startDate": startDate, "endDate": endDate}).query(onSuccess);
             return elections;
         },
         getElection: function(election){

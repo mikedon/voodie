@@ -34,3 +34,16 @@ textarea {
 .edit-btn {
     margin-bottom: 9px;
 }
+
+.election {
+    padding: 5px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    margin: 5px;
+    min-height: 175px;
+    position: relative;
+}
+
+.election-go-vote {
+    bottom: 5px;
+}

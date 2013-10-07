@@ -37,14 +37,19 @@
     </div>
     <h3 ng-show="renderNoFiltersText()">Choose your district and date range.</h3>
     <h3 ng-show="renderNoElectionsText()">No Elections!</h3>
-    <div class="row-fluid" ng-repeat="e in elections">
-        <div class="row-fluid">
-            <div class="span12">
-                <span>{{ e.foodTruckName }}</span>
-                <span>{{ e.title }}</span>
+    <div ng-repeat="row in electionRows" class="row-fluid">
+        <div class="election span4" ng-repeat="e in elections.slice(row, row+2)">
+            <h4>{{e.title}}</h4>
+            <div class="row-fluid">
+                <div class="election-truck-name span6">{{e.foodTruckName}}</div>
+                <div class="election-candidates span6">
+                    <h5>Candidates:</h5>
+                    <ul>
+                        <li ng-repeat="c in e.candidates">{{c.displayName}}</li>
+                    </ul>
+                </div>
             </div>
-            <button class="btn btn-primary pul-right" ng-click="goToElection(e)">Vote!</button>
+            <button class="btn btn-primary btn-large btn-block election-go-vote" ng-click="goToElection(e)">Go Vote!</button>
         </div>
-
     </div>
 </div>
