@@ -1,22 +1,21 @@
 <div ng-controller="NavbarCtrl" class="masthead">
 	<ul class="nav nav-pills pull-right">
-        <li ng-hide="!currentUser.isLoggedIn()">
+        <li class="navbar-hello-container" ng-show="currentUser.isLoggedIn()">
             <span>Hello {{currentUser.firstName}}</span>
         </li>
-        <li ng-class="{'active':elections()}" ng-switch="currentUser.hasRole('Food Truck')">
-            <a ng-switch-when="true" href="#/foodtruck/elections">My Elections</a>
+        <li ng-show="currentUser.hasRole('Food Truck')" ng-class="{'active':profile()}">
+             <a href="#/foodtruck/profile">Profile</a>
         </li>
-        <li ng-class="{'active':profile()}" ng-switch="currentUser.hasRole('Food Truck')">
-            <a ng-switch-when="true" href="#/foodtruck/profile">Profile</a>
+        <li ng-show="currentUser.hasRole('Foodie')" ng-class="{'active':profile()}">
+            <a href="#/foodie/profile">Profile</a>
         </li>
-        <li ng-class="{'active':profile()}" ng-switch="currentUser.hasRole('Foodie')">
-            <a ng-switch-when="true" href="#/foodie/profile">Profile</a>
+        <li ng-show="currentUser.hasRole('Food Truck')" ng-class="{'active':elections()}">
+            <a href="#/foodtruck/elections">My Elections</a>
         </li>
-        <li ng-class="{'active':login()}" ng-switch="currentUser.isLoggedIn()">
+        <li ng-class="{'active':loginOrRegister()}" ng-switch="currentUser.isLoggedIn()">
             <a ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
             <a ng-switch-when="false" href="#/login">Login/Register</a>
         </li>
-		<li ng-class="{'active':about()}"><a href="#/about">About</a></li>
 	</ul>
 	<h3 class="muted"><a href="#/elections">Voodie</a></h3>
 </div>

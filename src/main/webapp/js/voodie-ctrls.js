@@ -8,8 +8,11 @@ var NavbarCtrl = function($scope, $location, User) {
 	$scope.login = function() {
 		return $location.path().indexOf('login') > 0;
 	};
+    $scope.loginOrRegister = function() {
+        return $scope.login() || $scope.register();
+    };
 	$scope.register = function() {
-		return $location.path().indexOf('register') > 0;
+		return $location.path().indexOf('registration') > 0;
 	};
     $scope.profile = function() {
         return $location.path().indexOf('profile') > 0;

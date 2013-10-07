@@ -8,12 +8,20 @@
   
 </head>
 <body>
-	<div class="container-narrow">
-		<div ng-include="'includes/navbar.html'"></div>
-        <alert ng-repeat="alert in error" type="error">{{alert}}</alert>
-        <div ng-view></div>
-	</div>
-	
+    <div id="wrap">
+        <div id="main" class="container-narrow clear-top">
+            <div ng-include="'includes/navbar.html'"></div>
+            <alert ng-repeat="alert in error" type="error">{{alert}}</alert>
+            <div ng-view></div>
+        </div>
+    </div>
+    <footer class="footer">
+        <hr>
+        <ul class="nav nav-pills pull-right">
+            <li><a href="#">Contact</a></li>
+            <li><a href="#/about">About</a></li>
+        </ul>
+    </footer>
   	<script src="js/lib/angular.js"></script>
   	<script src="js/lib/angular-resource.js"></script>
   	<script src="js/lib/ui-bootstrap-tpls-0.6.0.js"></script>

@@ -1,3 +1,25 @@
+html, body {
+    height: 100%;
+}
+
+#wrap {
+    min-height: 100%;
+}
+
+#main {
+    overflow:auto;
+    padding-bottom:150px; /* this needs to be bigger than footer height*/
+}
+
+.footer {
+    position: relative;
+    margin: -100px auto; /* negative value of footer height */
+    height: 100px;
+    clear:both;
+    padding-top:20px;
+    width: 800px;
+}
+
 textarea {
 	resize: none;
 }
@@ -5,6 +27,10 @@ textarea {
 .container-narrow {
 	width: 800px;
 	margin: 0 auto;
+}
+
+.navbar-hello-container {
+    padding: 7px;
 }
 
 .eatingTime {
