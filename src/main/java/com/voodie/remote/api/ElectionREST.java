@@ -103,8 +103,8 @@ public class ElectionREST {
 
 	@Path("/query")
 	@GET
-	public Response query(@QueryParam("district") String district) {
-		List<com.voodie.domain.election.Election> domainElections = electionService.getAllElectionsInProgress(district, new Date(), new Date());
+	public Response query(@QueryParam("district") String district, @QueryParam("startDate") Date startDate, @QueryParam("endDate") Date endDate) {
+		List<com.voodie.domain.election.Election> domainElections = electionService.getAllElectionsInProgress(district, startDate, endDate);
         List<Election> remoteElections = Lists.newArrayList();
         for(com.voodie.domain.election.Election domainElection : domainElections){
             remoteElections.add(mapper.map(domainElection, Election.class));

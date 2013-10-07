@@ -12,9 +12,10 @@ public class DistrictDao {
 	@PersistenceContext
 	protected EntityManager em;
 
+    @SuppressWarnings("unchecked")
     public List<District> getDistricts(){
         String sql = "select d from District d";
-        return em.createQuery(sql).getResultList();
+        return (List<District>) em.createQuery(sql).getResultList();
     }
 
     public District findDistrict(String name){

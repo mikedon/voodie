@@ -1,15 +1,42 @@
 <div ng-controller="ElectionsCtrl">
-    <h3>Step 1: Select District</h3>
-    <div class="control-group">
-        <label class="control-label" for="district">District: </label>
-        <div class="controls">
-            <select id="district" ng-model="district">
-                <option value=""></option>
-                <option ng-repeat="d in districts" value="{{d.name}}">{{d.name}}</option>
-            </select>
+    <div class="row-fluid">
+        <div class="control-group span4">
+            <label class="control-label" for="district">District: </label>
+            <div class="controls">
+                <select id="district" ng-model="district">
+                    <option value=""></option>
+                    <option ng-repeat="d in districts" value="{{d.name}}">{{d.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group span4">
+            <label class="control-label" for="startDate">Start Date: </label>
+            <div class="controls">
+                <input type="text"
+                       id="startDate"
+                       datepicker-popup="MM/dd/yyyy"
+                       ng-model="startDate"
+                       is-open="startOpened"
+                       ng-required="true" />
+                <!--<button class="btn" ng-click="openStart()"><i class="icon-calendar"></i></button>-->
+            </div>
+        </div>
+        <div class="control-group span4">
+            <label class="control-label" for="endDate">End Date: </label>
+            <div class="controls">
+                <input type="text"
+                       id="endDate"
+                       datepicker-popup="MM/dd/yyyy"
+                       ng-model="endDate"
+                       is-open="endOpened"
+                       datepicker-options="dateOptions"
+                       ng-required="true" />
+                <!--<button class="btn" ng-click="openEnd()"><i class="icon-calendar"></i></button>-->
+            </div>
         </div>
     </div>
-    <h3 ng-hide="elections.length == 0">Step 2: Pick Election</h3>
+    <h3 ng-show="renderNoFiltersText()">Choose your district and date range.</h3>
+    <h3 ng-show="renderNoElectionsText()">No Elections!</h3>
     <div class="row-fluid" ng-repeat="e in elections">
         <div class="row-fluid">
             <div class="span12">

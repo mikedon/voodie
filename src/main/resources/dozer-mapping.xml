@@ -48,4 +48,12 @@
             <b>username</b>
         </field>
     </mapping>
+    <mapping>
+        <class-a>com.voodie.domain.election.Election</class-a>
+        <class-b>com.voodie.remote.types.election.Election</class-b>
+        <field>
+            <a>foodTruck.name</a>
+            <b>foodTruckName</b>
+        </field>
+    </mapping>
 </mappings>

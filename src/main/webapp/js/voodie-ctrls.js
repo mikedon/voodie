@@ -69,15 +69,39 @@ var DateTimeCtrl = function($scope, EatingTime, dialog){
 };
 
 var ElectionsCtrl = function($scope, $location, Voodie){
+    //district filter
     $scope.district = "";
     $scope.districts = Voodie.getDistricts();
     $scope.goToElection = function(election){
         //TODO polite check to see if they are allowed to vote
         $location.path('election/' + election.id);
     }
-    $scope.$watch('district', function(){
-        $scope.elections = Voodie.getAllElections($scope.district);
+    $scope.$watch('district + startDate + endDate', function(){
+        if(!$scope.renderNoFiltersText()){
+            $scope.elections = Voodie.getAllElections($scope.district, $scope.startDate, $scope.endDate);
+        }
     });
+    // date filters
+    $scope.startOpened = false;
+    $scope.endOpened = false;
+    $scope.startDate = "";
+    $scope.endDate = "";
+    $scope.openStart = function() {
+        $scope.startOpened = true;
+    };
+    $scope.openEnd = function() {
+        $scope.endOpened = true;
+    };
+    // render rules
+    $scope.renderNoElectionsText = function(){
+        var isRendered = $scope.elections && $scope.elections.length == 0;
+        isRendered &= !$scope.renderNoFiltersText();
+        return Boolean(isRendered);
+    };
+    $scope.renderNoFiltersText = function(){
+        var isRendered = !$scope.startDate || !$scope.endDate || !$scope.district;
+        return Boolean(isRendered);
+    };
 };
 
 var ElectionCtrl = function($scope, $routeParams, $location, Voodie){
