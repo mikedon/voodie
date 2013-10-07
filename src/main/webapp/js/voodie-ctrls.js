@@ -23,7 +23,7 @@ var NavbarCtrl = function($scope, $location, User) {
 	}
 };
 
-var HomeCtrl = function ($scope, $location, $dialog, EatingTime, GoogleMaps) {
+var HomeCtrl = function ($scope, $location, EatingTime, GoogleMaps) {
     $scope.eatingTimestamp = EatingTime.getEatingTime();
     $scope.submit = function(){
     	//TODO check if valid
@@ -37,35 +37,6 @@ var HomeCtrl = function ($scope, $location, $dialog, EatingTime, GoogleMaps) {
 			});
     	}
     };
-    $scope.opts = {
-        backdrop: true,
-        keyboard: true,
-        backdropClick: true,
-        backdropFade: true,
-        dialogFade: true,
-        templateUrl: 'includes/date-time-picker.html',
-        controller: 'DateTimeCtrl'
-    };
-    $scope.openDialog = function(){
-        var d = $dialog.dialog($scope.opts);
-        d.open().then(function(){
-            $scope.eatingTimestamp = EatingTime.getEatingTime();
-        });
-    };
-};
-
-//This controller syntax is slightly different to bind the controller with the view
-var DateTimeCtrl = function($scope, EatingTime, dialog){
-    this.eatingDate = EatingTime.roundedTime();
-    this.eatingTime = EatingTime.roundedTime();
-    this.save = function(){
-        EatingTime.setEatingTime(EatingTime.timeStamp(this.eatingDate, this.eatingTime));
-        dialog.close();
-    };
-    this.close = function(){
-        dialog.close();
-    };
-    return $scope.DateTimeCtrl = this;
 };
 
 var ElectionsCtrl = function($scope, $location, Voodie){
@@ -158,15 +129,15 @@ function FoodieRegistrationCtrl($scope, Voodie){
     }
 }
 
-function FoodTruckElectionCtrl($scope, $dialog, $location, Voodie, User, GoogleMaps, EatingTime){
+function FoodTruckElectionCtrl($scope, $location, Voodie, User, GoogleMaps){
     function reset(){
         $scope.elections = Voodie.getElections(User.username);
         $scope.election = {
             //TODO smart defaults?
-            servingStartTime : EatingTime.roundedTime(),
-            servingEndTime : EatingTime.roundedTime(),
-            pollOpeningDate : EatingTime.roundedTime(),
-            pollClosingDate : EatingTime.roundedTime(),
+            servingStartTime : "",
+            servingEndTime : "",
+            pollOpeningDate : "",
+            pollClosingDate : "",
             candidates : []
         };
         $scope.candidate  = {};
@@ -187,27 +158,11 @@ function FoodTruckElectionCtrl($scope, $dialog, $location, Voodie, User, GoogleM
                         "longitude" : longitude,
                         "displayName": $scope.candidate.displayName
                     };
-                    //FIXME lat/long not set
                     $scope.election.candidates.push(candidate);
                     $scope.candidate = {};
                 });
             });
         }
-    };
-    $scope.opts = {
-        backdrop: true,
-        keyboard: true,
-        backdropClick: true,
-        backdropFade: true,
-        dialogFade: true,
-        templateUrl: 'includes/date-time-picker.html',
-        controller: 'DateTimeCtrl'
-    };
-    $scope.openDialog = function(time){
-        var d = $dialog.dialog($scope.opts);
-        d.open().then(function(){
-            $scope.election[time] = EatingTime.getEatingTime();
-        });
     };
     $scope.chooseCandidate = function(election){
         $location.path("foodtruck/selection/" + election.id)

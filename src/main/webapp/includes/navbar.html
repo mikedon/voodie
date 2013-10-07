@@ -3,21 +3,18 @@
         <li ng-hide="!currentUser.isLoggedIn()">
             <span>Hello {{currentUser.firstName}}</span>
         </li>
-		<li ng-class="{'active':login()}" ng-switch="currentUser.isLoggedIn()">
-			<a ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
-			<a ng-switch-when="false" href="#/login">Login</a>
-		</li>
-		<li ng-class="{'active':register()}" ng-switch="currentUser.isLoggedIn()">
-			<a ng-switch-when="false" href="#/register">Register</a>
-		</li>
         <li ng-class="{'active':elections()}" ng-switch="currentUser.hasRole('Food Truck')">
-            <a ng-switch-when="true" href="#/foodtruck/elections">Elections</a>
+            <a ng-switch-when="true" href="#/foodtruck/elections">My Elections</a>
         </li>
         <li ng-class="{'active':profile()}" ng-switch="currentUser.hasRole('Food Truck')">
             <a ng-switch-when="true" href="#/foodtruck/profile">Profile</a>
         </li>
         <li ng-class="{'active':profile()}" ng-switch="currentUser.hasRole('Foodie')">
             <a ng-switch-when="true" href="#/foodie/profile">Profile</a>
+        </li>
+        <li ng-class="{'active':login()}" ng-switch="currentUser.isLoggedIn()">
+            <a ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
+            <a ng-switch-when="false" href="#/login">Login/Register</a>
         </li>
 		<li ng-class="{'active':about()}"><a href="#/about">About</a></li>
 	</ul>

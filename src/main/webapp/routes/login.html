@@ -1,11 +1,22 @@
-<div ng-controller="LoginCtrl">
-	<h2>Login</h2>
-	<!-- <alert ng-repeat="alert in error" type="error">{{alert}}</alert> -->
-    <form>
-       	<bsinput label="username" id="username"></bsinput>
-       	<bsinput label="password" type="password" id="password"></bsinput>
-        <div class="form-actions">
-            <button class="btn pull-right" ng-click="submit()">Submit</button>
+<div ng-controller="LoginCtrl" class="row-fluid">
+    <div class="span6">
+        <h2>Login</h2>
+        <bsinput label="username" id="username"></bsinput>
+        <bsinput label="password" type="password" id="password"></bsinput>
+        <button class="btn btn-primary btn-large btn-block" ng-click="submit()">Submit</button>
+    </div>
+    <div class="span6">
+        <h2>Register</h2>
+        <div class="login-register-container">
+            <div class="register-btn-container">
+                <a ng-href="#/foodie/registration" class="btn btn-large btn-block btn-success">Foodie?</a>
+            </div>
+            <div class="register-or-container">
+                OR
+            </div>
+            <div class="register-btn-container">
+                <a ng-href="#/foodtruck/registration" class="btn btn-large btn-block btn-success">Food Truck?</a>
+            </div>
         </div>
-    </form>
+    </div>
 </div>

@@ -47,3 +47,17 @@ textarea {
 .election-go-vote {
     bottom: 5px;
 }
+
+.login-register-container {
+    border-left: 1px solid #ccc;
+    padding-left: 20px;
+    margin-top: 35px;
+}
+
+.register-btn-container {
+    margin: 20px 0px;
+}
+
+.register-or-container {
+    text-align: center;
+}
