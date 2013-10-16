@@ -27,6 +27,8 @@ repositories {
     }
 }
 
+defaultTasks 'clean', 'build'
+
 dependencies {
     providedCompile group: 'org.hibernate', name: 'hibernate-core', version: '4.2.0.Final'
     providedCompile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '4.2.0.Final'
@@ -52,6 +54,13 @@ dependencies {
     providedCompile group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version: '1.0.0.Final'
     testCompile group: 'junit', name: 'junit', version: '4.+'
     compile group:'org.jminix', name: 'jminix', version: '1.0.0'
+}
+task karmaTest(type:Exec){
+	println "running karma..."
+	commandLine 'karma', 'start', '--singleRun', 'true'
+}
+
+test.doLast{
 }
 
 //filter files

@@ -1,6 +1,7 @@
 app.directive("bsinput", function(){
 	return {
 		restrict: "E",
+		require: '^ngModel',
 		compile: function(element, attrs){
 			var type = attrs.type || 'text';
 			var id = attrs.id;
