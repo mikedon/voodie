@@ -1,22 +1,35 @@
 <div ng-controller="NavbarCtrl" class="masthead">
-	<ul class="nav nav-pills pull-right">
-        <li class="navbar-hello-container" ng-show="currentUser.isLoggedIn()">
-            <span>Hello {{currentUser.firstName}}</span>
-        </li>
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Voodie</a>
+        </div>
+
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+
+
+	<ul class="nav navbar-nav navbar-right">
         <li ng-show="currentUser.hasRole('Food Truck')" ng-class="{'active':profile()}">
-             <a href="#/foodtruck/profile">Profile</a>
+             <a class="navbar-link" href="#/foodtruck/profile">Profile</a>
         </li>
         <li ng-show="currentUser.hasRole('Foodie')" ng-class="{'active':profile()}">
-            <a href="#/foodie/profile">Profile</a>
+            <a class="navbar-link" href="#/foodie/profile">Profile</a>
         </li>
         <li ng-show="currentUser.hasRole('Food Truck')" ng-class="{'active':elections()}">
-            <a href="#/foodtruck/elections">My Elections</a>
+            <a class="navbar-link" href="#/foodtruck/elections">My Elections</a>
         </li>
         <li ng-class="{'active':loginOrRegister()}" ng-switch="currentUser.isLoggedIn()">
-            <a ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
-            <a ng-switch-when="false" href="#/login">Login/Register</a>
+            <a class="navbar-link" ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
+            <a class="navbar-link" ng-switch-when="false" href="#/login">Login/Register</a>
         </li>
 	</ul>
-	<h3 class="muted"><a href="#/elections">Voodie</a></h3>
+        </div>
+    </nav>
+
 </div>
 <hr>

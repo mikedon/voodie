@@ -1,21 +1,21 @@
 <div ng-controller="LoginCtrl" class="row-fluid">
-    <div class="span6">
+    <div class="col-md-6">
         <h2>Login</h2>
         <bsinput label="username" id="username"></bsinput>
         <bsinput label="password" type="password" id="password"></bsinput>
-        <button class="btn btn-primary btn-large btn-block" ng-click="submit()">Submit</button>
+        <button class="btn btn-default btn-primary btn-lg btn-block" ng-click="submit()">Submit</button>
     </div>
-    <div class="span6">
+    <div class="col-md-6 login-register">
         <h2>Register</h2>
         <div class="login-register-container">
             <div class="register-btn-container">
-                <a ng-href="#/foodie/registration" class="btn btn-large btn-block btn-success">Foodie?</a>
+                <a ng-href="#/foodie/registration" class="btn btn-default btn-lg btn-block btn-success">Foodie?</a>
             </div>
             <div class="register-or-container">
                 OR
             </div>
             <div class="register-btn-container">
-                <a ng-href="#/foodtruck/registration" class="btn btn-large btn-block btn-success">Food Truck?</a>
+                <a ng-href="#/foodtruck/registration" class="btn btn-default btn-lg btn-block btn-success">Food Truck?</a>
             </div>
         </div>
     </div>

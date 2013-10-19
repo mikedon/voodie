@@ -24,19 +24,6 @@ textarea {
 	resize: none;
 }
 
-.container-narrow {
-	width: 800px;
-	margin: 0 auto;
-}
-
-.navbar-hello-container {
-    padding: 7px;
-}
-
-.eatingTime {
-    margin-top: 90px;
-}
-
 .foodTruck {
         padding: 20px;
         border: 1px solid black;
@@ -74,10 +61,22 @@ textarea {
     bottom: 5px;
 }
 
-.login-register-container {
-    border-left: 1px solid #ccc;
-    padding-left: 20px;
-    margin-top: 35px;
+@media (max-width: 992px) {
+    .login-register-container {
+        border-left: none;
+    }
+    .login-register {
+        margin-top: 20px;
+        border-top: 2px solid #ccc;
+    }
+}
+
+@media (min-width: 993px) {
+    .login-register-container {
+        border-left: 1px solid #ccc;
+        padding-left: 20px;
+        margin-top: 35px;
+    }
 }
 
 .register-btn-container {
