@@ -149,8 +149,8 @@ app.factory('Voodie', function($resource, $location, $rootScope, $filter){
             var elections = $resource('api/election/query', {"district": district, "startDate": startDate, "endDate": endDate}).query(onSuccess);
             return elections;
         },
-        getElection: function(election){
-            var election = $resource('api/election/secure/getElection', {"election":election}).get();
+        getElection: function(election, onSuccess){
+            var election = $resource('api/election/secure/getElection', {"election":election}).get(onSuccess);
             return election;
         },
         vote: function(candidate, onSuccess){

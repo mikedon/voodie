@@ -5,16 +5,14 @@
         <bsinput label="Last Name" id="lastName"></bsinput>
         <div class="form-group">
             <label class="control-label" for="district">District: </label>
-
-                <select id="district" class="form-control" ng-model="district">
-                    <option value=""></option>
-                    <option ng-repeat="d in districts" value="{{d.name}}">{{d.name}}</option>
-                </select>
-
+            <select id="district" class="form-control" ng-model="district">
+                <option value=""></option>
+                <option ng-repeat="d in districts" value="{{d.name}}">{{d.name}}</option>
+            </select>
         </div>
         <bsinput label="Food Truck Name" id="foodTruckName"/></bsinput>
         <bsinput label="Username" id="username"></bsinput>
        	<bsinput label="Password" type="password" id="password"></bsinput>
-        <button class="btn btn-default pull-right" ng-click="submit()">Submit</button>
+        <button class="btn btn-default btn-primary pull-right" ng-click="submit()">Submit</button>
     </form>
 </div>
