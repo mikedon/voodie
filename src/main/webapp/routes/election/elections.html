@@ -1,35 +1,39 @@
 <div ng-controller="ElectionsCtrl">
     <form class="form-horizontal">
     <div class="row">
-        <div class="form-group col-md-4">
-            <label class="control-label" for="district">District: </label>
-            <select id="district" class="form-control" ng-model="district">
+        <div class="col-md-2">
+            <label class="control-label filter-label" for="district">Disctrict: </label>
+        </div>
+        <div class="col-md-2">
+            <select id="district" class="form-control " ng-model="district">
                 <option value=""></option>
                 <option ng-repeat="d in districts" value="{{d.name}}">{{d.name}}</option>
             </select>
         </div>
-        <div class="form-group col-md-4">
-            <label class="control-label" for="startDate">Start Date: </label>
-                <input type="text"
-                       class="form-control"
-                       id="startDate"
-                       datepicker-popup="MM/dd/yyyy"
-                       ng-model="startDate"
-                       is-open="startOpened"
-                       ng-required="true" />
-                <!--<button class="btn" ng-click="openStart()"><i class="icon-calendar"></i></button>-->
+        <div class="col-md-2">
+            <label class="control-label filter-label" for="startDate">Start Date: </label>
         </div>
-        <div class="form-group col-md-4">
-            <label class="control-label" for="endDate">End Date: </label>
-                <input type="text"
-                       class="form-control"
-                       id="endDate"
-                       datepicker-popup="MM/dd/yyyy"
-                       ng-model="endDate"
-                       is-open="endOpened"
-                       datepicker-options="dateOptions"
-                       ng-required="true" />
-                <!--<button class="btn" ng-click="openEnd()"><i class="icon-calendar"></i></button>-->
+        <div class="col-md-2">
+            <input type="text"
+                   class="form-control"
+                   id="startDate"
+                   datepicker-popup="MM/dd/yyyy"
+                   ng-model="startDate"
+                   is-open="startOpened"
+                   ng-required="true" />
+        </div>
+        <div class="col-md-2">
+            <label class="control-label filter-label" for="endDate">End Date: </label>
+        </div>
+        <div class="col-md-2">
+            <input type="text"
+                   class="form-control"
+                   id="endDate"
+                   datepicker-popup="MM/dd/yyyy"
+                   ng-model="endDate"
+                   is-open="endOpened"
+                   datepicker-options="dateOptions"
+                   ng-required="true" />
         </div>
     </div>
     </form>

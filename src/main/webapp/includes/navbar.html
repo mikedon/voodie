@@ -7,27 +7,28 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Voodie</a>
+            <a class="navbar-brand" href="#">
+                <img src="css/img/FoodTruckIcon.png"
+                     class="img-rounded img-responsive">
+                Voodie
+            </a>
         </div>
-
-    <div class="collapse navbar-collapse navbar-ex1-collapse">
-
-
-	<ul class="nav navbar-nav navbar-right">
-        <li ng-show="currentUser.hasRole('Food Truck')" ng-class="{'active':profile()}">
-             <a class="navbar-link" href="#/foodtruck/profile">Profile</a>
-        </li>
-        <li ng-show="currentUser.hasRole('Foodie')" ng-class="{'active':profile()}">
-            <a class="navbar-link" href="#/foodie/profile">Profile</a>
-        </li>
-        <li ng-show="currentUser.hasRole('Food Truck')" ng-class="{'active':elections()}">
-            <a class="navbar-link" href="#/foodtruck/elections">My Elections</a>
-        </li>
-        <li ng-class="{'active':loginOrRegister()}" ng-switch="currentUser.isLoggedIn()">
-            <a class="navbar-link" ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
-            <a class="navbar-link" ng-switch-when="false" href="#/login">Login/Register</a>
-        </li>
-	</ul>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-show="currentUser.hasRole('Food Truck')" ng-class="{'active':profile()}">
+                     <a class="navbar-link" href="#/foodtruck/profile">Profile</a>
+                </li>
+                <li ng-show="currentUser.hasRole('Foodie')" ng-class="{'active':profile()}">
+                    <a class="navbar-link" href="#/foodie/profile">Profile</a>
+                </li>
+                <li ng-show="currentUser.hasRole('Food Truck')" ng-class="{'active':elections()}">
+                    <a class="navbar-link" href="#/foodtruck/elections">My Elections</a>
+                </li>
+                <li ng-class="{'active':loginOrRegister()}" ng-switch="currentUser.isLoggedIn()">
+                    <a class="navbar-link" ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
+                    <a class="navbar-link" ng-switch-when="false" href="#/login">Login/Register</a>
+                </li>
+            </ul>
         </div>
     </nav>
 

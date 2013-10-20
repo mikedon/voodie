@@ -1,5 +1,5 @@
 <div ng-controller="ElectionCtrl">
-	<div class="row-fluid">
+	<div class="row">
         <div>
             <h4>{{ election.title }}</h2>
             <h5>Polls Close at {{ election.pollClosingDate | date:'MM/dd/yyyy @ h:mma'}}</h4>
@@ -9,16 +9,14 @@
         </div>
     </div>
     <hr>
-    <div class="row-fluid">
+    <div class="row">
         <h5>Candidates</h5>
         <form>
            <label ng-repeat="c in election.candidates" class="radio">
-                <input type="radio" ng-model="$parent.candidateChoice" name="candidate" value="{{ c.id }}">
+                <input class="form-control" type="radio" ng-model="$parent.candidateChoice" name="candidate" value="{{ c.id }}">
                 {{ c.displayName }}
             </label>
-            <div class="form-actions">
-                <button class="btn pull-right" ng-click="vote()">Vote</button>
-            </div>
+            <button class="btn btn-default btn-primary pull-right" ng-click="vote()">Vote</button>
         </form>
     </div>
 </div>

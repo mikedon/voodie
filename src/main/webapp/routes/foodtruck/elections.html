@@ -4,69 +4,68 @@
         <thead>
             <tr>
                 <th>Title</th>
-                <th>Poll Opening Date</th>
-                <th>Poll Closing Date</th>
-                <th>Serving Start Time</th>
-                <th>Serving End Time</th>
-                <th>Candidates</th>
+                <th>Serving Time</th>
+                <th>Polling Date</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="e in elections" ng-class="{'success': e.status == 'IN_PROGRESS', 'error' : e.status == 'CANCELED'}">
                 <td>{{ e.title }}</td>
-                <td>{{ e.pollOpeningDate | date:'MM/dd/yyyy'}}</td>
-                <td>{{ e.pollClosingDate | date:'MM/dd/yyyy'}}</td>
-                <td>{{ e.servingStartTime | date:'MM/dd/yyyy @ h:mma' }}</td>
-                <td>{{ e.servingEndTime | date:'MM/dd/yyyy @ h:mma'}}</td>
+                <td>{{ e.pollOpeningDate | date:'MM/dd/yyyy'}} to {{ e.pollClosingDate | date:'MM/dd/yyyy'}}</td>
+                <td>{{ e.servingStartTime | date:'MM/dd/yyyy @ h:mma' }} to {{ e.servingEndTime | date:'MM/dd/yyyy @ h:mma'}}</td>
                 <td>
-                    <ul>
-                        <li ng-repeat="c in e.candidates">
-                            {{ c.displayName }} - {{ c.numberOfVotes }}
-                        </li>
-                    </ul>
-                </td>
-                <td>
-                    <button ng-click="chooseCandidate(e)" ng-hide="e.status != 'IN_PROGRESS'" class="btn btn-primary btn-small">Make Selection</button>
-                    <a target="_blank" ng-href="/voodie/secure/checkInQrCode?e={{ e.id }}" ng-hide="e.status == CLOSED">Get Check In</a>
+                    <div class="btn-group">
+                        <button ng-click="chooseCandidate(e)"
+                                ng-hide="e.status != 'IN_PROGRESS'"
+                                class="btn btn-default btn-primary btn-sm">Make Selection</button>
+                        <button
+                        <a target="_blank"
+                           class="btn btn-default btn-sm"
+                           ng-href="/voodie/secure/checkInQrCode?e={{ e.id }}">Get Check In</a>
+                    </div>
                 </td>
             </tr>
         </tbody>
     </table>
     <h3>Create New Election</h3>
     <form>
-        <div class="row-fluid">
-            <div class="span6">
+        <div class="row">
+            <div class="col-md-6">
                 <bsinput label="Title" id="election.title"></bsinput>
                 <!-- TODO move date logic to bsinput directive -->
-                <div class="control-group">
+                <div class="form-group">
                     <div><label class="control-label">Serving Start Time</label></div>
                     <input type="text"
+                           class="form-control"
                            id="servingStartTime"
                            datepicker-popup="MM/dd/yyyy"
                            ng-model="election.servingStartTime"
                            ng-required="true" />
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                     <div><label class="control-label">Serving End Time</label></div>
                     <input type="text"
+                           class="form-control"
                            id="servingEndTime"
                            datepicker-popup="MM/dd/yyyy"
                            ng-model="election.servingEndTime"
                            ng-required="true" />
                 </div>
                 <!-- TODO these should just be dates not date time -->
-                <div class="control-group">
+                <div class="form-group">
                     <div><label class="control-label">Poll Opening Date</label></div>
                     <input type="text"
+                           class="form-control"
                            id="pollOpeningDate"
                            datepicker-popup="MM/dd/yyyy"
                            ng-model="election.pollOpeningDate"
                            ng-required="true" />
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                     <div><label class="control-label">Poll Closing Date</label></div>
                     <input type="text"
+                           class="form-control"
                            id="pollClosingDate"
                            datepicker-popup="MM/dd/yyyy"
                            ng-model="election.pollClosingDate"
@@ -74,22 +73,22 @@
                 </div>
                 <bsinput label="Allow Write In?" type="checkbox" id="election.allowWriteIn"></bsinput>
             </div>
-            <div class="span6">
-                <h4>Candidates</h4>
-                <ul>
-                    <li ng-repeat="c in election.candidates">
-                        {{ c.displayName }}
-                    </li>
-                </ul>
-                <bsinput label="Display Name" id="candidate.displayName"></bsinput>
-                <bsinput label="Address" id="candidate.address"></bsinput>
-                <div>
-                    <button class="btn" ng-click="addCandidate()">Add Candidate</button>
-                </div>
+            <div class="col-md-6">
+                <fieldset>
+                    <legend>Candidates</legend>
+                    <ul>
+                        <li ng-repeat="c in election.candidates">
+                            {{ c.displayName }}
+                        </li>
+                    </ul>
+                    <bsinput label="Display Name" id="candidate.displayName"></bsinput>
+                    <bsinput label="Address" id="candidate.address"></bsinput>
+                    <div>
+                        <button class="btn btn-default" ng-click="addCandidate()">Add Candidate</button>
+                    </div>
+                </fieldset>
             </div>
         </div>
-        <div class="form-actions">
-            <button class="btn pull-right" ng-click="submit()">Create</button>
-        </div>
+        <button class="btn btn-default btn-primary btn-lg pull-right" ng-click="submit()">Create</button>
     </form>
 </div>
