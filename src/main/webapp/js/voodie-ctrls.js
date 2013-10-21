@@ -12,10 +12,12 @@ var NavbarCtrl = function($scope, $location, User) {
         return $scope.login() || $scope.register();
     };
 	$scope.register = function() {
-		return $location.path().indexOf('registration') > 0;
+		return $location.path().indexOf('foodtruck/registration') > 0
+                || $location.path().indexOf('foodie/registration') > 0;
 	};
     $scope.profile = function() {
-        return $location.path().indexOf('profile') > 0;
+        return $location.path().indexOf('foodtruck/profile') > 0
+                || $location.path().indexOf('foodie/profile') > 0;
     };
     $scope.elections = function() {
         return $location.path().indexOf('foodtruck/elections') > 0;
