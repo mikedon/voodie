@@ -40,6 +40,18 @@ public class EmailService {
     }
 
     public void sendFoodTruckRegistrationEmail(FoodTruck foodTruck){
-
+        Client client = Client.create();
+        client.addFilter(new HTTPBasicAuthFilter("api", API_KEY));
+        client.addFilter(new LoggingFilter(System.out));
+        WebResource webResource = client
+                .resource("https://api.mailgun.net/v2/voodie.mailgun.org/messages");
+        Form form = new Form();
+        form.add("to", foodTruck.getUser().getEmailAddress());
+        form.add("from", "test@voodie.co");
+        form.add("subject", "Welcome To Voodie!");
+        form.add("text", "Hey " + foodTruck.getUser().getFirstName() + ".  Thanks for registering!");
+        ClientResponse response = webResource.accept(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
+                .post(ClientResponse.class, form);
+        System.out.println(response);
     }
 }
