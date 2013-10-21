@@ -47,7 +47,7 @@ public class FoodieREST {
 	@POST
 	public Response register(FoodieRegistration registration) {
 		User user = userService.create(registration.getFirstName(), registration.getLastName(), registration.getUsername(),
-				registration.getPassword(), Authorities.FOODIE);
+				registration.getPassword(), registration.getEmailAddress(), Authorities.FOODIE);
 		if (user != null) {
 			boolean foodieCreated = foodieService.create(user);
 			if (foodieCreated) {

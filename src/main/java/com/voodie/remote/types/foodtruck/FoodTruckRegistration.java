@@ -13,6 +13,7 @@ public class FoodTruckRegistration {
 	private String name;
 	private String username;
 	private String password;
+    private String emailAddress;
     private String district;
 
     // ---------------------------------
@@ -63,5 +64,13 @@ public class FoodTruckRegistration {
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

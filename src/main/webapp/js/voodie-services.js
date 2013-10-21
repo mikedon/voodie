@@ -99,6 +99,7 @@ app.factory('Voodie', function($resource, $location, $rootScope, $filter){
 			var newRegistration = new FoodTruckRegistration();
             newRegistration.firstName = truck.firstName;
             newRegistration.lastName = truck.lastName;
+            newRegistration.emailAddress = truck.email;
 			newRegistration.username = truck.username;
 			newRegistration.password = truck.password;
 			newRegistration.name = truck.foodTruckName;
@@ -112,6 +113,7 @@ app.factory('Voodie', function($resource, $location, $rootScope, $filter){
             var newRegistration = new FoodieRegistration();
             newRegistration.firstName = truck.firstName;
             newRegistration.lastName = truck.lastName;
+            newRegistration.emailAddress = truck.email;
             newRegistration.username = truck.username;
             newRegistration.password = truck.password;
             newRegistration.$save(function(){

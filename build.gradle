@@ -28,6 +28,8 @@ repositories {
 }
 
 dependencies {
+    compile 'com.sun.jersey:jersey-client:1.8'
+    compile 'com.sun.jersey:jersey-core:1.8'
     providedCompile group: 'org.hibernate', name: 'hibernate-core', version: '4.2.0.Final'
     providedCompile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '4.2.0.Final'
     providedCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.2.9'

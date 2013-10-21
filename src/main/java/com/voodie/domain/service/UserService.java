@@ -23,7 +23,7 @@ public class UserService {
 	@Inject
 	protected UserDao userDao;
 
-	public User create(String firstName, String lastName, String username, String password, String... roles) {
+	public User create(String firstName, String lastName, String username, String password, String emailAddress, String... roles) {
 		Preconditions.checkNotNull(username);
 		User existing = userDao.find(username);
 		if (existing != null) {
@@ -35,6 +35,7 @@ public class UserService {
             newUser.setLastName(lastName);
 			newUser.setPassword(UserUtil.encodePassword(password));
 			newUser.setEnabled(true);
+            newUser.setEmailAddress(emailAddress);
 			em.persist(newUser);
 			for (String r : roles) {
 				Authorities a = new Authorities();

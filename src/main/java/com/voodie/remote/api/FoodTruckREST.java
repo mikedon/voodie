@@ -48,7 +48,7 @@ public class FoodTruckREST {
 	@POST
 	public Response register(FoodTruckRegistration registration) {
 		User user = userService.create(registration.getFirstName(), registration.getLastName(), registration.getUsername(),
-				registration.getPassword(), Authorities.FOOD_TRUCK);
+				registration.getPassword(), registration.getEmailAddress(), Authorities.FOOD_TRUCK);
 		if (user != null) {
 			boolean foodTruckCreated = foodTruckService.create(user, registration.getName(), registration.getDistrict());
 			if (foodTruckCreated) {

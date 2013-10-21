@@ -31,6 +31,9 @@ public class FoodTruckService {
     @Inject
     protected DistrictDao districtDao;
 
+    @Inject
+    protected EmailService emailService;
+
     // ---------------------------------
 
 	public boolean create(User user, String foodTruckName, String districtName) {
@@ -45,6 +48,7 @@ public class FoodTruckService {
 			newFoodTruck.setName(foodTruckName);
 			newFoodTruck.setDistrict(district);
             em.persist(newFoodTruck);
+            emailService.sendFoodTruckRegistrationEmail(newFoodTruck);
 			return true;
 		}
 	}

@@ -21,6 +21,9 @@ public class FoodieService {
     @Inject
     protected FoodieDao foodieDao;
 
+    @Inject
+    protected EmailService emailService;
+
     // ---------------------------------
 
     public boolean create(User user) {
@@ -32,6 +35,7 @@ public class FoodieService {
             newFoodie.setUser(user);
             newFoodie.setKarma(Foodie.DEFAULT_KARMA);
             em.persist(newFoodie);
+            emailService.sendFoodieRegistrationEmail(newFoodie);
             return true;
         }
     }
