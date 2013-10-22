@@ -2,15 +2,16 @@
 <html ng-app="voodie">
 <head>
 	<meta charset="utf-8">
- 	<title>Voodie</title>
-  	<link rel="stylesheet" href="css/lib/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voodie</title>
+  	<link rel="stylesheet" href="css/lib/bootstrap3.css">
   	<link rel="stylesheet" href="css/voodie.css">
   
 </head>
 <body>
     <div id="wrap">
-        <div id="main" class="container-narrow clear-top">
-            <div ng-include="'includes/navbar.html'"></div>
+        <div ng-include="'includes/navbar.html'"></div>
+        <div id="main" class="container clear-top">
             <alert ng-repeat="alert in error" type="error">{{alert}}</alert>
             <div ng-view></div>
         </div>
@@ -22,9 +23,11 @@
             <li><a href="#/about">About</a></li>
         </ul>
     </footer>
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/bootstrap3.js"></script>
   	<script src="js/lib/angular.js"></script>
   	<script src="js/lib/angular-resource.js"></script>
-  	<script src="js/lib/ui-bootstrap-tpls-0.6.0.js"></script>
+  	<script src="js/lib/ui-bootstrap-tpls-0.6.0-SNAPSHOT.js"></script>
   	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZB0WXh6qsCDkVNYjRk-PQhVu37c0-Aaw&sensor=false&libraries=visualization"></script>
   	<script src="js/voodie-app.js"></script>
   	<script src="js/voodie-ctrls.js"></script>

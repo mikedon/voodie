@@ -7,7 +7,6 @@ html, body {
 }
 
 #main {
-    overflow:auto;
     padding-bottom:150px; /* this needs to be bigger than footer height*/
 }
 
@@ -16,25 +15,11 @@ html, body {
     margin: -100px auto; /* negative value of footer height */
     height: 100px;
     clear:both;
-    padding-top:20px;
-    width: 800px;
+    background-color: #010101;
 }
 
 textarea {
 	resize: none;
-}
-
-.container-narrow {
-	width: 800px;
-	margin: 0 auto;
-}
-
-.navbar-hello-container {
-    padding: 7px;
-}
-
-.eatingTime {
-    margin-top: 90px;
 }
 
 .foodTruck {
@@ -74,10 +59,26 @@ textarea {
     bottom: 5px;
 }
 
-.login-register-container {
-    border-left: 1px solid #ccc;
-    padding-left: 20px;
-    margin-top: 35px;
+@media (max-width: 992px) {
+    .login-register-container {
+        border-left: none;
+    }
+    .login-register {
+        margin-top: 20px;
+        border-top: 2px solid #ccc;
+    }
+}
+
+@media (min-width: 993px) {
+    .login-register-container {
+        border-left: 1px solid #ccc;
+        padding-left: 20px;
+        margin-top: 35px;
+    }
+    .filter-label {
+        width: 100%;
+        text-align: right;
+    }
 }
 
 .register-btn-container {
@@ -86,4 +87,16 @@ textarea {
 
 .register-or-container {
     text-align: center;
+}
+
+.navbar-brand img {
+    height: 50px;
+    display: inline-block;
+}
+/*
+    bootstrap overrides
+*/
+.navbar-brand {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
 }

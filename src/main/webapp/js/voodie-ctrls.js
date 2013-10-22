@@ -86,7 +86,23 @@ var ElectionsCtrl = function($scope, $location, Voodie){
 };
 
 var ElectionCtrl = function($scope, $routeParams, $location, Voodie){
-    $scope.election = Voodie.getElection($routeParams.e);
+    $scope.election = Voodie.getElection($routeParams.e, function(data){
+        var mapOptions = {
+            center: new google.maps.LatLng(data.candidates[0].latitude, data.candidates[1].longitude),
+            zoom: 8,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        $scope.map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        for(var i=0;i<data.candidates.length; i++){
+            var candidate = data.candidates[i];
+            var latLng = new google.maps.LatLng(candidate.latitude,candidate.longitude);
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: $scope.map,
+                title: candidate.displayName
+            });
+        }
+    });
     $scope.candidateChoice = "";
     $scope.vote = function(){
         Voodie.vote($scope.candidateChoice, function(data){

@@ -6,25 +6,15 @@ app.directive("bsinput", function(){
 			var type = attrs.type || 'text';
 			var id = attrs.id;
 			var label = attrs.label;
-            var inline = attrs.inline || true;
             var html = "";
-            if(!inline){
-            	html += "<div class='control-group'>";
-            }
+            html += "<div class='form-group'>";
             if(label){
                 html += "<label class='control-label' for='" + id + "'>" + label + "</label>";
             }
-            if(!inline){
-                html += "<div class='controls'>";
-            }
             html += "<input type='" + type + "' id='" + id + "'";
-            if(!inline){
-                html += "class='input-block-level'";
-            }
+            html += "class='form-control'";
             html += "ng-model='" + id + "'>";
-            if(!inline){
-                html += "</div></div>";
-            }
+            html += "</div></div>";
             element.replaceWith(html);
 		}
 	}

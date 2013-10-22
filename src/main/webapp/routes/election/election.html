@@ -1,5 +1,9 @@
+<ol class="breadcrumb">
+    <li><a href="#/elections">Elections</a></li>
+    <li></li>
+</ol>
 <div ng-controller="ElectionCtrl">
-	<div class="row-fluid">
+	<div class="row">
         <div>
             <h4>{{ election.title }}</h2>
             <h5>Polls Close at {{ election.pollClosingDate | date:'MM/dd/yyyy @ h:mma'}}</h4>
@@ -8,17 +12,16 @@
            Serving Time {{ election.servingStartTime | date:'MM/dd/yyyy @ h:mma'}} - {{ election.servingEndTime | date:'MM/dd/yyyy @ h:mma' }}
         </div>
     </div>
-    <hr>
-    <div class="row-fluid">
-        <h5>Candidates</h5>
-        <form>
-           <label ng-repeat="c in election.candidates" class="radio">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="map-canvas"></div>
+        </div>
+        <div class="col-md-6">
+            <label ng-repeat="c in election.candidates" class="radio">
                 <input type="radio" ng-model="$parent.candidateChoice" name="candidate" value="{{ c.id }}">
                 {{ c.displayName }}
             </label>
-            <div class="form-actions">
-                <button class="btn pull-right" ng-click="vote()">Vote</button>
-            </div>
-        </form>
+            <button class="btn btn-default btn-primary btn-lg btn-block" ng-click="vote()">Vote</button>
+        </div>
     </div>
 </div>
