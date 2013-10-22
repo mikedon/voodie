@@ -18,6 +18,8 @@ public class Foodie implements Serializable {
 
     private String username;
 
+    private String emailAddress;
+
 	private Long karma;
 
 	public String getId() {
@@ -58,5 +60,13 @@ public class Foodie implements Serializable {
 
     public void setKarma(Long karma) {
         this.karma = karma;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

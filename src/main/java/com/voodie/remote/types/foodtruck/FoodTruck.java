@@ -22,6 +22,8 @@ public class FoodTruck implements Serializable {
     private String username;
 
 	private String name;
+
+    private String emailAddress;
 	
 	private List<String> categories = Lists.newArrayList();
 	
@@ -133,5 +135,13 @@ public class FoodTruck implements Serializable {
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

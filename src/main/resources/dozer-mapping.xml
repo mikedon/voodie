@@ -28,6 +28,10 @@
             <b>username</b>
         </field>
         <field>
+            <a>user.emailAddress</a>
+            <b>emailAddress</b>
+        </field>
+        <field>
             <a>district.name</a>
             <b>district</b>
         </field>
@@ -46,6 +50,10 @@
         <field>
             <a>user.username</a>
             <b>username</b>
+        </field>
+        <field>
+            <a>user.emailAddress</a>
+            <b>emailAddress</b>
         </field>
     </mapping>
     <mapping>
