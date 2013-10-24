@@ -62,6 +62,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 			}
 			return d.promise;
 		},
+        //TODO convert to alerts
 		login : function(redirect){
 			var that = this;
             var payload = 'j_username=' + this.username + '&j_password=' + this.password;
@@ -91,10 +92,67 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 	}
 });
 
-app.factory('Voodie', function($resource, $location, $rootScope, $filter){
+
+app.factory('VoodieResource', function($resource, $rootScope){
+    var addAlerts = function(alerts){
+        if(!alerts || alerts.length === 0){
+            return;
+        }
+        if(!$rootScope.alerts){
+            $rootScope.alerts = [];
+        }
+        $rootScope.alerts = $rootScope.alerts.concat(alerts);
+    }
+    var hasErrors = function(){
+        if($rootScope.alerts){
+            for(var i=0; i < $rootScope.alerts.length; i++){
+                if($rootScope.alerts[i].type === 'danger'){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    var handleResponse = function(data, onSuccess, onFailure){
+        addAlerts(data.alerts)
+        if(hasErrors()){
+            if(onFailure){
+                onFailure()
+            }
+        }else{
+            if(onSuccess){
+                onSuccess(data);
+            }
+        }
+    }
+    return {
+        save: function(resource, onSuccess, onFailure){
+            return resource.$save(function(data){
+                handleResponse(data, onSuccess, onFailure);
+            });
+        },
+        get: function(resource, onSuccess, onFailure){
+            return resource.get(function(data){
+                handleResponse(data, onSuccess, onFailure);
+            });
+        },
+        query: function(resource, onSuccess, onFailure){
+            return resource.query(function(data){
+                handleResponse(data, onSuccess, onFailure);
+            });
+        },
+        clearAlerts: function(){
+            $rootScope.alerts = [];
+        }
+    }
+});
+
+//TODO central location to handle server side alerts
+app.factory('Voodie', function($resource, VoodieResource, $location, $rootScope, $filter){
 	return {
         //TODO abstract all voodie services so api path is set in one place
 		registerTruck: function(truck, redirect){
+            VoodieResource.clearAlerts();
 			var FoodTruckRegistration = $resource('api/foodtruck/register');
 			var newRegistration = new FoodTruckRegistration();
             newRegistration.firstName = truck.firstName;
@@ -104,11 +162,13 @@ app.factory('Voodie', function($resource, $location, $rootScope, $filter){
 			newRegistration.password = truck.password;
 			newRegistration.name = truck.foodTruckName;
             newRegistration.district = truck.district;
-			newRegistration.$save(function(){
+            VoodieResource.save(newRegistration, function(){
+                $rootScope.clearAlerts = false;
                 $location.path(redirect);
             });
 		},
         registerFoodie: function(truck, redirect){
+            VoodieResource.clearAlerts();
             var FoodieRegistration = $resource('api/foodie/register');
             var newRegistration = new FoodieRegistration();
             newRegistration.firstName = truck.firstName;
@@ -116,17 +176,16 @@ app.factory('Voodie', function($resource, $location, $rootScope, $filter){
             newRegistration.emailAddress = truck.email;
             newRegistration.username = truck.username;
             newRegistration.password = truck.password;
-            newRegistration.$save(function(){
+            VoodieResource.save(newRegistration, function(){
+                $rootScope.clearAlerts = false;
                 $location.path(redirect);
             });
         },
         getFoodTruckProfile: function(username){
-            var foodTruck = $resource('api/foodtruck/secure/profile', {"username" : username}).get();
-            return foodTruck;
+            return VoodieResource.get($resource('api/foodtruck/secure/profile', {"username" : username}));
         },
         getFoodieProfile: function(username){
-            var foodie = $resource('api/foodie/secure/profile', {"username" : username}).get();
-            return foodie;
+            return VoodieResource.get($resource('api/foodie/secure/profile', {"username" : username}));
         },
         createElection: function(election, onSuccess){
             var Election = $resource('api/election/secure/createElection');
@@ -138,111 +197,46 @@ app.factory('Voodie', function($resource, $location, $rootScope, $filter){
             newElection.pollClosingDate = election.pollClosingDate;
             newElection.allowWriteIn = election.allowWriteIn;
             newElection.candidates = election.candidates;
-            //TODO add success message
-            newElection.$save(onSuccess);
+            VoodieResource.save(newElection, onSuccess);
         },
         getElections: function(username){
-            var elections = $resource('api/election/secure/getAllElections', {"username":username}).query();
-            return elections;
+            return VoodieResource.query($resource('api/election/secure/getAllElections', {"username":username}));
+
         },
         getAllElections: function(district, startDate, endDate, onSuccess){
             var startDate = $filter('date')(startDate);
             var endDate = $filter('date')(endDate);
-            var elections = $resource('api/election/query', {"district": district, "startDate": startDate, "endDate": endDate}).query(onSuccess);
-            return elections;
+            return VoodieResource.query($resource('api/election/query', {"district": district, "startDate": startDate, "endDate": endDate}),onSuccess);
         },
         getElection: function(election, onSuccess){
-            var election = $resource('api/election/secure/getElection', {"election":election}).get(onSuccess);
-            return election;
+            return VoodieResource.get($resource('api/election/secure/getElection', {"election":election}), onSuccess);
         },
         vote: function(candidate, onSuccess){
+            VoodieResource.clearAlerts();
             var Vote = $resource('api/election/secure/vote');
             var newVote = new Vote();
             newVote.candidate = candidate;
-            newVote.$save(function(data){
-                if(data.hasErrors){
-                    $rootScope.error = data.errorMsgs;
-                    return;
-                }else{
-                    onSuccess(data);
-                }
-            });
+            VoodieResource.save(newVote, onSuccess);
         },
         getElectionForSelection: function(election){
-            var election = $resource('api/election/secure/getElectionForSelection', {"election":election}).get();
-            return election;
+            return VoodieResource.get($resource('api/election/secure/getElectionForSelection', {"election":election}));
         },
         selectCandidate: function(candidate, onSuccess){
+            VoodieResource.clearAlerts();
             var Candidate = $resource('api/election/secure/selectCandidate');
             var newCandidate = new Candidate();
             newCandidate.id = candidate;
-            newCandidate.$save(function(data){
-                if(data.hasErrors){
-                    $rootScope.error = data.errorMsgs;
-                    return;
-                }else{
-                    onSuccess(data);
-                }
-            });
+            VoodieResource.save(newCandidate, onSuccess);
         },
         checkIn: function(election, onSuccess){
+            VoodieResource.clearAlerts();
             var CheckIn = $resource('api/election/secure/checkIn');
             var newCheckIn = new CheckIn();
             newCheckIn.election = election;
-            newCheckIn.$save(function(data){
-                if(data.hasErrors){
-                    $rootScope.error = data.errorMsgs;
-                    return;
-                }else{
-                    onSuccess(data);
-                }
-            })
+            VoodieResource.save(newCheckIn, onSuccess);
         },
         getDistricts: function(){
-            var districts = $resource('api/election/districts').query();
-            return districts;
+            return VoodieResource.query($resource('api/election/districts'));
         }
 	}
-});
-
-app.factory('EatingTime', function(){
-    return {
-        roundedTime: function(){
-            var roundedTime = new Date();
-            roundedTime.setMilliseconds(0);
-            roundedTime.setSeconds(0);
-            if(roundedTime.getMinutes() > 30){
-                roundedTime.setMinutes(0);
-                roundedTime.setHours(roundedTime.getHours() + 1);
-            }else{
-                roundedTime.setMinutes(30);
-            }
-            return roundedTime;
-        },
-        timeStamp: function(date, time){
-            var _date,_time;
-            if(!date){
-                _date = this.date;
-            }else{
-                _date = date;
-            }
-            if(!time){
-                _time = this.roundedTime();
-            }else{
-                _time = time;
-            }
-            return new Date(_date.getFullYear(), 
-                _date.getMonth(), _date.getDate(), 
-                _time.getHours(), _time.getMinutes(), 0, 0);
-        },
-        getEatingTime: function(){
-            if(!this._eatingTime){
-                this._eatingTime = this.roundedTime();
-            }
-            return this._eatingTime;
-        },
-        setEatingTime : function(eatingTime){
-            this._eatingTime = eatingTime;
-        }
-    }
 });

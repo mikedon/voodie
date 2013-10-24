@@ -1,6 +1,7 @@
 package com.voodie.remote.types.identity;
 
 import com.google.common.collect.Lists;
+import com.voodie.remote.types.VoodieResponse;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,7 +12,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class User implements Serializable {
+public class User extends VoodieResponse implements Serializable {
 
     private String firstName;
     private String lastName;

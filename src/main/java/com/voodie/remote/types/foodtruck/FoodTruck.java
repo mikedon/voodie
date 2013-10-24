@@ -1,6 +1,7 @@
 package com.voodie.remote.types.foodtruck;
 
 import com.google.common.collect.Lists;
+import com.voodie.remote.types.VoodieResponse;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,7 +12,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FoodTruck implements Serializable {
+public class FoodTruck extends VoodieResponse implements Serializable {
 
 	private String id;
 

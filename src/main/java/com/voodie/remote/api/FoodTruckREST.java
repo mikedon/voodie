@@ -4,6 +4,9 @@ import com.voodie.domain.identity.Authorities;
 import com.voodie.domain.identity.User;
 import com.voodie.domain.service.FoodTruckService;
 import com.voodie.domain.service.UserService;
+import com.voodie.remote.types.Alert;
+import com.voodie.remote.types.AlertType;
+import com.voodie.remote.types.VoodieResponse;
 import com.voodie.remote.types.foodtruck.FoodTruck;
 import com.voodie.remote.types.foodtruck.FoodTruckRegistration;
 import org.dozer.Mapper;
@@ -53,11 +56,14 @@ public class FoodTruckREST {
 			boolean foodTruckCreated = foodTruckService.create(user, registration.getName(), registration.getDistrict());
 			if (foodTruckCreated) {
                 userService.autoLogin(user);
-				return Response.ok().build();
+                VoodieResponse response = new VoodieResponse();
+                response.getAlerts().add(new Alert("Successful registration!", AlertType.success));
+                return Response.ok(response).build();
 			}
 		}
-		// TODO want to return something else...not an error code
-		return Response.status(Status.CONFLICT).build();
+        VoodieResponse response = new VoodieResponse();
+        response.getAlerts().add(new Alert("User already exists", AlertType.danger));
+        return Response.ok(response).build();
 	}
 
 }

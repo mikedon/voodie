@@ -12,7 +12,7 @@
     <div id="wrap">
         <div ng-include="'includes/navbar.html'"></div>
         <div id="main" class="container clear-top">
-            <alert ng-repeat="alert in error" type="error">{{alert}}</alert>
+            <alert ng-repeat="alert in alerts" type="alert.type">{{alert.message}}</alert>
             <div ng-view></div>
         </div>
     </div>

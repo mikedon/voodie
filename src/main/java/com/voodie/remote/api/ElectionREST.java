@@ -7,7 +7,9 @@ import com.voodie.domain.service.ElectionService;
 import com.voodie.domain.service.FoodTruckService;
 import com.voodie.domain.service.FoodieService;
 import com.voodie.domain.service.UserService;
-import com.voodie.remote.types.ErrorResponse;
+import com.voodie.remote.types.Alert;
+import com.voodie.remote.types.AlertType;
+import com.voodie.remote.types.VoodieResponse;
 import com.voodie.remote.types.election.*;
 import org.dozer.Mapper;
 
@@ -63,9 +65,8 @@ public class ElectionREST {
         if(electionService.vote(foodie, candidate) != null){
             return Response.ok().build();
         }else{
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setHasErrors(true);
-            errorResponse.getErrorMsgs().add("Duplicate Votes");
+            VoodieResponse errorResponse = new VoodieResponse();
+            errorResponse.getAlerts().add(new Alert("Duplicate Votes", AlertType.danger));
             return Response.ok(errorResponse).build();
         }
     }
@@ -78,9 +79,8 @@ public class ElectionREST {
             electionService.selectCandidate(domainCandidate);
             return Response.ok().build();
         }else{
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setHasErrors(true);
-            errorResponse.getErrorMsgs().add("Invalid Candidate");
+            VoodieResponse errorResponse = new VoodieResponse();
+            errorResponse.getAlerts().add(new Alert("Invalid Candidate", AlertType.danger));
             return Response.ok(errorResponse).build();
         }
     }
@@ -142,8 +142,9 @@ public class ElectionREST {
                 remoteElection.getPollClosingDate(), candidates, remoteElection.getAllowWriteIn()) != null){
             return Response.ok().build();
         }
-        // TODO want to return something else...not an error code
-        return Response.status(Response.Status.CONFLICT).build();
+        VoodieResponse response = new VoodieResponse();
+        response.getAlerts().add(new Alert("Duplicate Election", AlertType.danger));
+        return Response.ok(response).build();
     }
 
     @Path("/secure/checkIn")

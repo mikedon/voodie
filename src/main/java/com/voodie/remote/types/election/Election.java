@@ -1,6 +1,7 @@
 package com.voodie.remote.types.election;
 
 import com.google.common.collect.Lists;
+import com.voodie.remote.types.VoodieResponse;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,7 +12,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Election {
+public class Election extends VoodieResponse{
     private Long id;
     private String foodTruckName;
     private String title;
