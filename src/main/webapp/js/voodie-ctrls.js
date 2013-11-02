@@ -149,14 +149,12 @@ function FoodieRegistrationCtrl($scope, Voodie){
         Voodie.registerFoodie($scope, 'elections');
     }
 }
-
-function FoodTruckElectionCtrl($scope, $location, Voodie, User, GoogleMaps){
+function FoodTruckCreateElectionCtrl($scope, $location, Voodie, User, GoogleMaps, $rootScope){
     function mapServingTime(servingDate, servingTime){
         new Date(servingDate.getFullYear(), servingDate.getMonth(),
             servingDate.getDate(), servingTime.getHours(), servingTime.getMinutes(), 0, 0);
     };
     function reset(){
-        $scope.elections = Voodie.getElections(User.username);
         $scope.election = {
             //TODO smart defaults?
             servingDate : "",
@@ -173,7 +171,8 @@ function FoodTruckElectionCtrl($scope, $location, Voodie, User, GoogleMaps){
         $scope.servingStartTime = mapServingTime($scope.election.servingDate, $scope.election.servingStartTime);
         $scope.servingEndTime = mapServingTime($scope.election.servingDate, $scope.election.servingEndTime);
         Voodie.createElection($scope.election, function(){
-              reset();
+            $rootScope.clearAlerts = false;
+            $location.path("foodtruck/elections");
         });
     };
     $scope.addCandidate = function(){
@@ -192,6 +191,10 @@ function FoodTruckElectionCtrl($scope, $location, Voodie, User, GoogleMaps){
             });
         }
     };
+};
+
+function FoodTruckElectionCtrl($scope, $location, Voodie, User, GoogleMaps){
+    $scope.elections = Voodie.getElections(User.username);
     $scope.chooseCandidate = function(election){
         $location.path("foodtruck/selection/" + election.id)
     }
