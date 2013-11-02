@@ -195,12 +195,12 @@ function FoodTruckCreateElectionCtrl($scope, $location, Voodie, User, GoogleMaps
 
 function FoodTruckElectionCtrl($scope, $location, Voodie, User, GoogleMaps){
     $scope.elections = Voodie.getElections(User.username);
-    $scope.chooseCandidate = function(election){
-        $location.path("foodtruck/selection/" + election.id)
+    $scope.viewElection = function(election){
+        $location.path("foodtruck/viewElection/" + election.id)
     }
 };
 
-function FoodTruckSelectionCtrl($scope, $routeParams, $location, Voodie){
+function FoodTruckViewElectionCtrl($scope, $routeParams, $location, Voodie){
     $scope.election = Voodie.getElectionForSelection($routeParams.e);
     $scope.makeSelection = function(candidate){
         Voodie.selectCandidate($scope.selectedCandidate, function(data){

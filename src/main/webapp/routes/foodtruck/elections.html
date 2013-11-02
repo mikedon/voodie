@@ -1,8 +1,8 @@
 <div ng-controller="FoodTruckElectionCtrl">
-    <h2>Elections</h2>
-    <a ng-href="#/foodtruck/createElection" class="btn btn-default btn-large btn-primary">
+    <a ng-href="#/foodtruck/createElection" class="btn btn-default btn-block btn-large btn-primary">
         <span class=" glyphicon glyphicon-plus"></span> Create New Election
     </a>
+    <h2>Elections</h2>
     <table class="table">
         <thead>
             <tr>
@@ -19,13 +19,11 @@
                 <td>{{ e.servingStartTime | date:'MM/dd/yyyy @ h:mma' }} to {{ e.servingEndTime | date:'MM/dd/yyyy @ h:mma'}}</td>
                 <td>
                     <div class="btn-group">
-                        <button ng-click="chooseCandidate(e)"
-                                ng-hide="e.status != 'IN_PROGRESS'"
-                                class="btn btn-default btn-primary btn-sm">Make Selection</button>
-                        <button
-                        <a target="_blank"
+                        <button ng-click="viewElection(e)"
+                                class="btn btn-default btn-primary btn-sm">View Results</button>
+                        <!--<a target="_blank"
                            class="btn btn-default btn-sm"
-                           ng-href="/voodie/secure/checkInQrCode?e={{ e.id }}">Get Check In</a>
+                           ng-href="/voodie/secure/checkInQrCode?e={{ e.id }}">Get Check In</a>-->
                     </div>
                 </td>
             </tr>

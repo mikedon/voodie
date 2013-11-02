@@ -42,8 +42,8 @@ app.config(["$routeProvider", function($routeProvider){
         templateUrl : 'routes/foodtruck/elections.html',
         resolve: Resolve,
         access: {requiresLogin : true, role : "Food Truck"}});
-    $routeProvider.when('/foodtruck/selection/:e', {
-        templateUrl : 'routes/foodtruck/selection.html',
+    $routeProvider.when('/foodtruck/viewElection/:e', {
+        templateUrl : 'routes/foodtruck/view-election.html',
         resolve: Resolve,
         access: {requiresLogin : true, role : "Food Truck"}});
     $routeProvider.when('/foodtruck/createElection', {
