@@ -140,7 +140,9 @@ public class ElectionREST {
                 remoteElection.getServingEndTime(),
                 remoteElection.getPollOpeningDate(),
                 remoteElection.getPollClosingDate(), candidates, remoteElection.getAllowWriteIn()) != null){
-            return Response.ok().build();
+                VoodieResponse response = new VoodieResponse();
+                response.getAlerts().add(new Alert("Election created successfully", AlertType.success));
+                return Response.ok(response).build();
         }
         VoodieResponse response = new VoodieResponse();
         response.getAlerts().add(new Alert("Duplicate Election", AlertType.danger));

@@ -61,7 +61,7 @@ var ElectionsCtrl = function($scope, $location, Voodie){
                 }
             });
         }
-    });
+    }) ;
     // date filters
     $scope.startOpened = false;
     $scope.endOpened = false;
@@ -151,10 +151,15 @@ function FoodieRegistrationCtrl($scope, Voodie){
 }
 
 function FoodTruckElectionCtrl($scope, $location, Voodie, User, GoogleMaps){
+    function mapServingTime(servingDate, servingTime){
+        new Date(servingDate.getFullYear(), servingDate.getMonth(),
+            servingDate.getDate(), servingTime.getHours(), servingTime.getMinutes(), 0, 0);
+    };
     function reset(){
         $scope.elections = Voodie.getElections(User.username);
         $scope.election = {
             //TODO smart defaults?
+            servingDate : "",
             servingStartTime : "",
             servingEndTime : "",
             pollOpeningDate : "",
@@ -165,6 +170,8 @@ function FoodTruckElectionCtrl($scope, $location, Voodie, User, GoogleMaps){
     };
     reset();
     $scope.submit = function(){
+        $scope.servingStartTime = mapServingTime($scope.election.servingDate, $scope.election.servingStartTime);
+        $scope.servingEndTime = mapServingTime($scope.election.servingDate, $scope.election.servingEndTime);
         Voodie.createElection($scope.election, function(){
               reset();
         });

@@ -35,23 +35,25 @@
                 <bsinput label="Title" id="election.title"></bsinput>
                 <!-- TODO move date logic to bsinput directive -->
                 <div class="form-group">
+                    <div><label class="control-label">Serving Date</label></div>
+                    <input type="text"
+                           class="form-control"
+                           id="servingDate"
+                           datepicker-popup="MM/dd/yyyy"
+                           ng-model="election.servingDate"
+                           ng-required="true" />
+                </div>
+
+                <div class="form-groups" ng-model="election.servingStartTime">
                     <div><label class="control-label">Serving Start Time</label></div>
-                    <input type="text"
-                           class="form-control"
-                           id="servingStartTime"
-                           datepicker-popup="MM/dd/yyyy"
-                           ng-model="election.servingStartTime"
-                           ng-required="true" />
+                    <timepicker></timepicker>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" ng-model="election.servingEndTime">
                     <div><label class="control-label">Serving End Time</label></div>
-                    <input type="text"
-                           class="form-control"
-                           id="servingEndTime"
-                           datepicker-popup="MM/dd/yyyy"
-                           ng-model="election.servingEndTime"
-                           ng-required="true" />
+                    <timepicker></timepicker>
                 </div>
+
                 <!-- TODO these should just be dates not date time -->
                 <div class="form-group">
                     <div><label class="control-label">Poll Opening Date</label></div>
