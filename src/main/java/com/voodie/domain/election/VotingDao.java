@@ -33,4 +33,11 @@ public class VotingDao {
                 .getSingleResult();
     }
 
+    public Long getNumberOfVotesInElection(Long election){
+        String sql = "select count(v) from Vote v where v.candidate.election.id = :election";
+        return (Long) em.createQuery(sql)
+                .setParameter("election", election)
+                .getSingleResult();
+    }
+
 }

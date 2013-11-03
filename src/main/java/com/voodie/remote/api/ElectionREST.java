@@ -168,8 +168,12 @@ public class ElectionREST {
     }
 
     protected void setNumberOfVotesForElection(Election election){
-        for(Candidate c : election.getCandidates()){
-            c.setNumberOfVotes(votingDao.getNumberOfVotesForCandidate(c.getId()));
+        Long totalVotes = votingDao.getNumberOfVotesInElection(election.getId());
+        if(totalVotes > 0){
+            for(Candidate c : election.getCandidates()){
+                c.setNumberOfVotes(votingDao.getNumberOfVotesForCandidate(c.getId()));
+                c.setPercentageOfVotes(c.getNumberOfVotes()/(double)totalVotes * 100);
+            }
         }
     }
 }

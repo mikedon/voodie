@@ -23,7 +23,9 @@ public class Candidate extends VoodieResponse{
 
     private Double latitude;
 
-    private Long numberOfVotes;
+    private Long numberOfVotes = 0L;
+
+    private Double percentageOfVotes = 0D;
 
     // ---------------------------------
 
@@ -65,5 +67,13 @@ public class Candidate extends VoodieResponse{
 
     public void setNumberOfVotes(Long numberOfVotes) {
         this.numberOfVotes = numberOfVotes;
+    }
+
+    public Double getPercentageOfVotes() {
+        return percentageOfVotes;
+    }
+
+    public void setPercentageOfVotes(Double percentageOfVotes) {
+        this.percentageOfVotes = percentageOfVotes;
     }
 }

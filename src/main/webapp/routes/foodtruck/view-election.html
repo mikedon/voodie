@@ -1,12 +1,14 @@
 <div ng-controller="FoodTruckViewElectionCtrl">
-    <div class="row">
-        <h3>Candidates</h3>
-        <form>
-            <label ng-repeat="c in election.candidates" class="radio">
-                <input type="radio" ng-model="$parent.selectedCandidate" name="candidate" value="{{ c.id }}">
-                {{ c.displayName }} - {{ c.numberOfVotes }}
-            </label>
-            <button class="btn btn-default btn-primary pull-right" ng-click="makeSelection()">Make Selection</button>
-        </form>
+    <h3>Candidates</h3>
+    <div class="row well" ng-repeat="c in election.candidates">
+        <div class="col-md-3">
+            <span class="h4">{{c.displayName}}</span> <span class="badge">{{c.numberOfVotes}}</span>
+        </div>
+        <div class="col-md-8 candidate-progress">
+            <progress><bar value="candidateProgress[c.id].value" type="candidateProgress[c.id].type"></bar></progress>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-default btn-primary" ng-click="makeSelection(c)">Select</button>
+        </div>
     </div>
 </div>

@@ -218,8 +218,8 @@ app.factory('Voodie', function($resource, VoodieResource, $location, $rootScope,
             newVote.candidate = candidate;
             VoodieResource.save(newVote, onSuccess);
         },
-        getElectionForSelection: function(election){
-            return VoodieResource.get($resource('api/election/secure/getElectionForSelection', {"election":election}));
+        getElectionForSelection: function(election, onSuccess){
+            return VoodieResource.get($resource('api/election/secure/getElectionForSelection', {"election":election}), onSuccess);
         },
         selectCandidate: function(candidate, onSuccess){
             VoodieResource.clearAlerts();
