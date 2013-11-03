@@ -33,7 +33,7 @@ public class Election {
     private Boolean allowWriteIn;
 
     @OneToOne
-    private Candidate selectedCandidated;
+    private Candidate selectedCandidate;
 
     @ManyToOne
     private FoodTruck foodTruck;
@@ -123,11 +123,11 @@ public class Election {
         this.foodTruck = foodTruck;
     }
 
-    public Candidate getSelectedCandidated() {
-        return selectedCandidated;
+    public Candidate getSelectedCandidate() {
+        return selectedCandidate;
     }
 
-    public void setSelectedCandidated(Candidate selectedCandidated) {
-        this.selectedCandidated = selectedCandidated;
+    public void setSelectedCandidated(Candidate selectedCandidate) {
+        this.selectedCandidate = selectedCandidate;
     }
 }

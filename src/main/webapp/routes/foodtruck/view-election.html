@@ -1,5 +1,12 @@
 <div ng-controller="FoodTruckViewElectionCtrl">
-    <h3>Candidates</h3>
+    <div ng-hide="!candidateSelected">
+        <p>Election Closed.</p>
+        <p>The winner is {{election.selectedCandidate.displayName}}</p>
+        <p>Share the election results</p>
+        <a ng-href="/voodie/secure/checkInQrCode?e={{ election.id }}" target="_blank"
+           class="btn btn-default btn-success btn-block btn-lg">Print QR Code</a>
+    </div>
+    <h3>Results</h3>
     <div class="row well" ng-repeat="c in election.candidates">
         <div class="col-md-3">
             <span class="h4">{{c.displayName}}</span> <span class="badge">{{c.numberOfVotes}}</span>
@@ -8,7 +15,7 @@
             <progress><bar value="candidateProgress[c.id].value" type="candidateProgress[c.id].type"></bar></progress>
         </div>
         <div class="col-md-1">
-            <button class="btn btn-default btn-primary" ng-click="makeSelection(c)">Select</button>
+            <button ng-hide="candidateSelected" class="btn btn-default btn-primary" ng-click="makeSelection(c.id)">Select</button>
         </div>
     </div>
 </div>

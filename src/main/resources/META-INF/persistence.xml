@@ -7,7 +7,7 @@
      
       <persistence-unit name="voodie">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
-    	<jta-data-source>java:/jboss/datasources/MysqlDS</jta-data-source>
+    	<jta-data-source>java:/jboss/datasources/ExampleDS</jta-data-source>
     	<class>com.voodie.domain.election.Vote</class>
     	<class>com.voodie.domain.foodtruck.FoodTruck</class>
         <class>com.voodie.domain.foodie.Foodie</class>
@@ -23,7 +23,8 @@
 			<property name="use_sql_comments" value="true" />
             <!-- <property name="hibernate.show_sql" value="true" /> -->
             <property name="hibernate.hbm2ddl.auto" value="update" />
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLMyISAMDialect" />
+            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLMyISAMDialect" />-->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
         </properties>
 
     </persistence-unit>

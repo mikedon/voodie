@@ -23,6 +23,7 @@ public class Election extends VoodieResponse{
     private Boolean allowWriteIn = false;
     private String status;
     private List<Candidate> candidates = Lists.newArrayList();
+    private Candidate selectedCandidate;
 
     // ---------------------------------
 
@@ -104,5 +105,13 @@ public class Election extends VoodieResponse{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Candidate getSelectedCandidate() {
+        return selectedCandidate;
+    }
+
+    public void setSelectedCandidate(Candidate selectedCandidate) {
+        this.selectedCandidate = selectedCandidate;
     }
 }

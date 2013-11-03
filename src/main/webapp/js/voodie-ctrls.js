@@ -201,6 +201,7 @@ function FoodTruckElectionCtrl($scope, $location, Voodie, User, GoogleMaps){
 };
 
 function FoodTruckViewElectionCtrl($scope, $routeParams, $location, Voodie){
+    $scope.candidatedSelected = false;
     $scope.candidateProgress = {};
     $scope.election = Voodie.getElectionForSelection($routeParams.e, function(data){
         for(var i=0;i<data.candidates.length;i++){
@@ -235,10 +236,11 @@ function FoodTruckViewElectionCtrl($scope, $routeParams, $location, Voodie){
             }
             return 0;
         });
+        $scope.candidateSelected = (data.status === "CLOSED");
     });
     $scope.makeSelection = function(candidate){
         Voodie.selectCandidate(candidate, function(data){
-            $location.path('/foodtruck/elections');
+            $scope.candidateSelected = true;
         });
     };
 }

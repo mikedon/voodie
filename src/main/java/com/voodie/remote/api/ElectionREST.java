@@ -1,6 +1,7 @@
 package com.voodie.remote.api;
 
 import com.google.common.collect.Lists;
+import com.voodie.domain.election.ElectionStatus;
 import com.voodie.domain.election.VotingDao;
 import com.voodie.domain.foodie.Foodie;
 import com.voodie.domain.service.ElectionService;
