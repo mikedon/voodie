@@ -1,8 +1,9 @@
 <div ng-controller="FoodTruckElectionCtrl">
-    <a ng-href="#/foodtruck/createElection" class="btn btn-default btn-block btn-large btn-primary">
+    <a ng-href="#/foodtruck/createElection" class="btn btn-default btn-block btn-lg btn-primary">
         <span class=" glyphicon glyphicon-plus"></span> Create New Election
     </a>
-    <h2>Elections</h2>
+    <!-- TODO move election table to directive or include-->
+    <h2>Open Elections</h2>
     <table class="table">
         <thead>
             <tr>
@@ -13,20 +14,41 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="e in elections">
+            <tr ng-repeat="e in openElections">
                 <td>{{ e.title }}</td>
                 <td>{{ e.pollOpeningDate | date:'MM/dd/yyyy'}} to {{ e.pollClosingDate | date:'MM/dd/yyyy'}}</td>
                 <td>{{ e.servingStartTime | date:'MM/dd/yyyy @ h:mma' }} to {{ e.servingEndTime | date:'MM/dd/yyyy @ h:mma'}}</td>
                 <td>
                     <div class="btn-group">
                         <button ng-click="viewElection(e)"
-                                class="btn btn-default btn-primary btn-sm">View Results</button>
-                        <!--<a target="_blank"
-                           class="btn btn-default btn-sm"
-                           ng-href="/voodie/secure/checkInQrCode?e={{ e.id }}">Get Check In</a>-->
+                                class="btn btn-default btn-success btn-sm">View Results</button>
                     </div>
                 </td>
             </tr>
+        </tbody>
+    </table>
+    <h2>Closed Elections</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Serving Time</th>
+            <th>Polling Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="e in closedElections">
+            <td>{{ e.title }}</td>
+            <td>{{ e.pollOpeningDate | date:'MM/dd/yyyy'}} to {{ e.pollClosingDate | date:'MM/dd/yyyy'}}</td>
+            <td>{{ e.servingStartTime | date:'MM/dd/yyyy @ h:mma' }} to {{ e.servingEndTime | date:'MM/dd/yyyy @ h:mma'}}</td>
+            <td>
+                <div class="btn-group">
+                    <button ng-click="viewElection(e)"
+                            class="btn btn-default btn-success btn-sm">View Results</button>
+                </div>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>

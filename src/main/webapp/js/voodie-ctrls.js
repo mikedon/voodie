@@ -194,7 +194,18 @@ function FoodTruckCreateElectionCtrl($scope, $location, Voodie, User, GoogleMaps
 };
 
 function FoodTruckElectionCtrl($scope, $location, Voodie, User, GoogleMaps){
-    $scope.elections = Voodie.getElections(User.username);
+    $scope.openElections = [];
+    $scope.closedElections = [];
+    Voodie.getElections(User.username, function(data){
+        for(var i=0;i<data.length;i++){
+            var election = data[i];
+            if(election.status === "IN_PROGRESS"){
+                $scope.openElections.push(election);
+            }else{
+                $scope.closedElections.push(election);
+            }
+        }
+    });
     $scope.viewElection = function(election){
         $location.path("foodtruck/viewElection/" + election.id)
     }

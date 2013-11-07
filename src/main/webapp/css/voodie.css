@@ -93,6 +93,10 @@ textarea {
     height: 50px;
     display: inline-block;
 }
+
+.qr-code-container {
+    margin-top: 20px;
+}
 /*
     bootstrap overrides
 */

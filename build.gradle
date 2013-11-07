@@ -75,7 +75,7 @@ test.doLast{
 }*/
 
 //unzip
-task development << {
+task dev << {
 	println "unzip war to local jboss"
 	def jboss = "../jboss-as-7.1.1.Final/standalone/deployments"
   	ant.unzip(src: war.archivePath, dest: jboss + '/voodie-' + version + '.war/')

@@ -6,7 +6,6 @@
     <title>Voodie</title>
   	<link rel="stylesheet" href="css/lib/bootstrap3.css">
   	<link rel="stylesheet" href="css/voodie.css">
-  
 </head>
 <body>
     <div id="wrap">
@@ -34,5 +33,13 @@
   	<script src="js/voodie-directives.js"></script>
   	<script src="js/voodie-services.js"></script> 
   	<!-- <script src="js/voodie-services-mock.js"></script> -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=753082824718392";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 </body>
 </html>

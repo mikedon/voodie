@@ -199,8 +199,8 @@ app.factory('Voodie', function($resource, VoodieResource, $location, $rootScope,
             newElection.candidates = election.candidates;
             VoodieResource.save(newElection, onSuccess);
         },
-        getElections: function(username){
-            return VoodieResource.query($resource('api/election/secure/getAllElections', {"username":username}));
+        getElections: function(username, onSuccess){
+            return VoodieResource.query($resource('api/election/secure/getAllElections', {"username":username}), onSuccess);
 
         },
         getAllElections: function(district, startDate, endDate, onSuccess){
