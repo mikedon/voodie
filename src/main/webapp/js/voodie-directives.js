@@ -24,9 +24,13 @@ app.directive("fbshare", function(){
     return {
         restrict: "EA",
         link: function(scope, element, attrs) {
-            // todo replace with election url
+            var election = attrs.election;
+            var url = window.location.protocol + "//" +
+                window.location.hostname + ":" +
+                window.location.port +
+                "/voodie/#/election/" + election;
             var htmlText = "<div class='fb-share-button' " +
-                "data-href='http://developers.facebook.com/docs/plugins/' " +
+                "data-href='" + url +"' " +
                 "data-type='box_count'></div>";
             element.html(htmlText);
         }
@@ -37,6 +41,8 @@ app.directive("tweetshare", function(){
     return {
         restrict: "EA",
         link: function(scope, element, attrs){
+            //TODO probably just want to pass in election id and the directive creates the correct url
+            var election = attrs.election;
             var htmlText = "<a href='https://twitter.com/share' class='twitter-share-button' data-size='large' data-hashtags='voodie'>Tweet</a>"+
                 "<script>" +
                     "!function(d,s,id){" +
