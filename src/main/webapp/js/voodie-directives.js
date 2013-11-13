@@ -42,15 +42,22 @@ app.directive("tweetshare", function(){
     return {
         restrict: "EA",
         link: function(scope, element, attrs){
-            var htmlText = "<a href='https://twitter.com/share' class='twitter-share-button' " +
-                "data-size='large' data-hashtags='voodielicious' data-text='Checkout our election!'>Tweet</a>"+
-                "<script>" +
+            attrs.$observe('election', function(election){
+                var url = window.location.protocol + "//" +
+                    window.location.hostname + ":" +
+                    window.location.port +
+                    "/voodie/#/election/" + election;
+                var htmlText = "<a href='https://twitter.com/share' class='twitter-share-button' " +
+                    "data-size='large' data-hashtags='voodielicious' data-text='Checkout our election!'" +
+                    " data-url='" + url + "'>Tweet</a>"+
+                    "<script>" +
                     "!function(d,s,id){" +
-                        "var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';" +
-                        "if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';" +
-                        "fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');" +
-                "</script>";
-            element.html(htmlText);
+                    "var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';" +
+                    "if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';" +
+                    "fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');" +
+                    "</script>";
+                element.html(htmlText);
+            });
         }
     }
 });

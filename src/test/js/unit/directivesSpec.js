@@ -18,18 +18,25 @@ describe("The input directive", function() {
 });
 
 describe("The facebook share directive", function() {
-    var compile, scope;
     beforeEach(function(){
         module('voodie');
-        inject(function($compile, $rootScope){
-            compile = $compile;
-            scope = $rootScope.$new();
-        })
     });
-    it('shows the correct url', function(){
+    it('shows the correct url', inject(function($compile, $rootScope){
         var element = angular.element("<fbshare election='1'></fbshare>");
-        compile(element)(scope);
-        scope.$digest();
+        $compile(element)($rootScope);
+        $rootScope.$digest();
         expect(element.html()).toContain("data-href=\"http://localhost:9876/voodie/#/election/1\"");
+    }));
+});
+
+describe("The twitter share directive", function(){
+    beforeEach(function(){
+        module('voodie');
     });
+    it('shows the correct url', inject(function($compile, $rootScope){
+        var element = angular.element("<tweetshare election='1'></fbshare>");
+        $compile(element)($rootScope);
+        $rootScope.$digest();
+        expect(element.html()).toContain("data-url=\"http://localhost:9876/voodie/#/election/1\"");
+    }));
 });
