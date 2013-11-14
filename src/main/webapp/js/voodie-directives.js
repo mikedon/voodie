@@ -1,4 +1,4 @@
-app.directive("bsinput", function(){
+angular.module('voodie').directive("bsinput", function(){
 	return {
 		restrict: "E",
 		require: '^ngModel',
@@ -19,8 +19,7 @@ app.directive("bsinput", function(){
 		}
 	}
 });
-
-app.directive("fbshare", function(){
+angular.module('voodie').directive("fbshare", function(){
     return {
         restrict: "EA",
         link: function(scope, element, attrs) {
@@ -38,7 +37,7 @@ app.directive("fbshare", function(){
     }
 });
 
-app.directive("tweetshare", function(){
+angular.module('voodie').directive("tweetshare", function(){
     return {
         restrict: "EA",
         link: function(scope, element, attrs){
@@ -62,7 +61,7 @@ app.directive("tweetshare", function(){
     }
 });
 
-app.directive("blur", function(){
+angular.module('voodie').directive("blur", function(){
 	return function($scope, element, attrs){
             element.bind("blur", function(event) {
                 $scope.$apply(attrs.blur);
@@ -70,7 +69,7 @@ app.directive("blur", function(){
 	}
 });
 
-app.directive("focus", function(){
+angular.module('voodie').directive("focus", function(){
     return function($scope, element, attrs){
         element.bind("focus", function(event) {
             $scope.$apply(attrs.focus);

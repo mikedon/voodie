@@ -1,5 +1,6 @@
-var app = angular.module('voodie', ['ngResource', 'ui.bootstrap']);
-app.config(["$routeProvider", function($routeProvider){
+angular.module('voodie', ['ngResource', 'ui.bootstrap']);
+
+angular.module('voodie').config(["$routeProvider", function($routeProvider){
     //TODO extract into JSON object and refactor logic to use that
 	$routeProvider.when('/home', {
 		templateUrl:'routes/home.html',
@@ -65,7 +66,7 @@ var Resolve = {
 /**
  * http://blog.brunoscopelliti.com/deal-with-users-authentication-in-an-angularjs-web-app
  */
-app.run(['$rootScope', '$location', 'User', function ($root, $location, User){
+angular.module('voodie').run(['$rootScope', '$location', 'User', function ($root, $location, User){
 	$root.$on('$routeChangeSuccess', function(event, currRoute){
         //clear out error msgs...better way?
         if($root.clearAlerts){

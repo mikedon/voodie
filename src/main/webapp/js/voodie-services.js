@@ -1,4 +1,4 @@
-app.factory('GoogleMaps', function(){
+angular.module('voodie').factory('GoogleMaps', function(){
 	return {
 		googleMaps : new google.maps.Geocoder(),
 		geolocate : function(address, onSuccess){
@@ -11,7 +11,7 @@ app.factory('GoogleMaps', function(){
 	}
 });
 
-app.factory('User', function($resource, $http, $location, $rootScope, $q){
+angular.module('voodie').factory('User', function($resource, $http, $location, $rootScope, $q){
 	return {
 		initialized : false,
 		loggedIn : false,
@@ -93,7 +93,7 @@ app.factory('User', function($resource, $http, $location, $rootScope, $q){
 });
 
 
-app.factory('VoodieResource', function($resource, $rootScope){
+angular.module('voodie').factory('VoodieResource', function($resource, $rootScope){
     var addAlerts = function(alerts){
         if(!alerts || alerts.length === 0){
             return;
@@ -147,8 +147,7 @@ app.factory('VoodieResource', function($resource, $rootScope){
     }
 });
 
-//TODO central location to handle server side alerts
-app.factory('Voodie', function($resource, VoodieResource, $location, $rootScope, $filter){
+angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $location, $rootScope, $filter){
 	return {
         //TODO abstract all voodie services so api path is set in one place
 		registerTruck: function(truck, redirect){
