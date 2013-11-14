@@ -34,7 +34,7 @@
         <div class="modal-body">
             <p>An email has been sent to all your Foodies with the results.</p>
             <p>Spread the word!</p>
-            <ng-include src="'includes/share-election.html'"></ng-include>
+            <ng-include src="'includes/share-election.html'" onLoad="election=election"></ng-include>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="ok()">OK</button>
