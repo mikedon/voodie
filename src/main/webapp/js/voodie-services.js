@@ -11,7 +11,7 @@ angular.module('voodie').factory('GoogleMaps', function(){
 	}
 });
 
-angular.module('voodie').factory('User', function($resource, $http, $location, $rootScope, $q){
+angular.module('voodie').factory('User', function($resource, VoodieResource, $http, $location, $rootScope, $q){
 	return {
 		initialized : false,
 		loggedIn : false,
@@ -64,24 +64,22 @@ angular.module('voodie').factory('User', function($resource, $http, $location, $
 		},
         //TODO convert to alerts
 		login : function(redirect){
+            VoodieResource.clearAlerts();
 			var that = this;
             var payload = 'j_username=' + this.username + '&j_password=' + this.password;
             var config = {
                 headers: {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
             }
-	        $http.post('j_spring_security_check', payload,config)
-	        .success(function(data) {
-	        	if(data.hasErrors){
+            VoodieResource.post('j_spring_security_check', payload, config,
+                function(){
+                    that.password = '';
+                    that.loggedIn = true;
+                    $location.path(redirect);
+                },
+                function(){
                     that.reset();
-	        		$rootScope.error = data.errorMsgs;
-	        		return;
-	        	}else{
-	        		that.password = '';
-	        		that.loggedIn = true;
-	        		$location.path(redirect);
-	        		return;
-	        	}
-            })
+                }
+            );
         },
         logout : function(redirect){
             this.reset();
@@ -93,7 +91,7 @@ angular.module('voodie').factory('User', function($resource, $http, $location, $
 });
 
 
-angular.module('voodie').factory('VoodieResource', function($resource, $rootScope){
+angular.module('voodie').factory('VoodieResource', function($resource, $http, $rootScope){
     var addAlerts = function(alerts){
         if(!alerts || alerts.length === 0){
             return;
@@ -140,6 +138,12 @@ angular.module('voodie').factory('VoodieResource', function($resource, $rootScop
             return resource.query(function(data){
                 handleResponse(data, onSuccess, onFailure);
             });
+        },
+        post: function(url, payload, config, onSuccess, onFailure){
+            return  $http.post(url, payload, config)
+                .success(function(data) {
+                    handleResponse(data, onSuccess, onFailure);
+                });
         },
         clearAlerts: function(){
             $rootScope.alerts = [];

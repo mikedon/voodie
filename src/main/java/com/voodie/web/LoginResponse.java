@@ -3,8 +3,9 @@ package com.voodie.web;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.voodie.remote.types.VoodieResponse;
 
-public class LoginResponse extends Response {
+public class LoginResponse extends VoodieResponse {
 
 	private List<String> roles = Lists.newArrayList();
 

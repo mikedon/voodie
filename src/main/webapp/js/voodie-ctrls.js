@@ -1,3 +1,5 @@
+
+//TODO most of this logic should be moved to directive
 angular.module('voodie').controller('NavbarCtrl', ['$scope', '$location', 'User',
     function($scope, $location, User){
         $scope.home = function() {
@@ -48,6 +50,17 @@ angular.module('voodie').controller('HomeCtrl', ['$scope', '$location', 'EatingT
 
 angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Voodie',
     function($scope, $location, Voodie){
+        function formatDate(date){
+            var formattedDate = date;
+            var dd = date.getDate();
+            var mm = date.getMonth()+1; //January is 0!
+
+            var yyyy = formattedDate.getFullYear();
+            if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} formattedDate = mm+'/'+dd+'/'+yyyy;
+            return formattedDate;
+        }
+
+
         //district filter
         $scope.district = "";
         $scope.districts = Voodie.getDistricts();
@@ -68,8 +81,10 @@ angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Vo
         // date filters
         $scope.startOpened = false;
         $scope.endOpened = false;
-        $scope.startDate = "";
-        $scope.endDate = "";
+        $scope.startDate = formatDate(new Date());
+        var endDate = new Date();
+        endDate.setDate(endDate.getDate() + 7);
+        $scope.endDate = formatDate(endDate);
         $scope.openStart = function() {
             $scope.startOpened = true;
         };

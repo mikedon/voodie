@@ -1,57 +1,55 @@
 <div ng-controller="ElectionsCtrl">
-    <form class="form-horizontal">
     <div class="row">
-        <div class="col-md-2">
-            <label class="control-label filter-label" for="district">Disctrict: </label>
+        <div class="col-md-4">
+            <form class="form">
+                <div class="form-group">
+                    <label class="control-label filter-label" for="district">Disctrict: </label>
+                    <select id="district" class="form-control " ng-model="district">
+                        <option value=""></option>
+                        <option ng-repeat="d in districts" value="{{d.name}}">{{d.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label filter-label" for="startDate">Start Date: </label>
+                    <input type="text"
+                           class="form-control"
+                           id="startDate"
+                           datepicker-popup="MM/dd/yyyy"
+                           ng-model="startDate"
+                           is-open="startOpened"
+                           ng-required="true" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label filter-label" for="endDate">End Date: </label>
+                    <input type="text"
+                           class="form-control"
+                           id="endDate"
+                           datepicker-popup="MM/dd/yyyy"
+                           ng-model="endDate"
+                           is-open="endOpened"
+                           datepicker-options="dateOptions"
+                           ng-required="true" />
+                </div>
+            </form>
         </div>
-        <div class="col-md-2">
-            <select id="district" class="form-control " ng-model="district">
-                <option value=""></option>
-                <option ng-repeat="d in districts" value="{{d.name}}">{{d.name}}</option>
-            </select>
-        </div>
-        <div class="col-md-1">
-            <label class="control-label filter-label" for="startDate">Start Date: </label>
-        </div>
-        <div class="col-md-2">
-            <input type="text"
-                   class="form-control"
-                   id="startDate"
-                   datepicker-popup="MM/dd/yyyy"
-                   ng-model="startDate"
-                   is-open="startOpened"
-                   ng-required="true" />
-        </div>
-        <div class="col-md-1">
-            <label class="control-label filter-label" for="endDate">End Date: </label>
-        </div>
-        <div class="col-md-2">
-            <input type="text"
-                   class="form-control"
-                   id="endDate"
-                   datepicker-popup="MM/dd/yyyy"
-                   ng-model="endDate"
-                   is-open="endOpened"
-                   datepicker-options="dateOptions"
-                   ng-required="true" />
-        </div>
-    </div>
-    </form>
-    <h3 ng-show="renderNoFiltersText()">Choose your district and date range.</h3>
-    <h3 ng-show="renderNoElectionsText()">No Elections!</h3>
-    <div ng-repeat="row in electionRows" class="row">
-        <div class="election col-md-4" ng-repeat="e in elections.slice(row, row+2)">
-            <h4>{{e.title}}</h4>
-            <div class="row-fluid">
-                <div class="election-truck-name col-md-6">{{e.foodTruckName}}</div>
-                <div class="election-candidates col-md-6">
-                    <h5>Candidates:</h5>
-                    <ul>
-                        <li ng-repeat="c in e.candidates">{{c.displayName}}</li>
-                    </ul>
+        <div class="col-md-8">
+            <h3 ng-show="renderNoFiltersText()">Choose your district and date range.</h3>
+            <h3 ng-show="renderNoElectionsText()">No Elections!</h3>
+            <div ng-repeat="row in electionRows" class="row">
+                <div class="election col-md-4" ng-repeat="e in elections.slice(row, row+2)">
+                    <h4>{{e.title}}</h4>
+                    <div class="row-fluid">
+                        <div class="election-truck-name col-md-6">{{e.foodTruckName}}</div>
+                        <div class="election-candidates col-md-6">
+                            <h5>Candidates:</h5>
+                            <ul>
+                                <li ng-repeat="c in e.candidates">{{c.displayName}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="btn btn-default btn-primary btn-lg btn-block election-go-vote" ng-click="goToElection(e)">Go Vote!</button>
                 </div>
             </div>
-            <button class="btn btn-default btn-primary btn-lg btn-block election-go-vote" ng-click="goToElection(e)">Go Vote!</button>
         </div>
     </div>
 </div>

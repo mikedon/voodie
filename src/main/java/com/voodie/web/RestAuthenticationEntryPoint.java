@@ -6,6 +6,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.voodie.remote.types.Alert;
+import com.voodie.remote.types.AlertType;
+import com.voodie.remote.types.VoodieResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -28,9 +31,8 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request,
 			HttpServletResponse response, AuthenticationException authException)
 			throws IOException, ServletException {
-		Response resp = new Response();
-		resp.getErrorMsgs().add("Authentication Required");
-		resp.setHasErrors(true);
+		VoodieResponse resp = new VoodieResponse();
+		resp.getAlerts().add(new Alert("Authentication Required", AlertType.danger));
 		Gson gson = new Gson();
 		String json = gson.toJson(resp);
 		response.getOutputStream().print(json);
