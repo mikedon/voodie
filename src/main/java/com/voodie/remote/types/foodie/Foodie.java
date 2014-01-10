@@ -24,6 +24,8 @@ public class Foodie extends VoodieResponse implements Serializable {
 
 	private Long karma;
 
+    private String homeDistrict;
+
 	public String getId() {
 		return id;
 	}
@@ -70,5 +72,13 @@ public class Foodie extends VoodieResponse implements Serializable {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getHomeDistrict() {
+        return homeDistrict;
+    }
+
+    public void setHomeDistrict(String homeDistrict) {
+        this.homeDistrict = homeDistrict;
     }
 }

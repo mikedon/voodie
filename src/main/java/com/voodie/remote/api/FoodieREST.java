@@ -52,7 +52,7 @@ public class FoodieREST {
 		User user = userService.create(registration.getFirstName(), registration.getLastName(), registration.getUsername(),
 				registration.getPassword(), registration.getEmailAddress(), Authorities.FOODIE);
 		if (user != null) {
-			boolean foodieCreated = foodieService.create(user);
+			boolean foodieCreated = foodieService.create(user, registration.getHomeDistrict());
 			if (foodieCreated) {
                 userService.autoLogin(user);
                 VoodieResponse response = new VoodieResponse();

@@ -4,6 +4,14 @@
         <bsinput label="First Name" id="firstName"></bsinput>
         <bsinput label="Last Name" id="lastName"></bsinput>
         <bsinput label="Email" id="email"></bsinput>
+        <div class="form-group">
+            <label class="control-label" for="district">Home District: </label>
+            <select id="district" class="form-control"
+                    ng-model="homeDistrict"
+                    ng-options="d.name for d in districts">
+                <option value=""></option>
+            </select>
+        </div>
        	<bsinput label="Username" id="username"></bsinput>
        	<bsinput label="Password" type="password" id="password"></bsinput>
         <button class="btn btn-default btn-primary pull-right" ng-click="submit()">Submit</button>

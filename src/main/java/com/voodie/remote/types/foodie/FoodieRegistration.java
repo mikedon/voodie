@@ -13,6 +13,7 @@ public class FoodieRegistration {
 	private String username;
 	private String password;
     private String emailAddress;
+    private String homeDistrict;
 
 	public String getUsername() {
 		return username;
@@ -52,5 +53,13 @@ public class FoodieRegistration {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getHomeDistrict() {
+        return homeDistrict;
+    }
+
+    public void setHomeDistrict(String homeDistrict) {
+        this.homeDistrict = homeDistrict;
     }
 }

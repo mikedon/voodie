@@ -17,6 +17,7 @@ public class User extends VoodieResponse implements Serializable {
     private String firstName;
     private String lastName;
 	private String username;
+    private String district;
 	private List<String> roles = Lists.newArrayList();
 
 	public String getUsername() {
@@ -49,5 +50,13 @@ public class User extends VoodieResponse implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 }

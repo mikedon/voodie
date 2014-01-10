@@ -51,6 +51,7 @@ angular.module('voodie').factory('User', function($resource, VoodieResource, $ht
 						that.username = value.username;
                         that.firstName = value.firstName;
                         that.lastName = value.lastName;
+                        that.district = value.district;
 						that.roles = value.roles;
 						that.initialized = true;
 						that.loggedIn = true;
@@ -170,15 +171,16 @@ angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $
                 $location.path(redirect);
             });
 		},
-        registerFoodie: function(truck, redirect){
+        registerFoodie: function(foodie, redirect){
             VoodieResource.clearAlerts();
             var FoodieRegistration = $resource('api/foodie/register');
             var newRegistration = new FoodieRegistration();
-            newRegistration.firstName = truck.firstName;
-            newRegistration.lastName = truck.lastName;
-            newRegistration.emailAddress = truck.email;
-            newRegistration.username = truck.username;
-            newRegistration.password = truck.password;
+            newRegistration.firstName = foodie.firstName;
+            newRegistration.lastName = foodie.lastName;
+            newRegistration.emailAddress = foodie.email;
+            newRegistration.homeDistrict = foodie.homeDistrict;
+            newRegistration.username = foodie.username;
+            newRegistration.password = foodie.password;
             VoodieResource.save(newRegistration, function(){
                 $rootScope.clearAlerts = false;
                 $location.path(redirect);
@@ -238,8 +240,8 @@ angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $
             newCheckIn.election = election;
             VoodieResource.save(newCheckIn, onSuccess);
         },
-        getDistricts: function(){
-            return VoodieResource.query($resource('api/election/districts'));
+        getDistricts: function(onSuccess){
+            return VoodieResource.query($resource('api/election/districts'), onSuccess);
         }
 	}
 });

@@ -55,6 +55,10 @@
             <a>user.emailAddress</a>
             <b>emailAddress</b>
         </field>
+        <field>
+            <a>homeDistrict.name</a>
+            <b>homeDistrict</b>
+        </field>
     </mapping>
     <mapping>
         <class-a>com.voodie.domain.election.Election</class-a>

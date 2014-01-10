@@ -4,9 +4,10 @@
             <form class="form">
                 <div class="form-group">
                     <label class="control-label filter-label" for="district">Disctrict: </label>
-                    <select id="district" class="form-control " ng-model="district">
+                    <select id="district" class="form-control"
+                            ng-model="district"
+                            ng-options="d.name for d in districts">
                         <option value=""></option>
-                        <option ng-repeat="d in districts" value="{{d.name}}">{{d.name}}</option>
                     </select>
                 </div>
                 <div class="form-group">

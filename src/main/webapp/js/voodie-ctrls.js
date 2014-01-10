@@ -48,22 +48,26 @@ angular.module('voodie').controller('HomeCtrl', ['$scope', '$location', 'EatingT
         };
 }]);
 
-angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Voodie',
-    function($scope, $location, Voodie){
+angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Voodie', 'User',
+    function($scope, $location, Voodie, User){
         function formatDate(date){
             var formattedDate = date;
             var dd = date.getDate();
             var mm = date.getMonth()+1; //January is 0!
-
             var yyyy = formattedDate.getFullYear();
             if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} formattedDate = mm+'/'+dd+'/'+yyyy;
             return formattedDate;
         }
 
-
         //district filter
-        $scope.district = "";
-        $scope.districts = Voodie.getDistricts();
+        $scope.districts = Voodie.getDistricts(function(data){
+            angular.forEach(data, function(value, key){
+                if(value.name == User.district){
+                    $scope.district = value;
+                }
+            });
+        });
+
         $scope.goToElection = function(election){
             //TODO polite check to see if they are allowed to vote
             $location.path('election/' + election.id);
@@ -171,6 +175,7 @@ angular.module('voodie').controller('FoodTruckRegistrationCtrl', ['$scope','Vood
 
 angular.module('voodie').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie',
     function($scope, Voodie){
+        $scope.districts = Voodie.getDistricts();
         $scope.submit = function(){
             Voodie.registerFoodie($scope, 'elections');
         }

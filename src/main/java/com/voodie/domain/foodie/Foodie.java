@@ -1,5 +1,6 @@
 package com.voodie.domain.foodie;
 
+import com.voodie.domain.election.District;
 import com.voodie.domain.election.Vote;
 import com.voodie.domain.identity.User;
 import org.hibernate.annotations.GenericGenerator;
@@ -28,6 +29,9 @@ public class Foodie {
 
     @OneToMany
     private List<Vote> votes;
+
+    @ManyToOne
+    private District homeDistrict;
 
     // ---------------------------------
 
@@ -61,5 +65,13 @@ public class Foodie {
 
     public void setVotes(List<Vote> votes) {
         this.votes = votes;
+    }
+
+    public District getHomeDistrict() {
+        return homeDistrict;
+    }
+
+    public void setHomeDistrict(District homeDistrict) {
+        this.homeDistrict = homeDistrict;
     }
 }
