@@ -114,4 +114,24 @@ public class User implements UserDetails {
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
+
+    @Transient
+    public boolean isFoodie(){
+        for(Authorities authority : getAuthorities()){
+            if(authority.getAuthority().equals(Authorities.FOODIE)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Transient
+    public boolean isFoodTruck() {
+        for(Authorities authority : getAuthorities()){
+            if(authority.getAuthority().equals(Authorities.FOOD_TRUCK)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

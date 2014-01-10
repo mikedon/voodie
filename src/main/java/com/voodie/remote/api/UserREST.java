@@ -1,6 +1,8 @@
 package com.voodie.remote.api;
 
 import com.voodie.domain.foodie.Foodie;
+import com.voodie.domain.foodtruck.FoodTruck;
+import com.voodie.domain.service.FoodTruckService;
 import com.voodie.domain.service.FoodieService;
 import com.voodie.domain.service.UserService;
 import com.voodie.remote.types.identity.User;
@@ -23,6 +25,9 @@ public class UserREST {
     protected FoodieService foodieService;
 
     @Inject
+    protected FoodTruckService foodTruckService;
+
+    @Inject
     protected Mapper mapper;
 
     // ---------------------------------
@@ -35,8 +40,15 @@ public class UserREST {
 		if (currentUser != null) {
             mapper.map(currentUser, user);
 		}
-        Foodie foodie = foodieService.find(currentUser.getUsername());
-        user.setDistrict(foodie.getHomeDistrict().getName());
+        String district = null;
+        if(currentUser.isFoodie()){
+            Foodie foodie = foodieService.find(currentUser.getUsername());
+            district = foodie.getHomeDistrict().getName();
+        }else if(currentUser.isFoodTruck()){
+            FoodTruck foodTruck = foodTruckService.find(currentUser.getUsername());
+            district = foodTruck.getDistrict().getName();
+        }
+        user.setDistrict(district);
 		return Response.ok(user).build();
 	}
 }
