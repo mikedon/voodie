@@ -164,20 +164,28 @@ angular.module('voodie').controller('VoteCtrl', ['$scope', '$routeParams', 'Vood
     }
 ]);
 
-angular.module('voodie').controller('FoodTruckRegistrationCtrl', ['$scope','Voodie',
-    function($scope, Voodie){
+angular.module('voodie').controller('FoodTruckRegistrationCtrl', ['$scope','Voodie', '$rootScope',
+    function($scope, Voodie, $rootScope){
         $scope.districts = Voodie.getDistricts();
         $scope.submit = function(){
-            Voodie.registerTruck($scope, 'foodtruck/elections');
+            var path = "foodtruck/elections";
+            if($rootScope.captureRedirect){
+                path = $rootScope.captureRedirect;
+            }
+            Voodie.registerTruck($scope, path);
         }
     }
 ]);
 
-angular.module('voodie').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie',
-    function($scope, Voodie){
+angular.module('voodie').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie', '$rootScope',
+    function($scope, Voodie, $rootScope){
         $scope.districts = Voodie.getDistricts();
         $scope.submit = function(){
-            Voodie.registerFoodie($scope, 'elections');
+            var path = "elections";
+            if($rootScope.captureRedirect){
+                path = $rootScope.captureRedirect;
+            }
+            Voodie.registerFoodie($scope, path);
         }
     }
 ]);
@@ -318,12 +326,16 @@ angular.module('voodie').controller('FoodieProfileCtrl', ['$scope', 'Voodie', 'U
     }
 ]);
 
-angular.module('voodie').controller('LoginCtrl', ['$scope', 'User',
-    function($scope, User){
+angular.module('voodie').controller('LoginCtrl', ['$scope', 'User', '$rootScope',
+    function($scope, User, $rootScope){
         $scope.submit = function(){
             User.username = $scope.username;
             User.password = $scope.password;
-            User.login("elections");
+            var path = "elections";
+            if($rootScope.captureRedirect){
+                path = $rootScope.captureRedirect;
+            }
+            User.login(path);
         }
     }
 ]);

@@ -75,11 +75,13 @@ angular.module('voodie').run(['$rootScope', '$location', 'User', function ($root
         $root.clearAlerts = true;
         if(currRoute.access && currRoute.access.requiresLogin){
 			if(!User.isLoggedIn()){
-				console.log("Route Requires Login")
+                $root.captureRedirect = $location.path();
+                $root.clearAlerts = false;
+				console.log("Route Requires Login");
 				$location.path("/login");
 			}else if(!User.hasRole(currRoute.access.role)){
 				console.log("Route Requires Role: " + currRoute.access.role);
-				$location.path("/home");
+				$location.path("/elections");
 			}
 		}
 	});

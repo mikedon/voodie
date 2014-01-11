@@ -1,11 +1,6 @@
 package com.voodie.web;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.google.gson.Gson;
 import com.voodie.remote.types.Alert;
 import com.voodie.remote.types.AlertType;
 import com.voodie.remote.types.VoodieResponse;
@@ -13,7 +8,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 
@@ -32,7 +30,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 			HttpServletResponse response, AuthenticationException authException)
 			throws IOException, ServletException {
 		VoodieResponse resp = new VoodieResponse();
-		resp.getAlerts().add(new Alert("Authentication Required", AlertType.danger));
+		resp.getAlerts().add(new Alert("Please log in first.", AlertType.warning));
 		Gson gson = new Gson();
 		String json = gson.toJson(resp);
 		response.getOutputStream().print(json);

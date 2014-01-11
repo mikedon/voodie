@@ -165,7 +165,7 @@ angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $
 			newRegistration.username = truck.username;
 			newRegistration.password = truck.password;
 			newRegistration.name = truck.foodTruckName;
-            newRegistration.district = truck.district;
+            newRegistration.district = truck.district.name;
             VoodieResource.save(newRegistration, function(){
                 $rootScope.clearAlerts = false;
                 $location.path(redirect);
@@ -178,7 +178,7 @@ angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $
             newRegistration.firstName = foodie.firstName;
             newRegistration.lastName = foodie.lastName;
             newRegistration.emailAddress = foodie.email;
-            newRegistration.homeDistrict = foodie.homeDistrict;
+            newRegistration.homeDistrict = foodie.homeDistrict.name;
             newRegistration.username = foodie.username;
             newRegistration.password = foodie.password;
             VoodieResource.save(newRegistration, function(){
