@@ -1,11 +1,13 @@
 angular.module('voodie').factory('GoogleMaps', function(){
 	return {
 		googleMaps : new google.maps.Geocoder(),
-		geolocate : function(address, onSuccess){
+		geolocate : function(address, onSuccess, onFailure){
 			this.googleMaps.geocode({"address": address}, function(results, status){
 				if(status == google.maps.GeocoderStatus.OK){
 					onSuccess(results[0].geometry.location.lng(), results[0].geometry.location.lat());
-				}
+				}else{
+                    onFailure();
+                }
 			});
 		}
 	}

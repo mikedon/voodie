@@ -218,19 +218,26 @@ angular.module('voodie').controller('FoodTruckCreateElectionCtrl', ['$scope', '$
             });
         };
         $scope.addCandidate = function(){
+            $rootScope.alerts = [];
             var address = $scope.candidate.address;
             if(address){
-                GoogleMaps.geolocate(address,function(longitude, latitude){
-                    $scope.$apply(function(){
-                        var candidate = {
-                            "latitude" : latitude,
-                            "longitude" : longitude,
-                            "displayName": $scope.candidate.displayName
-                        };
-                        $scope.election.candidates.push(candidate);
-                        $scope.candidate = {};
-                    });
-                });
+                GoogleMaps.geolocate(address,
+                    function(longitude, latitude){
+                        $scope.$apply(function(){
+                            var candidate = {
+                                "latitude" : latitude,
+                                "longitude" : longitude,
+                                "displayName": $scope.candidate.displayName
+                            };
+                            $scope.election.candidates.push(candidate);
+                            $scope.candidate = {};
+                        });
+                    },function(){
+                        $scope.$apply(function(){
+                            $rootScope.alerts.push({type:'danger', message:'Invalid Location'});
+                        });
+                    }
+                );
             }
         };
     }
