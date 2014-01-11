@@ -1,6 +1,9 @@
 angular.module('voodie', ['ngResource', 'ui.bootstrap']);
 
-angular.module('voodie').config(["$routeProvider", function($routeProvider){
+angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function($routeProvider, $tooltipProvider){
+    //global options for tool tips
+    $tooltipProvider.options({trigger: 'focus'});
+
     //TODO extract into JSON object and refactor logic to use that
 	$routeProvider.when('/home', {
 		templateUrl:'routes/home.html',

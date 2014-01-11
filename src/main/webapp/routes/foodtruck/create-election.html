@@ -2,26 +2,27 @@
     <h3>Create New Election</h3>
     <div class="row">
         <div class="col-md-6">
-            <bsinput label="Title" id="election.title"></bsinput>
+            <bsinput tooltip="The name of this election that will be displayed to your Foodies" label="Title" id="election.title"></bsinput>
             <!-- TODO move date logic to bsinput directive -->
             <div class="form-group">
                 <div><label class="control-label">Serving Date</label></div>
                 <input type="text"
                        class="form-control"
                        id="servingDate"
+                       tooltip="This is the date your Foodies will be voting for where you should park."
                        datepicker-popup="MM/dd/yyyy"
                        ng-model="election.servingDate"
                        ng-required="true" />
             </div>
-
-            <div class="form-groups" ng-model="election.servingStartTime">
-                <div><label class="control-label">Serving Start Time</label></div>
-                <timepicker></timepicker>
-            </div>
-
-            <div class="form-group" ng-model="election.servingEndTime">
-                <div><label class="control-label">Serving End Time</label></div>
-                <timepicker></timepicker>
+            <div class="row">
+                <div class="col-md-6" ng-model="election.servingStartTime">
+                    <div><label class="control-label">Start Time</label></div>
+                    <timepicker></timepicker>
+                </div>
+                <div class="col-md-6" ng-model="election.servingEndTime">
+                    <div><label class="control-label">End Time</label></div>
+                    <timepicker></timepicker>
+                </div>
             </div>
 
             <!-- TODO these should just be dates not date time -->
@@ -30,6 +31,7 @@
                 <input type="text"
                        class="form-control"
                        id="pollOpeningDate"
+                       tooltip="The date that voting will begin."
                        datepicker-popup="MM/dd/yyyy"
                        ng-model="election.pollOpeningDate"
                        ng-required="true" />
@@ -39,11 +41,12 @@
                 <input type="text"
                        class="form-control"
                        id="pollClosingDate"
+                       tooltip="The date that voting will end."
                        datepicker-popup="MM/dd/yyyy"
+                       show-weeks="false"
                        ng-model="election.pollClosingDate"
                        ng-required="true" />
             </div>
-            <bsinput label="Allow Write In?" type="checkbox" id="election.allowWriteIn"></bsinput>
         </div>
         <div class="col-md-6">
             <fieldset>
@@ -53,8 +56,9 @@
                         {{ c.displayName }}
                     </li>
                 </ul>
-                <bsinput label="Display Name" id="candidate.displayName"></bsinput>
-                <bsinput label="Address" id="candidate.address"></bsinput>
+                <bsinput label="Allow Write In?" type="checkbox" id="election.allowWriteIn"></bsinput>
+                <bsinput tooltip="The name displayed to your Foodies when voting." label="Display Name" id="candidate.displayName"></bsinput>
+                <bsinput tooltip="A valid address that Google Maps can understand." label="Address" id="candidate.address"></bsinput>
                 <div>
                     <button class="btn btn-default" ng-click="addCandidate()">Add Candidate</button>
                 </div>

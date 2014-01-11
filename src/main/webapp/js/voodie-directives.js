@@ -1,11 +1,11 @@
 angular.module('voodie').directive("bsinput", function(){
 	return {
 		restrict: "E",
-		require: '^ngModel',
 		compile: function(element, attrs){
 			var type = attrs.type || 'text';
 			var id = attrs.id;
 			var label = attrs.label;
+            var tooltip = attrs.tooltip;
             var html = "";
             html += "<div class='form-group'>";
             if(label){
@@ -13,6 +13,9 @@ angular.module('voodie').directive("bsinput", function(){
             }
             html += "<input type='" + type + "' id='" + id + "'";
             html += "class='form-control'";
+            if(tooltip){
+                html += "tooltip='" + tooltip + "'";
+            }
             html += "ng-model='" + id + "'>";
             html += "</div></div>";
             element.replaceWith(html);
