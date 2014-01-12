@@ -1,35 +1,34 @@
 <div ng-controller="ElectionsCtrl">
     <div class="row">
         <div class="col-md-4">
-            <form class="form">
-                <div class="form-group">
-                    <label class="control-label filter-label" for="district">Disctrict: </label>
+            <form name="searchForm">
+                <div bs-input label="District">
                     <select id="district" class="form-control"
-                            ng-model="district"
+                            ng-model="search.district"
+                            name="district"
                             ng-options="d.name for d in districts">
                         <option value=""></option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="control-label filter-label" for="startDate">Start Date: </label>
+                <div bs-input label="Start Date">
                     <input type="text"
                            class="form-control"
                            id="startDate"
+                           name="startDate"
                            datepicker-popup="MM/dd/yyyy"
-                           ng-model="startDate"
-                           is-open="startOpened"
-                           ng-required="true" />
+                           ng-model="search.startDate"
+                           is-open="search.startOpened"
+                           required/>
                 </div>
-                <div class="form-group">
-                    <label class="control-label filter-label" for="endDate">End Date: </label>
+                <div bs-input label="Start Date">
                     <input type="text"
                            class="form-control"
                            id="endDate"
+                           name="endDate"
                            datepicker-popup="MM/dd/yyyy"
-                           ng-model="endDate"
-                           is-open="endOpened"
-                           datepicker-options="dateOptions"
-                           ng-required="true" />
+                           ng-model="search.endDate"
+                           is-open="search.endOpened"
+                           required/>
                 </div>
             </form>
         </div>

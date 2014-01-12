@@ -1,69 +1,76 @@
 <div ng-controller="FoodTruckCreateElectionCtrl">
     <h3>Create New Election</h3>
-    <div class="row">
-        <div class="col-md-6">
-            <bsinput tooltip="The name of this election that will be displayed to your Foodies" label="Title" id="election.title"></bsinput>
-            <!-- TODO move date logic to bsinput directive -->
-            <div class="form-group">
-                <div><label class="control-label">Serving Date</label></div>
-                <input type="text"
-                       class="form-control"
-                       id="servingDate"
-                       tooltip="This is the date your Foodies will be voting for where you should park."
-                       datepicker-popup="MM/dd/yyyy"
-                       ng-model="election.servingDate"
-                       ng-required="true" />
-            </div>
-            <div class="row">
-                <div class="col-md-6" ng-model="election.servingStartTime">
-                    <div><label class="control-label">Start Time</label></div>
-                    <timepicker></timepicker>
+    <form name="createElection" novalidate>
+        <div class="row">
+            <div class="col-md-6">
+                {{election.title}}
+                <bs-input
+                         help-text="'The name of this election that will be displayed to your Foodies'"
+                         label="'Title'"
+                         id="'electionTitle'" input-model="election.title"></bs-input>
+                <!--<div class="form-group" ng-class="{createElection.servingDate.$invalid:'has-error'}">
+                    <div><label class="control-label">Serving Date</label></div>
+                    <input type="text"
+                           class="form-control"
+                           ng-required="true"
+                           id="servingDate"
+                           tooltip="This is the date your Foodies will be voting for where you should park."
+                           datepicker-popup="MM/dd/yyyy"
+                           ng-model="election.servingDate"
+                           ng-required="true" />
                 </div>
-                <div class="col-md-6" ng-model="election.servingEndTime">
-                    <div><label class="control-label">End Time</label></div>
-                    <timepicker></timepicker>
+                <div class="row">
+                    <div class="col-md-6" ng-model="election.servingStartTime">
+                        <div><label class="control-label">Start Time</label></div>
+                        <timepicker></timepicker>
+                    </div>
+                    <div class="col-md-6" ng-model="election.servingEndTime">
+                        <div><label class="control-label">End Time</label></div>
+                        <timepicker></timepicker>
+                    </div>
                 </div>
-            </div>
 
-            <!-- TODO these should just be dates not date time -->
-            <div class="form-group">
-                <div><label class="control-label">Poll Opening Date</label></div>
-                <input type="text"
-                       class="form-control"
-                       id="pollOpeningDate"
-                       tooltip="The date that voting will begin."
-                       datepicker-popup="MM/dd/yyyy"
-                       ng-model="election.pollOpeningDate"
-                       ng-required="true" />
-            </div>
-            <div class="form-group">
-                <div><label class="control-label">Poll Closing Date</label></div>
-                <input type="text"
-                       class="form-control"
-                       id="pollClosingDate"
-                       tooltip="The date that voting will end."
-                       datepicker-popup="MM/dd/yyyy"
-                       show-weeks="false"
-                       ng-model="election.pollClosingDate"
-                       ng-required="true" />
-            </div>
-        </div>
-        <div class="col-md-6">
-            <fieldset>
-                <legend>Candidates</legend>
-                <ul>
-                    <li ng-repeat="c in election.candidates">
-                        {{ c.displayName }}
-                    </li>
-                </ul>
-                <bsinput label="Allow Write In?" type="checkbox" id="election.allowWriteIn"></bsinput>
-                <bsinput tooltip="The name displayed to your Foodies when voting." label="Display Name" id="candidate.displayName"></bsinput>
-                <bsinput tooltip="A valid address that Google Maps can understand." label="Address" id="candidate.address"></bsinput>
-                <div>
-                    <button class="btn btn-default" ng-click="addCandidate()">Add Candidate</button>
+                <div class="form-group">
+                    <div><label class="control-label">Poll Opening Date</label></div>
+                    <input type="text"
+                           class="form-control"
+                           id="pollOpeningDate"
+                           ng-required="true"
+                           tooltip="The date that voting will begin."
+                           datepicker-popup="MM/dd/yyyy"
+                           ng-model="election.pollOpeningDate"
+                           ng-required="true" />
                 </div>
-            </fieldset>
+                <div class="form-group">
+                    <div><label class="control-label">Poll Closing Date</label></div>
+                    <input type="text"
+                           class="form-control"
+                           id="pollClosingDate"
+                           ng-required="true"
+                           tooltip="The date that voting will end."
+                           datepicker-popup="MM/dd/yyyy"
+                           show-weeks="false"
+                           ng-model="election.pollClosingDate"
+                           ng-required="true" />
+                </div> -->
+            </div>
+           <!-- <div class="col-md-6">
+                <fieldset>
+                    <legend>Candidates</legend>
+                    <ul>
+                        <li ng-repeat="c in election.candidates">
+                            {{ c.displayName }}
+                        </li>
+                    </ul>
+                    <bsinput label="Allow Write In?" type="checkbox" id="election.allowWriteIn"></bsinput>
+                    <bsinput ng-required="true" tooltip="The name displayed to your Foodies when voting." label="Display Name" id="candidate.displayName"></bsinput>
+                    <bsinput ng-required="true" tooltip="A valid address that Google Maps can understand." label="Address" id="candidate.address"></bsinput>
+                    <div>
+                        <button class="btn btn-default" ng-click="addCandidate()">Add Candidate</button>
+                    </div>
+                </fieldset>
+            </div>-->
         </div>
-    </div>
-    <button class="btn btn-default btn-primary btn-lg pull-right" ng-click="submit()">Create</button>
+        <button class="btn btn-default btn-primary btn-lg pull-right" ng-click="submit()">Create</button>
+    </form>
 </div>

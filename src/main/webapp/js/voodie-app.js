@@ -1,4 +1,4 @@
-angular.module('voodie', ['ngResource', 'ui.bootstrap']);
+angular.module('voodie', ['ngResource', 'ngRoute', 'ui.bootstrap']);
 
 angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function($routeProvider, $tooltipProvider){
     //global options for tool tips

@@ -63,7 +63,7 @@ angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Vo
         $scope.districts = Voodie.getDistricts(function(data){
             angular.forEach(data, function(value, key){
                 if(value.name == User.district){
-                    $scope.district = value;
+                    $scope.search.district = value;
                 }
             });
         });
@@ -72,9 +72,9 @@ angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Vo
             //TODO polite check to see if they are allowed to vote
             $location.path('election/' + election.id);
         }
-        $scope.$watch('district + startDate + endDate', function(){
+        $scope.$watch('search.district + search.startDate + search.endDate', function(){
             if(!$scope.renderNoFiltersText()){
-                $scope.elections = Voodie.getAllElections($scope.district, $scope.startDate, $scope.endDate, function(data){
+                $scope.elections = Voodie.getAllElections($scope.search.district, $scope.search.startDate, $scope.search.endDate, function(data){
                     $scope.electionRows = [];
                     for( var i = 0; i < data.length; i = i + 2 ){
                         $scope.electionRows.push(i);
@@ -83,17 +83,18 @@ angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Vo
             }
         }) ;
         // date filters
-        $scope.startOpened = false;
-        $scope.endOpened = false;
-        $scope.startDate = formatDate(new Date());
+        $scope.search = {};
+        $scope.search.startOpened = false;
+        $scope.search.endOpened = false;
+        $scope.search.startDate = formatDate(new Date());
         var endDate = new Date();
         endDate.setDate(endDate.getDate() + 7);
-        $scope.endDate = formatDate(endDate);
-        $scope.openStart = function() {
-            $scope.startOpened = true;
+        $scope.search.endDate = formatDate(endDate);
+        $scope.search.openStart = function() {
+            $scope.search.startOpened = true;
         };
         $scope.openEnd = function() {
-            $scope.endOpened = true;
+            $scope.search.endOpened = true;
         };
         // render rules
         $scope.renderNoElectionsText = function(){
@@ -102,7 +103,7 @@ angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Vo
             return Boolean(isRendered);
         };
         $scope.renderNoFiltersText = function(){
-            var isRendered = !$scope.startDate || !$scope.endDate || !$scope.district;
+            var isRendered = !$scope.search.startDate || !$scope.search.endDate || !$scope.search.district;
             return Boolean(isRendered);
         };
     }
@@ -335,14 +336,19 @@ angular.module('voodie').controller('FoodieProfileCtrl', ['$scope', 'Voodie', 'U
 
 angular.module('voodie').controller('LoginCtrl', ['$scope', 'User', '$rootScope',
     function($scope, User, $rootScope){
+        $scope.login = {};
         $scope.submit = function(){
-            User.username = $scope.username;
-            User.password = $scope.password;
-            var path = "elections";
-            if($rootScope.captureRedirect){
-                path = $rootScope.captureRedirect;
+            if($scope.loginForm.$valid){
+                User.username = $scope.login.username;
+                User.password = $scope.login.password;
+                var path = "elections";
+                if($rootScope.captureRedirect){
+                    path = $rootScope.captureRedirect;
+                }
+                User.login(path);
+            }else{
+                $scope.loginForm.submitted = true;
             }
-            User.login(path);
         }
     }
 ]);
