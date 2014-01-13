@@ -167,26 +167,36 @@ angular.module('voodie').controller('VoteCtrl', ['$scope', '$routeParams', 'Vood
 
 angular.module('voodie').controller('FoodTruckRegistrationCtrl', ['$scope','Voodie', '$rootScope',
     function($scope, Voodie, $rootScope){
+        $scope.registration = {};
         $scope.districts = Voodie.getDistricts();
         $scope.submit = function(){
-            var path = "foodtruck/elections";
-            if($rootScope.captureRedirect){
-                path = $rootScope.captureRedirect;
+            if($scope.foodTruckRegistrationForm.$valid){
+                var path = "foodtruck/elections";
+                if($rootScope.captureRedirect){
+                    path = $rootScope.captureRedirect;
+                }
+                Voodie.registerTruck($scope.registration, path);
+            }else{
+                $scope.foodTruckRegistrationForm.submitted = true;
             }
-            Voodie.registerTruck($scope, path);
         }
     }
 ]);
 
 angular.module('voodie').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie', '$rootScope',
     function($scope, Voodie, $rootScope){
+        $scope.registration = {};
         $scope.districts = Voodie.getDistricts();
         $scope.submit = function(){
-            var path = "elections";
-            if($rootScope.captureRedirect){
-                path = $rootScope.captureRedirect;
+            if($scope.foodieRegistrationForm.$valid){
+                var path = "elections";
+                if($rootScope.captureRedirect){
+                    path = $rootScope.captureRedirect;
+                }
+                Voodie.registerFoodie($scope.registration, path);
+            }else{
+                $scope.foodieRegistrationForm.submitted = true;
             }
-            Voodie.registerFoodie($scope, path);
         }
     }
 ]);

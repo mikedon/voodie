@@ -6,7 +6,8 @@ angular.module('voodie').directive("bsInput", function(){
         transclude: true,
         scope: {
             label: "@", // Gets the string contents of the `label` attribute.
-            requiredMsg: "@"
+            requiredMsg: "@",
+            validationMsg: "@"
         },
         link: function(scope, element, attrs, formController) {
             var input = element.find(":input") ? element.find(":input") : element.find(":select");

@@ -1,20 +1,59 @@
 <div ng-controller="FoodTruckRegistrationCtrl">
 	<h2>Food Truck Registration</h2>
-    <form>
-        <bsinput label="First Name" id="firstName"></bsinput>
-        <bsinput label="Last Name" id="lastName"></bsinput>
-        <bsinput label="Email" id="email"></bsinput>
-        <div class="form-group">
-            <label class="control-label" for="district">District: </label>
+    <form name="foodTruckRegistrationForm" novalidate>
+        <div bs-input label="First Name" required-msg="Value is required">
+            <input type="text"
+                   name="firstName"
+                   id="firstName"
+                   ng-model="registration.firstName"
+                   required>
+        </div>
+        <div bs-input label="Last Name" required-msg="Value is required">
+            <input type="text"
+                   name="lastName"
+                   id="lastName"
+                   ng-model="registration.lastName"
+                   required>
+        </div>
+        <div bs-input label="Email" required-msg="Value is required" validation-msg="Must be a valid email address">
+            <input type="email"
+                   name="email"
+                   id="email"
+                   ng-model="registration.email"
+                   required>
+        </div>
+        <div bs-input label="District" required-msg="Value is required">
             <select id="district" class="form-control"
-                    ng-model="district"
+                    name="district"
+                    required
+                    ng-model="registration.district"
                     ng-options="d.name for d in districts">
                 <option value=""></option>
             </select>
         </div>
-        <bsinput label="Food Truck Name" id="foodTruckName"/></bsinput>
-        <bsinput label="Username" id="username"></bsinput>
-       	<bsinput label="Password" type="password" id="password"></bsinput>
+        <!--TODO unique validation on food truck name -->
+        <div bs-input label="Food Truck Name" required-msg="Value is required">
+            <input type="text"
+                   name="foodTruckName"
+                   id="foodTruckName"
+                   ng-model="registration.foodTruckName"
+                   required>
+        </div>
+        <!--TODO unique validation on username -->
+        <div bs-input label="Username" required-msg="Value is required">
+            <input type="text"
+                   name="username"
+                   id="username"
+                   ng-model="registration.username"
+                   required>
+        </div>
+        <div bs-input label="Password" required-msg="Value is required">
+            <input type="password"
+                   name="password"
+                   id="password"
+                   ng-model="registration.password"
+                   required>
+        </div>
         <button class="btn btn-default btn-primary pull-right" ng-click="submit()">Submit</button>
     </form>
 </div>
