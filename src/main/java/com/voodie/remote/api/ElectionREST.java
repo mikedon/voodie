@@ -1,7 +1,6 @@
 package com.voodie.remote.api;
 
 import com.google.common.collect.Lists;
-import com.voodie.domain.election.ElectionStatus;
 import com.voodie.domain.election.VotingDao;
 import com.voodie.domain.foodie.Foodie;
 import com.voodie.domain.service.ElectionService;
@@ -129,25 +128,32 @@ public class ElectionREST {
     @Path("/secure/createElection")
     @POST
     public Response createElection(Election remoteElection){
-        List<com.voodie.domain.election.Candidate> candidates = Lists.newArrayList();
-        for(Candidate remoteCandidate : remoteElection.getCandidates()){
-            com.voodie.domain.election.Candidate domainCandidate =
-                    mapper.map(remoteCandidate, com.voodie.domain.election.Candidate.class);
-            candidates.add(domainCandidate);
-        }
-        if(electionService.createElection(userService.getCurrentUser().getUsername(),
+        com.voodie.domain.election.Election domainElection = electionService.createElection(userService.getCurrentUser().getUsername(),
                 remoteElection.getTitle(),
                 remoteElection.getServingStartTime(),
                 remoteElection.getServingEndTime(),
                 remoteElection.getPollOpeningDate(),
-                remoteElection.getPollClosingDate(), candidates, remoteElection.getAllowWriteIn()) != null){
-                VoodieResponse response = new VoodieResponse();
-                response.getAlerts().add(new Alert("Election created successfully", AlertType.success));
-                return Response.ok(response).build();
+                remoteElection.getPollClosingDate(), null, remoteElection.getAllowWriteIn());
+        if(domainElection != null){
+                Election election = new Election();
+                election.setId(domainElection.getId());
+                election.getAlerts().add(new Alert("Election created successfully", AlertType.success));
+                return Response.ok(election).build();
         }
         VoodieResponse response = new VoodieResponse();
         response.getAlerts().add(new Alert("Duplicate Election", AlertType.danger));
         return Response.ok(response).build();
+    }
+
+    @Path("/secure/addCandidate")
+    @POST
+    public Response addCandidate(Candidate remoteCandidate){
+        com.voodie.domain.election.Candidate domainCandidate =
+                mapper.map(remoteCandidate, com.voodie.domain.election.Candidate.class);
+       electionService.addCandidate(remoteCandidate.getElectionId(), domainCandidate);
+       VoodieResponse response = new VoodieResponse();
+       response.getAlerts().add(new Alert("Candidate added successfully", AlertType.success));
+       return Response.ok(response).build();
     }
 
     @Path("/secure/checkIn")

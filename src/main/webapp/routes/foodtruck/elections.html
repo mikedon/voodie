@@ -20,6 +20,7 @@
                 <td>{{ e.servingStartTime | date:'MM/dd/yyyy @ h:mma' }} to {{ e.servingEndTime | date:'MM/dd/yyyy @ h:mma'}}</td>
                 <td>
                     <div class="btn-group">
+                        <a ng-href="#/foodtruck/editElection/{{e.id}}" class="btn btn-default btn-primary btn-sm">Edit</a>
                         <button ng-click="viewElection(e)"
                                 class="btn btn-default btn-success btn-sm">View Results</button>
                     </div>

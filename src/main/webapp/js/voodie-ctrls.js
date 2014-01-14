@@ -201,8 +201,44 @@ angular.module('voodie').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie
     }
 ]);
 
-angular.module('voodie').controller('FoodTruckCreateElectionCtrl', ['$scope', '$location', 'Voodie', 'User', 'GoogleMaps', '$rootScope',
-    function ($scope, $location, Voodie, User, GoogleMaps, $rootScope){
+angular.module('voodie').controller('FoodTruckEditElectionCtrl', ['$scope', '$routeParams', 'Voodie', 'GoogleMaps', '$rootScope',
+    function($scope, $routeParams, Voodie, GoogleMaps, $rootScope){
+        $scope.election = Voodie.getElection($routeParams.e);
+        $scope.candidate = {};
+        $scope.addCandidate = function(){
+            if($scope.addCandidateForm.$valid){
+                $rootScope.alerts = [];
+                var address = $scope.candidate.address;
+                if(address){
+                    GoogleMaps.geolocate(address,
+                        function(longitude, latitude){
+                            $scope.$apply(function(){
+                                var candidate = {
+                                    "latitude" : latitude,
+                                    "longitude" : longitude,
+                                    "displayName": $scope.candidate.displayName
+                                };
+                                Voodie.addCandidate($routeParams.e, candidate, function(data){
+                                    $scope.election.candidates.push(candidate);
+                                });
+                                $scope.candidate = {};
+                                $scope.addCandidateForm.submitted = false;
+                            });
+                        },function(){
+                            $scope.$apply(function(){
+                                $rootScope.alerts.push({type:'danger', message:'Invalid Location'});
+                            });
+                        }
+                    );
+                }
+            }else{
+                $scope.addCandidateForm.submitted = true;
+            }
+        }
+    }
+]);
+angular.module('voodie').controller('FoodTruckCreateElectionCtrl', ['$scope', '$location', 'Voodie', '$rootScope',
+    function ($scope, $location, Voodie, $rootScope){
         function mapServingTime(servingDate, servingTime){
             new Date(servingDate.getFullYear(), servingDate.getMonth(),
                 servingDate.getDate(), servingTime.getHours(), servingTime.getMinutes(), 0, 0);
@@ -214,41 +250,20 @@ angular.module('voodie').controller('FoodTruckCreateElectionCtrl', ['$scope', '$
                 servingStartTime : new Date(),
                 servingEndTime : new Date(),
                 pollOpeningDate : "",
-                pollClosingDate : "",
-                candidates : []
+                pollClosingDate : ""
             };
-            $scope.candidate  = {};
         };
         reset();
         $scope.submit = function(){
-            $scope.servingStartTime = mapServingTime($scope.election.servingDate, $scope.election.servingStartTime);
-            $scope.servingEndTime = mapServingTime($scope.election.servingDate, $scope.election.servingEndTime);
-            Voodie.createElection($scope.election, function(){
-                $rootScope.clearAlerts = false;
-                $location.path("foodtruck/elections");
-            });
-        };
-        $scope.addCandidate = function(){
-            $rootScope.alerts = [];
-            var address = $scope.candidate.address;
-            if(address){
-                GoogleMaps.geolocate(address,
-                    function(longitude, latitude){
-                        $scope.$apply(function(){
-                            var candidate = {
-                                "latitude" : latitude,
-                                "longitude" : longitude,
-                                "displayName": $scope.candidate.displayName
-                            };
-                            $scope.election.candidates.push(candidate);
-                            $scope.candidate = {};
-                        });
-                    },function(){
-                        $scope.$apply(function(){
-                            $rootScope.alerts.push({type:'danger', message:'Invalid Location'});
-                        });
-                    }
-                );
+            if($scope.createElectionForm.$valid){
+                $scope.servingStartTime = mapServingTime($scope.election.servingDate, $scope.election.servingStartTime);
+                $scope.servingEndTime = mapServingTime($scope.election.servingDate, $scope.election.servingEndTime);
+                Voodie.createElection($scope.election, function(data){
+                    $rootScope.clearAlerts = false;
+                    $location.path("foodtruck/editElection/" + data.id);
+                });
+            }else{
+                $scope.createElectionForm.submitted = true;
             }
         };
     }

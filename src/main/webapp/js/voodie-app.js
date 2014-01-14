@@ -54,6 +54,10 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
         templateUrl: 'routes/foodtruck/create-election.html',
         resolve: Resolve,
         access: {requiresLogin: true, role: "Food Truck"}});
+    $routeProvider.when('/foodtruck/editElection/:e', {
+        templateUrl : 'routes/foodtruck/edit-election.html',
+        resolve: Resolve,
+        access: {requiresLogin : true, role : "Food Truck"}});
 	$routeProvider.otherwise({redirectTo: '/elections'});
 }]);
 

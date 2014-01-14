@@ -203,8 +203,16 @@ angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $
             newElection.pollOpeningDate = election.pollOpeningDate;
             newElection.pollClosingDate = election.pollClosingDate;
             newElection.allowWriteIn = election.allowWriteIn;
-            newElection.candidates = election.candidates;
             VoodieResource.save(newElection, onSuccess);
+        },
+        addCandidate: function(election, candidate, onSuccess){
+            var Candidate = $resource('api/election/secure/addCandidate');
+            var newCandidate = new Candidate();
+            newCandidate.displayName = candidate.displayName;
+            newCandidate.latitude = candidate.latitude;
+            newCandidate.longitude = candidate.longitude;
+            newCandidate.electionId = election;
+            VoodieResource.save(newCandidate, onSuccess);
         },
         getElections: function(username, onSuccess){
             return VoodieResource.query($resource('api/election/secure/getAllElections', {"username":username}), onSuccess);

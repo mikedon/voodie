@@ -17,6 +17,8 @@ public class Candidate extends VoodieResponse{
 
     private Long id;
 
+    private Long electionId;
+
     private String displayName;
 
     private Double longitude;
@@ -75,5 +77,13 @@ public class Candidate extends VoodieResponse{
 
     public void setPercentageOfVotes(Double percentageOfVotes) {
         this.percentageOfVotes = percentageOfVotes;
+    }
+
+    public Long getElectionId() {
+        return electionId;
+    }
+
+    public void setElectionId(Long electionId) {
+        this.electionId = electionId;
     }
 }

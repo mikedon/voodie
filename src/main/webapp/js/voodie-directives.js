@@ -11,7 +11,6 @@ angular.module('voodie').directive("bsInput", function(){
         },
         link: function(scope, element, attrs, formController) {
             var input = element.find(":input") ? element.find(":input") : element.find(":select");
-            console.debug(input);
             input.addClass('form-control');
             // The <label> should have a `for` attribute that links it to the input.
             // Get the `id` attribute from the input element

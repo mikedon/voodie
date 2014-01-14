@@ -48,6 +48,13 @@ public class ElectionService {
         return election;
     }
 
+    public Election addCandidate(Long electionId, Candidate candidate){
+        Election election = findElection(electionId);
+        election.getCandidates().add(candidate);
+        election = em.merge(election);
+        return election;
+    }
+
     public Vote vote(Foodie foodie, Candidate candidate){
         if(!hasFoodieAlreadyVoted(foodie, candidate)){
             Vote vote = new Vote();
@@ -91,9 +98,11 @@ public class ElectionService {
             election.setPollOpeningDate(DateUtil.truncateHours(pollOpeningDate));
             election.setTitle(title);
             election.setStatus(ElectionStatus.IN_PROGRESS);
-            election.setCandidates(candidates);
-            for(Candidate c : candidates){
-                c.setElection(election);
+            if(candidates != null){
+                election.setCandidates(candidates);
+                for(Candidate c : candidates){
+                    c.setElection(election);
+                }
             }
             election.setAllowWriteIn(allowWriteIn);
             election.setFoodTruck(foodTruck);
