@@ -37,15 +37,13 @@
             <h3 ng-show="renderNoElectionsText()">No Elections!</h3>
             <div ng-repeat="row in electionRows" class="row">
                 <div class="election col-md-4" ng-repeat="e in elections.slice(row, row+2)">
-                    <h4>{{e.title}}</h4>
-                    <div class="row-fluid">
-                        <div class="election-truck-name col-md-6">{{e.foodTruckName}}</div>
-                        <div class="election-candidates col-md-6">
-                            <h5>Candidates:</h5>
-                            <ul>
-                                <li ng-repeat="c in e.candidates">{{c.displayName}}</li>
-                            </ul>
-                        </div>
+                    <h4>{{e.foodTruckName}}</h4>
+                    <h6>{{e.title}}</h6>
+                    <div class="election-candidates">
+                        <h5>Candidates:</h5>
+                        <ul>
+                            <li ng-repeat="c in e.candidates">{{c.displayName}}</li>
+                        </ul>
                     </div>
                     <button class="btn btn-default btn-primary btn-lg btn-block election-go-vote" ng-click="goToElection(e)">Go Vote!</button>
                 </div>

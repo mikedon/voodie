@@ -14,9 +14,20 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
     $routeProvider.when('/elections', {
         templateUrl:'routes/election/elections.html',
         resolve:Resolve});
+
+    //TODO I think we should use this approach for all controllers...
     $routeProvider.when('/election/:e', {
         templateUrl:'routes/election/election.html',
-        resolve:Resolve,
+        controller:'ElectionCtrl',
+        resolve: angular.extend(Resolve, {
+                election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
+                    var deferred = $q.defer();
+                    Voodie.getElection($route.current.params.e).$promise.then(function(res){
+                       deferred.resolve(res);
+                    });
+                    return deferred.promise;
+                }]
+            }),
         access: {requiresLogin: true, role : "Foodie"}});
     $routeProvider.when('/election/checkin/:e', {
         templateUrl:'routes/election/checkin.html',

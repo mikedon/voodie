@@ -74,7 +74,7 @@ angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Vo
         }
         $scope.$watch('search.district + search.startDate + search.endDate', function(){
             if(!$scope.renderNoFiltersText()){
-                $scope.elections = Voodie.getAllElections($scope.search.district, $scope.search.startDate, $scope.search.endDate, function(data){
+                $scope.elections = Voodie.getAllElections($scope.search.district.name, $scope.search.startDate, $scope.search.endDate, function(data){
                     $scope.electionRows = [];
                     for( var i = 0; i < data.length; i = i + 2 ){
                         $scope.electionRows.push(i);
@@ -109,25 +109,24 @@ angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Vo
     }
 ]);
 
-angular.module('voodie').controller('ElectionCtrl', ['$scope', '$routeParams', '$location', 'Voodie',
-    function($scope, $routeParams, $location, Voodie){
-        $scope.election = Voodie.getElection($routeParams.e, function(data){
-            var mapOptions = {
-                center: new google.maps.LatLng(data.candidates[0].latitude, data.candidates[1].longitude),
-                zoom: 8,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            $scope.map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-            for(var i=0;i<data.candidates.length; i++){
-                var candidate = data.candidates[i];
-                var latLng = new google.maps.LatLng(candidate.latitude,candidate.longitude);
-                var marker = new google.maps.Marker({
-                    position: latLng,
-                    map: $scope.map,
-                    title: candidate.displayName
-                });
-            }
-        });
+angular.module('voodie').controller('ElectionCtrl', ['$scope', '$routeParams', '$location', 'Voodie', 'election',
+    function($scope, $routeParams, $location, Voodie, election){
+        $scope.election = election;
+        var mapOptions = {
+            center: new google.maps.LatLng($scope.election.candidates[0].latitude, $scope.election.candidates[1].longitude),
+            zoom: 8,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        $scope.map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        for(var i=0;i<$scope.election.candidates.length; i++){
+            var candidate = $scope.election.candidates[i];
+            var latLng = new google.maps.LatLng(candidate.latitude,candidate.longitude);
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: $scope.map,
+                title: candidate.displayName
+            });
+        }
         $scope.candidateChoice = "";
         $scope.vote = function(){
             Voodie.vote($scope.candidateChoice, function(data){
@@ -240,7 +239,7 @@ angular.module('voodie').controller('FoodTruckEditElectionCtrl', ['$scope', '$ro
 angular.module('voodie').controller('FoodTruckCreateElectionCtrl', ['$scope', '$location', 'Voodie', '$rootScope',
     function ($scope, $location, Voodie, $rootScope){
         function mapServingTime(servingDate, servingTime){
-            new Date(servingDate.getFullYear(), servingDate.getMonth(),
+            return new Date(servingDate.getFullYear(), servingDate.getMonth(),
                 servingDate.getDate(), servingTime.getHours(), servingTime.getMinutes(), 0, 0);
         };
         function reset(){
@@ -256,8 +255,8 @@ angular.module('voodie').controller('FoodTruckCreateElectionCtrl', ['$scope', '$
         reset();
         $scope.submit = function(){
             if($scope.createElectionForm.$valid){
-                $scope.servingStartTime = mapServingTime($scope.election.servingDate, $scope.election.servingStartTime);
-                $scope.servingEndTime = mapServingTime($scope.election.servingDate, $scope.election.servingEndTime);
+                $scope.election.servingStartTime = mapServingTime($scope.election.servingDate, $scope.election.servingStartTime);
+                $scope.election.servingEndTime = mapServingTime($scope.election.servingDate, $scope.election.servingEndTime);
                 Voodie.createElection($scope.election, function(data){
                     $rootScope.clearAlerts = false;
                     $location.path("foodtruck/editElection/" + data.id);

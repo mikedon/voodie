@@ -2,11 +2,11 @@
     <li><a href="#/elections">Elections</a></li>
     <li></li>
 </ol>
-<div ng-controller="ElectionCtrl">
+<div>
 	<div class="row">
         <div>
-            <h4>{{ election.title }}</h2>
-            <h5>Polls Close at {{ election.pollClosingDate | date:'MM/dd/yyyy @ h:mma'}}</h4>
+            <h4>{{ election.title }}</h4>
+            <h5>Polls Close at {{ election.pollClosingDate | date:'MM/dd/yyyy @ h:mma'}}</h5>
         </div>
         <div>
            Serving Time {{ election.servingStartTime | date:'MM/dd/yyyy @ h:mma'}} - {{ election.servingEndTime | date:'MM/dd/yyyy @ h:mma' }}
