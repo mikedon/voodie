@@ -50,7 +50,7 @@ public class ElectionService {
 
     public Election addCandidate(Long electionId, Candidate candidate){
         Election election = findElection(electionId);
-        election.getCandidates().add(candidate);
+        election.addCandidate(candidate);
         election = em.merge(election);
         return election;
     }
@@ -125,7 +125,6 @@ public class ElectionService {
     // ---------------------------------
 
     protected boolean hasFoodieAlreadyVoted(Foodie foodie, Candidate candidate){
-        Vote existing = null;
         for(Candidate c : candidate.getElection().getCandidates()){
             if(votingDao.findByUserAndCandidate(foodie, c) != null){
                 return true;

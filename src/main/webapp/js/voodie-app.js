@@ -19,15 +19,14 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
     $routeProvider.when('/election/:e', {
         templateUrl:'routes/election/election.html',
         controller:'ElectionCtrl',
-        resolve: angular.extend(Resolve, {
+        resolve: {
                 election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
-                    var deferred = $q.defer();
-                    Voodie.getElection($route.current.params.e).$promise.then(function(res){
-                       deferred.resolve(res);
-                    });
-                    return deferred.promise;
+                    return Voodie.getElection($route.current.params.e).$promise;
+                }],
+                user : ['User', function(User){
+                    return User.initialize();
                 }]
-            }),
+        },
         access: {requiresLogin: true, role : "Foodie"}});
     $routeProvider.when('/election/checkin/:e', {
         templateUrl:'routes/election/checkin.html',
@@ -83,9 +82,18 @@ var Resolve = {
 
 /**
  * http://blog.brunoscopelliti.com/deal-with-users-authentication-in-an-angularjs-web-app
+ *
+ * http://blog.brunoscopelliti.com/show-route-only-after-all-promises-are-resolved
  */
 angular.module('voodie').run(['$rootScope', '$location', 'User', function ($root, $location, User){
+    $root.$on('$routeChangeStart', function(e, curr, prev) {
+        if (curr.$$route && curr.$$route.resolve) {
+            // Show a loading message until promises are not resolved
+            $root.loadingView = true;
+        }
+    });
 	$root.$on('$routeChangeSuccess', function(event, currRoute){
+        $root.loadingView = false;
         //clear out error msgs...better way?
         if($root.clearAlerts){
             $root.alerts = [];
@@ -96,6 +104,7 @@ angular.module('voodie').run(['$rootScope', '$location', 'User', function ($root
                 $root.captureRedirect = $location.path();
                 $root.clearAlerts = false;
 				console.log("Route Requires Login");
+                $root.alerts = [{type:'warning', message:'Please login first.'}];
 				$location.path("/login");
 			}else if(!User.hasRole(currRoute.access.role)){
 				console.log("Route Requires Role: " + currRoute.access.role);

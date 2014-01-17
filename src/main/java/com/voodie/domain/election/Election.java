@@ -38,6 +38,7 @@ public class Election {
     @ManyToOne
     private FoodTruck foodTruck;
 
+    //TODO add mapped by...and do this for all one2many
     @OneToMany(cascade = CascadeType.ALL)
     private List<Candidate> candidates;
 
@@ -113,6 +114,13 @@ public class Election {
 
     public void setCandidates(List<Candidate> candidates) {
         this.candidates = candidates;
+    }
+
+    public void addCandidate(Candidate candidate){
+        if(candidate != null){
+            candidates.add(candidate);
+            candidate.setElection(this);
+        }
     }
 
     public FoodTruck getFoodTruck() {

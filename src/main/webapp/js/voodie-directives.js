@@ -48,6 +48,35 @@ angular.module('voodie').directive("bsInput", function(){
 	}
 });
 
+/**
+ * directive that controls the ajax loading display
+ */
+angular.module('voodie').directive("voodLoading", ["$modal",
+    function($modal){
+        return {
+            link: function(scope, element, attrs){
+                var modalInstance;
+                //this is a dummy controller because $modal needs it
+                var ModalInstanceCtrl = function ($scope, $modalInstance) {
+                }
+                scope.$watch('loadingView', function(loadingView){
+                    if(loadingView === false && modalInstance){
+                        modalInstance.close();
+                    }else if(loadingView === true){
+                        modalInstance = $modal.open({
+                            template: "<img src='css/img/ajax-loader.gif'>",
+                            controller: ModalInstanceCtrl,
+                            windowClass: "loading",
+                            backdrop: "static",
+                            keyboard: false
+                        });
+                    }
+                })
+            }
+        }
+    }
+]);
+
 angular.module('voodie').directive("fbshare", function(){
     return {
         restrict: "EA",
