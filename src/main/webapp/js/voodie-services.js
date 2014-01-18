@@ -42,27 +42,25 @@ angular.module('voodie').factory('User', function($resource, VoodieResource, $ht
 		},
 		initialize : function(){
 			/**
-			 * intialize the User object with currently logged in user. 
+			 * intialize the User object with currently logged in user.
+             *
+             * we call this more than we should
 			 */
 			var d = $q.defer();
 			var that = this;
-			if(!this.initialized){
-				var user = $resource('api/user/secure/currentUser');
-				user.get({}, function(value, responseHeaders){
-					if(value.username){
-						that.username = value.username;
-                        that.firstName = value.firstName;
-                        that.lastName = value.lastName;
-                        that.district = value.district;
-						that.roles = value.roles;
-						that.initialized = true;
-						that.loggedIn = true;
-					}
-					d.resolve(that)
-				});
-			}else{
-				d.resolve(that);
-			}
+            var user = $resource('api/user/secure/currentUser');
+            user.get({}, function(value, responseHeaders){
+                if(value.username){
+                    that.username = value.username;
+                    that.firstName = value.firstName;
+                    that.lastName = value.lastName;
+                    that.district = value.district;
+                    that.roles = value.roles;
+                    that.initialized = true;
+                    that.loggedIn = true;
+                }
+                d.resolve(that)
+            });
 			return d.promise;
 		},
         //TODO convert to alerts

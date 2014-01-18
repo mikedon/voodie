@@ -51,4 +51,5 @@ public class UserREST {
         user.setDistrict(district);
 		return Response.ok(user).build();
 	}
+
 }
