@@ -3,16 +3,15 @@ package com.voodie.domain.election;
 import com.voodie.domain.foodie.Foodie;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Voodie
  * User: MikeD
  */
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "foodie_id", "election_id" }))
 public class CheckIn {
 
     @Id
@@ -21,9 +20,11 @@ public class CheckIn {
     private Long id;
 
     @ManyToOne
+    @NotNull
     private Foodie foodie;
 
     @ManyToOne
+    @NotNull
     private Election election;
 
     // ---------------------------------

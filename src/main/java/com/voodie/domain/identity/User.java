@@ -22,10 +22,13 @@ public class User implements UserDetails {
 
 	private Boolean enabled;
 
+    @NotNull
     private String firstName;
 
+    @NotNull
     private String lastName;
 
+    @NotNull
     private String emailAddress;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)

@@ -27,7 +27,7 @@ public class Candidate {
 
     private Double latitude;
 
-    @OneToMany
+    @OneToMany(mappedBy = "candidate")
     private List<Vote> votes;
 
     @ManyToOne

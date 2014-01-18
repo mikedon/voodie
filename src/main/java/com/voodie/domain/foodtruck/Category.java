@@ -2,19 +2,23 @@ package com.voodie.domain.foodtruck;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "name"}))
 public class Category {
 
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
-	
+
+    @NotNull
 	private String name;
+
+    @ManyToOne
+    private FoodTruck foodTruck;
 
 	public Long getId() {
 		return id;
@@ -31,4 +35,12 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+    public FoodTruck getFoodTruck() {
+        return foodTruck;
+    }
+
+    public void setFoodTruck(FoodTruck foodTruck) {
+        this.foodTruck = foodTruck;
+    }
 }

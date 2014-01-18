@@ -1,13 +1,13 @@
 package com.voodie.domain.foodtruck;
 
 import com.google.common.collect.Lists;
-import com.google.gson.annotations.Expose;
 import com.voodie.domain.election.District;
 import com.voodie.domain.election.Election;
 import com.voodie.domain.identity.User;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -18,37 +18,21 @@ public class FoodTruck {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
 
-	private String externalId;
-
-	@Expose
+    @NotNull
 	private String name;
 	
-	@Expose
-	private Long rating;
-	
-	private String ratingImageUrl;
-
-	private String imageUrl;
-
-	@Expose
-	private String url;
-
-	private String mobileUrl;
-
-	private Long reviewCount;
-	
-	private String address;
-	
-	@OneToMany
+	@OneToMany(mappedBy = "foodTruck")
 	private List<Category> categories;
 
-    @OneToMany
+    @OneToMany(mappedBy = "foodTruck")
     private List<Election> elections;
 
     @ManyToOne
+    @NotNull
     private User user;
 
     @ManyToOne
+    @NotNull
     private District district;
 
     // ---------------------------------
@@ -67,70 +51,6 @@ public class FoodTruck {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Long getRating() {
-		return rating;
-	}
-
-	public void setRating(Long rating) {
-		this.rating = rating;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getMobileUrl() {
-		return mobileUrl;
-	}
-
-	public void setMobileUrl(String mobileUrl) {
-		this.mobileUrl = mobileUrl;
-	}
-
-	public Long getReviewCount() {
-		return reviewCount;
-	}
-
-	public void setReviewCount(Long reviewCount) {
-		this.reviewCount = reviewCount;
-	}
-
-	public String getExternalId() {
-		return externalId;
-	}
-
-	public void setExternalId(String externalId) {
-		this.externalId = externalId;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getRatingImageUrl() {
-		return ratingImageUrl;
-	}
-
-	public void setRatingImageUrl(String ratingImageUrl) {
-		this.ratingImageUrl = ratingImageUrl;
 	}
 
 	public List<Category> getCategories() {

@@ -4,12 +4,13 @@ import com.voodie.domain.foodtruck.FoodTruck;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "servingEndTime",
-        "servingStartTime", "status" }))
+        "servingStartTime", "status", "foodTruck_id" }))
 public class Election {
 
     @Id
@@ -17,17 +18,23 @@ public class Election {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
+    @NotNull
     private String title;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private ElectionStatus status;
 
+    @NotNull
     private Date pollClosingDate;
 
+    @NotNull
     private Date pollOpeningDate;
 
+    @NotNull
     private Date servingStartTime;
 
+    @NotNull
     private Date servingEndTime;
 
     private Boolean allowWriteIn;
@@ -36,10 +43,10 @@ public class Election {
     private Candidate selectedCandidate;
 
     @ManyToOne
+    @NotNull
     private FoodTruck foodTruck;
 
-    //TODO add mapped by...and do this for all one2many
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "election")
     private List<Candidate> candidates;
 
     // ---------------------------------

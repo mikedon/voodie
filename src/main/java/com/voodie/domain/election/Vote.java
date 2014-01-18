@@ -4,8 +4,10 @@ import com.voodie.domain.foodie.Foodie;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"foodie_id", "candidate_id" }))
 public class Vote {
 
     @Id
@@ -14,9 +16,11 @@ public class Vote {
     private Long id;
 
     @ManyToOne
+    @NotNull
     private Foodie foodie;
 
     @ManyToOne
+    @NotNull
     private Candidate candidate;
 
     // ---------------------------------

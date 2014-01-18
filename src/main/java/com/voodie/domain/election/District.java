@@ -3,6 +3,7 @@ package com.voodie.domain.election;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Voodie
@@ -17,6 +18,7 @@ public class District {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
+    @NotNull
     private String name;
 
     // ---------------------------------

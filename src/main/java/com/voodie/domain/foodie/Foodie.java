@@ -6,6 +6,7 @@ import com.voodie.domain.identity.User;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -25,12 +26,14 @@ public class Foodie {
     private Long karma;
 
     @ManyToOne
+    @NotNull
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "foodie")
     private List<Vote> votes;
 
     @ManyToOne
+    @NotNull
     private District homeDistrict;
 
     // ---------------------------------
