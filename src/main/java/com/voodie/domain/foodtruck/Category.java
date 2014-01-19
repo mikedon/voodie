@@ -15,6 +15,7 @@ public class Category {
 	private Long id;
 
     @NotNull
+    @Column(nullable = false, unique = true)
 	private String name;
 
     @ManyToOne

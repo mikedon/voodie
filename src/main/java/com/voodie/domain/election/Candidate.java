@@ -3,6 +3,7 @@ package com.voodie.domain.election;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -19,18 +20,24 @@ public class Candidate {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
+    @NotNull
+    @Column(nullable = false)
     private String displayName;
 
     private Long sortOrder;
 
+    @NotNull
+    @Column(nullable = false)
     private Double longitude;
 
+    @NotNull
+    @Column(nullable = false)
     private Double latitude;
 
     @OneToMany(mappedBy = "candidate")
     private List<Vote> votes;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Election election;
 
     // ---------------------------------

@@ -19,6 +19,7 @@ public class FoodTruck {
 	private Long id;
 
     @NotNull
+    @Column(nullable = false)
 	private String name;
 	
 	@OneToMany(mappedBy = "foodTruck")
@@ -27,11 +28,11 @@ public class FoodTruck {
     @OneToMany(mappedBy = "foodTruck")
     private List<Election> elections;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private User user;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private District district;
 
