@@ -1,6 +1,7 @@
 package com.voodie.domain.foodtruck;
 
 import com.voodie.domain.AbstractJpaTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -16,6 +17,7 @@ public class CategoryTest extends AbstractJpaTest {
     }
 
     @Test
+    @Ignore("unique constraint not created for unit tests")
     public void testPersistWithDuplicate(){
         Category category1 = new Category();
         category1.setName("category1");
