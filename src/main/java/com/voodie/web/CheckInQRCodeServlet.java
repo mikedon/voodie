@@ -2,8 +2,6 @@ package com.voodie.web;
 
 import com.voodie.domain.service.ElectionService;
 import com.voodie.jmx.CheckInConfiguration;
-import net.glxn.qrgen.QRCode;
-import net.glxn.qrgen.image.ImageType;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -11,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -31,10 +30,13 @@ public class CheckInQRCodeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String election = req.getParameter(ELECTION_PARAM);
+        //TODO validate election
         if(election != null){
-            //TODO validate election
-            QRCode.from(String.format(checkInConfiguration.getCheckInUrl(), election))
-                .to(ImageType.PNG).writeTo(resp.getOutputStream());
+            CheckInPdf checkIn = new CheckInPdf();
+            ByteArrayOutputStream output = checkIn.getCheckInPdf(String.format(checkInConfiguration.getCheckInUrl(), election));
+            resp.addHeader("Content-Type", "application/force-download");
+            resp.addHeader("Content-Disposition", "attachment; filename=\"yourFile.pdf\"");
+            resp.getOutputStream().write(output.toByteArray());
         }
 
     }
