@@ -15,23 +15,28 @@ public class User implements UserDetails {
 
 	@Id
 	@NotNull
+    @Column(nullable = false)
 	private String username;
 
 	@NotNull
+    @Column(nullable = false)
 	private String password;
 
 	private Boolean enabled;
 
     @NotNull
+    @Column(nullable = false)
     private String firstName;
 
     @NotNull
+    @Column(nullable = false)
     private String lastName;
 
     @NotNull
+    @Column(nullable = false)
     private String emailAddress;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Authorities> authorities;
 
 	public String getUsername() {

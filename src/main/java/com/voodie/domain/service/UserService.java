@@ -38,11 +38,16 @@ public class UserService {
             newUser.setEmailAddress(emailAddress);
 			em.persist(newUser);
 			for (String r : roles) {
-				Authorities a = new Authorities();
-				a.setAuthority(r);
-				a.setUser(newUser);
-				em.persist(a);
+				Authorities a = findRole(r);
+                if(a == null){
+                    a = new Authorities();
+                    a.setAuthority(r);
+                    em.persist(a);
+                }
+
+                newUser.getAuthorities().add(a);
 			}
+            newUser = em.merge(newUser);
 			return newUser;
 		}
 	}

@@ -37,6 +37,7 @@ public class AbstractJpaTest {
         try{
             getEntityManager().persist(entity);
         }catch(PersistenceException e){
+            System.out.println(e);
             invalid = true;
         }
         assertTrue(invalid);
@@ -47,6 +48,7 @@ public class AbstractJpaTest {
         try{
             getEntityManager().persist(entity);
         }catch(PersistenceException e){
+            System.out.println(e);
             invalid = true;
         }
         assertFalse(invalid);

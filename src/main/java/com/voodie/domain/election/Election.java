@@ -19,22 +19,28 @@ public class Election {
     private Long id;
 
     @NotNull
+    @Column(nullable = false)
     private String title;
 
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(nullable = false)
     private ElectionStatus status;
 
     @NotNull
+    @Column(nullable = false)
     private Date pollClosingDate;
 
     @NotNull
+    @Column(nullable = false)
     private Date pollOpeningDate;
 
     @NotNull
+    @Column(nullable = false)
     private Date servingStartTime;
 
     @NotNull
+    @Column(nullable = false)
     private Date servingEndTime;
 
     private Boolean allowWriteIn;
@@ -42,7 +48,7 @@ public class Election {
     @OneToOne
     private Candidate selectedCandidate;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private FoodTruck foodTruck;
 

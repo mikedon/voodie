@@ -19,11 +19,11 @@ public class CheckIn {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private Foodie foodie;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private Election election;
 

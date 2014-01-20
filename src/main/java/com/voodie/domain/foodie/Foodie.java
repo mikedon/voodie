@@ -1,5 +1,6 @@
 package com.voodie.domain.foodie;
 
+import com.google.common.collect.Lists;
 import com.voodie.domain.election.District;
 import com.voodie.domain.election.Vote;
 import com.voodie.domain.identity.User;
@@ -25,14 +26,14 @@ public class Foodie {
 
     private Long karma;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private User user;
 
     @OneToMany(mappedBy = "foodie")
-    private List<Vote> votes;
+    private List<Vote> votes = Lists.newArrayList();
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
     private District homeDistrict;
 

@@ -7,8 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "user",
-		"authority" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"authority" }))
 public class Authorities implements GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;
@@ -21,20 +20,9 @@ public class Authorities implements GrantedAuthority {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "user")
-	private User user;
-
 	@NotNull
+    @Column(nullable = false)
 	private String authority;
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 	public String getAuthority() {
 		return authority;

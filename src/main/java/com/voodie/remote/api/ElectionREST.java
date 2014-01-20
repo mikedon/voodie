@@ -150,10 +150,14 @@ public class ElectionREST {
     public Response addCandidate(Candidate remoteCandidate){
         com.voodie.domain.election.Candidate domainCandidate =
                 mapper.map(remoteCandidate, com.voodie.domain.election.Candidate.class);
-       electionService.addCandidate(remoteCandidate.getElectionId(), domainCandidate);
-       VoodieResponse response = new VoodieResponse();
-       response.getAlerts().add(new Alert("Candidate added successfully", AlertType.success));
-       return Response.ok(response).build();
+        boolean added = electionService.addCandidate(remoteCandidate.getElectionId(), domainCandidate);
+        VoodieResponse response = new VoodieResponse();
+        if(added){
+            response.getAlerts().add(new Alert("Candidate added successfully", AlertType.success));
+        }else{
+            response.getAlerts().add(new Alert("Candidate already exists.", AlertType.danger));
+        }
+        return Response.ok(response).build();
     }
 
     @Path("/secure/checkIn")

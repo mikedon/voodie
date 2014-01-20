@@ -1,5 +1,6 @@
 package com.voodie.domain.election;
 
+import com.google.common.collect.Lists;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -35,7 +36,7 @@ public class Candidate {
     private Double latitude;
 
     @OneToMany(mappedBy = "candidate")
-    private List<Vote> votes;
+    private List<Vote> votes = Lists.newArrayList();
 
     @ManyToOne(optional = false)
     private Election election;

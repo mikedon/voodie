@@ -16,7 +16,7 @@ public class CategoryTest extends AbstractJpaTest {
     }
 
     @Test
-    public void testPersisteWithDuplicate(){
+    public void testPersistWithDuplicate(){
         Category category1 = new Category();
         category1.setName("category1");
         persistExpectingSuccess(category1);

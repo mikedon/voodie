@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.Date;
 import java.util.List;
 
@@ -48,11 +49,18 @@ public class ElectionService {
         return election;
     }
 
-    public Election addCandidate(Long electionId, Candidate candidate){
+    public boolean addCandidate(Long electionId, Candidate candidate){
         Election election = findElection(electionId);
-        election.addCandidate(candidate);
-        election = em.merge(election);
-        return election;
+        if(election != null){
+            try{
+                candidate.setElection(election);
+                em.persist(candidate);
+                em.flush();
+            }catch(PersistenceException e){
+                return false;
+            }
+        }
+        return true;
     }
 
     public Vote vote(Foodie foodie, Candidate candidate){
