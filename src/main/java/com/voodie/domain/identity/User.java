@@ -142,4 +142,19 @@ public class User implements UserDetails {
         }
         return false;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other){
+            return true;
+        }
+        if (!(other instanceof User)){
+            return false;
+        }
+        final User user = (User) other;
+        if (!user.getUsername().equals(getUsername())){
+            return false;
+        }
+        return true;
+    }
 }
