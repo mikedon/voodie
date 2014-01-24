@@ -35,7 +35,17 @@ public class CheckInPdf {
             InputStream inputFront;
             output = new ByteArrayOutputStream();
 
+            //qr code
+            inputFront = new FileInputStream(QRCode.from(electionUrl)
+                    .to(ImageType.PNG).file());
+            BufferedImage buffFront = ImageIO.read(inputFront);
+            front = new PDJpeg(document, buffFront);
+
+            //NOTE the order of creating the content stream and any PDJpeg matters:
+            //see http://stackoverflow.com/questions/8521290/cant-add-an-image-to-a-pdf-using-pdfbox
             contentStream = new PDPageContentStream(document, page);
+
+            contentStream.drawImage(front,220,530);
 
             //Check In title
             contentStream.beginText();
@@ -56,13 +66,6 @@ public class CheckInPdf {
             contentStream.moveTextPositionByAmount(200, 680);
             contentStream.drawString("on your smartphone to check in");
             contentStream.endText();
-
-            //qr code
-            inputFront = new FileInputStream(QRCode.from(String.format(electionUrl))
-                    .to(ImageType.PNG).file());
-            BufferedImage buffFront = ImageIO.read(inputFront);
-            front = new PDJpeg(document, buffFront);
-            contentStream.drawImage(front,220,530);
 
             //link text
             contentStream.beginText();
