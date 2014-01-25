@@ -3,6 +3,7 @@ package com.voodie.remote.api;
 import com.google.common.collect.Lists;
 import com.voodie.domain.election.VotingDao;
 import com.voodie.domain.foodie.Foodie;
+import com.voodie.domain.identity.User;
 import com.voodie.domain.service.ElectionService;
 import com.voodie.domain.service.FoodTruckService;
 import com.voodie.domain.service.FoodieService;
@@ -88,13 +89,38 @@ public class ElectionREST {
     //only difference between this and getElection is numberOfVotes is set
     @Path("/secure/getElectionForSelection")
     @GET
-    public Response getElectionForSelection(@QueryParam("election") Long election){
-        Election remoteElection = getRemoteElection(election);
-        setNumberOfVotesForElection(remoteElection);
-        return Response.ok(remoteElection).build();
+    public Response getElectionForSelection(@QueryParam("election") Long electionId){
+        com.voodie.domain.election.Election domainElection = electionService.findElection(electionId);
+        User currentUser = userService.getCurrentUser();
+        if(currentUser != null && currentUser.equals(domainElection.getFoodTruck().getUser())){
+            Election remoteElection = new Election();
+            mapper.map(domainElection, remoteElection);
+            setNumberOfVotesForElection(remoteElection);
+            return Response.ok(remoteElection).build();
+        }else{
+            VoodieResponse errorResponse = new VoodieResponse();
+            errorResponse.getAlerts().add(new Alert("Unable to get election", AlertType.danger));
+            return Response.ok(errorResponse).build();
+        }
     }
 
     @Path("/secure/getElection")
+    @GET
+    public Response getSecureElection(@QueryParam("election") Long electionId){
+        com.voodie.domain.election.Election domainElection = electionService.findElection(electionId);
+        User currentUser = userService.getCurrentUser();
+        if(currentUser != null && currentUser.equals(domainElection.getFoodTruck().getUser())){
+            Election remoteElection = new Election();
+            mapper.map(domainElection, remoteElection);
+            return Response.ok(remoteElection).build();
+        }else{
+            VoodieResponse errorResponse = new VoodieResponse();
+            errorResponse.getAlerts().add(new Alert("Unable to get election", AlertType.danger));
+            return Response.ok(errorResponse).build();
+        }
+    }
+
+    @Path("/getElection")
     @GET
     public Response getElection(@QueryParam("election") Long election){
         Election remoteElection = getRemoteElection(election);

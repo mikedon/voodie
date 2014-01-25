@@ -58,7 +58,15 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
         access: {requiresLogin : true, role : "Food Truck"}});
     $routeProvider.when('/foodtruck/viewElection/:e', {
         templateUrl : 'routes/foodtruck/view-election.html',
-        resolve: Resolve,
+        controller: 'FoodTruckViewElectionCtrl',
+        resolve: {
+            election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
+                return Voodie.getElectionForSelection($route.current.params.e).$promise;
+            }],
+            user : ['User', function(User){
+                return User.initialize();
+            }]
+        },
         access: {requiresLogin : true, role : "Food Truck"}});
     $routeProvider.when('/foodtruck/createElection', {
         templateUrl: 'routes/foodtruck/create-election.html',
@@ -66,8 +74,24 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
         access: {requiresLogin: true, role: "Food Truck"}});
     $routeProvider.when('/foodtruck/editElection/:e', {
         templateUrl : 'routes/foodtruck/edit-election.html',
-        resolve: Resolve,
-        access: {requiresLogin : true, role : "Food Truck"}});
+        controller:'FoodTruckEditElectionCtrl',
+        resolve: {
+            election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
+                return Voodie.getSecureElection($route.current.params.e).$promise;
+            }],
+            user : ['User', function(User){
+                return User.initialize();
+            }]
+        },
+        access: {
+            requiresLogin : true,
+            role : "Food Truck",
+            validate: function(locals){
+                if(locals.election.alerts.length > 0){
+                    return {msg: 'Invalid election', path: '/foodtruck/elections'};
+                }
+            }
+        }});
 	$routeProvider.otherwise({redirectTo: '/elections'});
 }]);
 
@@ -103,13 +127,20 @@ angular.module('voodie').run(['$rootScope', '$location', 'User', function ($root
 			if(!User.isLoggedIn()){
                 $root.captureRedirect = $location.path();
                 $root.clearAlerts = false;
-				console.log("Route Requires Login");
+				console.debug("Route Requires Login");
                 $root.alerts = [{type:'warning', message:'Please login first.'}];
 				$location.path("/login");
 			}else if(!User.hasRole(currRoute.access.role)){
-				console.log("Route Requires Role: " + currRoute.access.role);
+				console.debug("Route Requires Role: " + currRoute.access.role);
 				$location.path("/elections");
-			}
+			}else if(currRoute.access.validate){
+                var validateResponse = currRoute.access.validate(currRoute.locals);
+                if(validateResponse){
+                    $root.clearAlerts = false;
+                    $root.alerts = [{type:'warning', message:validateResponse.msg}];
+                    $location.path(validateResponse.path);
+                }
+            }
 		}
 	});
 }]);

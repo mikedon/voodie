@@ -58,12 +58,13 @@ angular.module('voodie').factory('User', function($resource, VoodieResource, $ht
                     that.roles = value.roles;
                     that.initialized = true;
                     that.loggedIn = true;
+                }else{
+                    that.loggedIn = false;
                 }
                 d.resolve(that)
             });
 			return d.promise;
 		},
-        //TODO convert to alerts
 		login : function(redirect){
             VoodieResource.clearAlerts();
 			var that = this;
@@ -221,8 +222,11 @@ angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $
             var endDate = $filter('date')(endDate);
             return VoodieResource.query($resource('api/election/query', {"district": district, "startDate": startDate, "endDate": endDate}),onSuccess);
         },
-        getElection: function(election, onSuccess){
+        getSecureElection: function(election, onSuccess){
             return VoodieResource.get($resource('api/election/secure/getElection', {"election":election}), onSuccess);
+        },
+        getElection: function(election, onSuccess){
+            return VoodieResource.get($resource('api/election/getElection', {"election":election}), onSuccess);
         },
         vote: function(candidate, onSuccess){
             VoodieResource.clearAlerts();

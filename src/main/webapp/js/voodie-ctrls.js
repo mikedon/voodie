@@ -202,9 +202,9 @@ angular.module('voodie').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie
     }
 ]);
 
-angular.module('voodie').controller('FoodTruckEditElectionCtrl', ['$scope', '$routeParams', 'Voodie', 'GoogleMaps', '$rootScope',
-    function($scope, $routeParams, Voodie, GoogleMaps, $rootScope){
-        $scope.election = Voodie.getElection($routeParams.e);
+angular.module('voodie').controller('FoodTruckEditElectionCtrl', ['$scope', '$routeParams', 'Voodie', 'GoogleMaps', '$rootScope', 'election',
+    function($scope, $routeParams, Voodie, GoogleMaps, $rootScope, election){
+        $scope.election = election;
         $scope.candidate = {};
         $scope.addCandidate = function(){
             if($scope.addCandidateForm.$valid){
@@ -290,13 +290,14 @@ angular.module('voodie').controller('FoodTruckElectionCtrl', ['$scope', '$locati
     }
 ]);
 
-angular.module('voodie').controller('FoodTruckViewElectionCtrl', ['$scope', '$routeParams', '$location', 'Voodie', '$modal',
-    function($scope, $routeParams, $location, Voodie, $modal){
+angular.module('voodie').controller('FoodTruckViewElectionCtrl', ['$scope', '$routeParams', '$location', 'Voodie', '$modal', 'election',
+    function($scope, $routeParams, $location, Voodie, $modal, election){
         $scope.candidatedSelected = false;
         $scope.candidateProgress = {};
-        $scope.election = Voodie.getElectionForSelection($routeParams.e, function(data){
-            for(var i=0;i<data.candidates.length;i++){
-                var candidate = data.candidates[i];
+        $scope.election = election;
+//        $scope.election = Voodie.getElectionForSelection($routeParams.e, function(data){
+            for(var i=0;i<$scope.election.candidates.length;i++){
+                var candidate = $scope.election.candidates[i];
                 if(candidate.percentageOfVotes >= 75){
                     $scope.candidateProgress[candidate.id] = {
                         type: 'success',
@@ -319,7 +320,7 @@ angular.module('voodie').controller('FoodTruckViewElectionCtrl', ['$scope', '$ro
                     };
                 }
             }
-            data.candidates.sort(function(a,b){
+            $scope.election.candidates.sort(function(a,b){
                 if(a.percentagOfVotes > b.percentageOfVotes){
                     return -1;
                 }else if(b.percentageOfVotes > a.percentageOfVotes){
@@ -327,8 +328,8 @@ angular.module('voodie').controller('FoodTruckViewElectionCtrl', ['$scope', '$ro
                 }
                 return 0;
             });
-            $scope.candidateSelected = (data.status === "CLOSED");
-        });
+            $scope.candidateSelected = ($scope.election.status === "CLOSED");
+//        });
 
         var SelectionMadeCtrl = function($scope, $modalInstance){
             $scope.ok = function () {
