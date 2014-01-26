@@ -1,36 +1,3 @@
-
-//TODO most of this logic should be moved to directive
-angular.module('voodie').controller('NavbarCtrl', ['$scope', '$location', 'User',
-    function($scope, $location, User){
-        $scope.home = function() {
-            return $location.path().indexOf('home') > 0;
-        };
-        $scope.about = function() {
-            return $location.path().indexOf('about') > 0;
-        };
-        $scope.login = function() {
-            return $location.path().indexOf('login') > 0;
-        };
-        $scope.loginOrRegister = function() {
-            return $scope.login() || $scope.register();
-        };
-        $scope.register = function() {
-            return $location.path().indexOf('foodtruck/registration') > 0
-                || $location.path().indexOf('foodie/registration') > 0;
-        };
-        $scope.profile = function() {
-            return $location.path().indexOf('foodtruck/profile') > 0
-                || $location.path().indexOf('foodie/profile') > 0;
-        };
-        $scope.elections = function() {
-            return $location.path().indexOf('foodtruck/elections') > 0;
-        }
-        $scope.currentUser = User;
-        $scope.logout = function(){
-            User.logout('login');
-        }
-}]);
-
 angular.module('voodie').controller('HomeCtrl', ['$scope', '$location', 'EatingTime', 'GoogleMaps',
     function ($scope, $location, EatingTime, GoogleMaps) {
         $scope.eatingTimestamp = EatingTime.getEatingTime();

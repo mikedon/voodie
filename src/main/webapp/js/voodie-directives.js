@@ -101,19 +101,23 @@ angular.module('voodie').directive('voodieNavbarLink', ["$location", "User",
                 label: "@",
                 href: "@",
                 show: "@",
-                click: "@"
+                click: "&"
+            },
+            controller: function($scope){
+                $scope.logout = function(){
+                    User.logout('login');
+                }
             },
             link: function(scope, element, attrs){
+                //need to make this directives controller functions available to the parent scope
+                //in order to call it from the html.  the other way to make this work is to create
+                //a controller outside the directive.
+                scope.$parent.logout = scope.logout;
                 scope.currentUser = User;
                 scope.$parent.$on('$routeChangeSuccess', function(){
                     var href = scope.href.substring(1);
                     scope.active = $location.path() === href;
                 });
-//                if(scope.click){
-//                    console.debug(scope.click);
-//                    var element = element.find("a");
-//                    element.click(scope.click());
-//                }
             },
             templateUrl: 'includes/navbarLink.html'
         }
