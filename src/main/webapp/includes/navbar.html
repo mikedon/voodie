@@ -1,4 +1,4 @@
-<div ng-controller="NavbarCtrl" class="masthead">
+<div class="masthead">
     <nav class="navbar navbar-inverse" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -8,29 +8,14 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">
-                <img src="css/img/FoodTruckIcon.png"
+                <img ng-src="{{brandImg}}"
                      class="img-rounded img-responsive">
-                Voodie
+                {{brand}}
             </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li ng-show="currentUser.hasRole('Food Truck')" ng-class="{'active':profile()}">
-                     <a class="navbar-link" href="#/foodtruck/profile">Profile</a>
-                </li>
-                <li ng-show="currentUser.hasRole('Foodie')" ng-class="{'active':profile()}">
-                    <a class="navbar-link" href="#/foodie/profile">Profile</a>
-                </li>
-                <li ng-show="currentUser.hasRole('Food Truck')" ng-class="{'active':elections()}">
-                    <a class="navbar-link" href="#/foodtruck/elections">My Elections</a>
-                </li>
-                <li ng-class="{'active':loginOrRegister()}" ng-switch="currentUser.isLoggedIn()">
-                    <a class="navbar-link" ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
-                    <a class="navbar-link" ng-switch-when="false" href="#/login">Login/Register</a>
-                </li>
+            <ul class="nav navbar-nav navbar-right" ng-transclude>
             </ul>
         </div>
     </nav>
-
 </div>
-<hr>

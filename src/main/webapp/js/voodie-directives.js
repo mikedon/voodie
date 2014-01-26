@@ -77,6 +77,49 @@ angular.module('voodie').directive("voodLoading", ["$modal",
     }
 ]);
 
+angular.module('voodie').directive('voodieNavbar', function(){
+   return {
+       restrict: "E",
+       replace: true,
+       transclude: true,
+       scope: {
+            brand: "@",
+            brandImg: "@"
+       },
+       link: function(scope, element, attrs){
+       },
+       templateUrl: 'includes/navbar.html'
+   }
+});
+
+angular.module('voodie').directive('voodieNavbarLink', ["$location", "User",
+    function($location, User){
+        return {
+            restrict: "E",
+            replace: true,
+            scope: {
+                label: "@",
+                href: "@",
+                show: "@",
+                click: "@"
+            },
+            link: function(scope, element, attrs){
+                scope.currentUser = User;
+                scope.$parent.$on('$routeChangeSuccess', function(){
+                    var href = scope.href.substring(1);
+                    scope.active = $location.path() === href;
+                });
+//                if(scope.click){
+//                    console.debug(scope.click);
+//                    var element = element.find("a");
+//                    element.click(scope.click());
+//                }
+            },
+            templateUrl: 'includes/navbarLink.html'
+        }
+    }
+]);
+
 angular.module('voodie').directive("fbshare", function(){
     return {
         restrict: "EA",

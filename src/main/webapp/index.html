@@ -9,7 +9,30 @@
 </head>
 <body>
     <div id="wrap">
-        <div ng-include="'includes/navbar.html'"></div>
+        <voodie-navbar brand="Voodie" brand-img="css/img/FoodTruckIcon.png">
+            <voodie-navbar-link href="#/foodtruck/profile" show="currentUser.hasRole('Food Truck')" label="Profile"></voodie-navbar-link>
+            <voodie-navbar-link href="#/foodie/profile" show="currentUser.hasRole('Foodie')" label="Profile"></voodie-navbar-link>
+            <voodie-navbar-link href="#/foodtruck/elections" show="currentUser.hasRole('Food Truck')" label="My Elections"></voodie-navbar-link>
+            <voodie-navbar-link href="#/login" show="!currentUser.isLoggedIn()" label="Login/Register"></voodie-navbar-link>
+            <!-- TODO logout action -->
+            <voodie-navbar-link href="#" show="currentUser.isLoggedIn()" click="currentUser.logout('login')" label="Log Out"></voodie-navbar-link>
+
+            <!--<li ng-show="currentUser.hasRole('Food Truck')" voodie-match-route="profile" ng-class="{'active':profile()}">
+                <a class="navbar-link" href="#/foodtruck/profile">Profile</a>
+            </li>
+            <li ng-show="currentUser.hasRole('Foodie')" voodie-match-route="profile" ng-class="{'active':profile()}">
+                <a class="navbar-link" href="#/foodie/profile">Profile</a>
+            </li>
+            <li ng-show="currentUser.hasRole('Food Truck')" voodie-match-route="elections" ng-class="{'active':elections()}">
+                <a class="navbar-link" href="#/foodtruck/elections">My Elections</a>
+            </li>
+            <li voodie-match-route="login" ng-class="{'active':loginOrRegister()}" ng-switch="currentUser.isLoggedIn()">
+                <a class="navbar-link" ng-switch-when="true" ng-click="logout()" href="#">Logout</a>
+                <a class="navbar-link" ng-switch-when="false" href="#/login">Login/Register</a>
+            </li>-->
+        </voodie-navbar>
+
+       <!-- <div ng-include="'includes/navbar.html'"></div> -->
         <div vood-loading>
         <div id="main" class="container clear-top">
             <alert ng-repeat="alert in alerts" type="alert.type">{{alert.message}}</alert>
