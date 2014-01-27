@@ -4,58 +4,129 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
     //global options for tool tips
     $tooltipProvider.options({trigger: 'focus'});
 
-    //TODO extract into JSON object and refactor logic to use that
 	$routeProvider.when('/home', {
 		templateUrl:'routes/home.html',
-		resolve: Resolve});
+		resolve: Resolve
+    });
+
 	$routeProvider.when('/about', {
 		templateUrl:'routes/about.html',
-		resolve: Resolve});
+		resolve: Resolve
+    });
+
     $routeProvider.when('/elections', {
         templateUrl:'routes/election/elections.html',
-        resolve:Resolve});
+        controller: 'ElectionsCtrl',
+        resolve: {
+            districts: ['Voodie', function(Voodie){
+                return Voodie.getDistricts().$promise;
+            }],
+            user: ['User', function(User){
+                return User.initialize();
+            }]
+        }
+    });
 
-    //TODO I think we should use this approach for all controllers...
     $routeProvider.when('/election/:e', {
         templateUrl:'routes/election/election.html',
-        controller:'ElectionCtrl',
+        controller: 'ElectionCtrl',
         resolve: {
-                election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
-                    return Voodie.getElection($route.current.params.e).$promise;
-                }],
-                user : ['User', function(User){
-                    return User.initialize();
-                }]
+            election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
+                return Voodie.getElection($route.current.params.e).$promise;
+            }],
+            user : ['User', function(User){
+                return User.initialize();
+            }]
         },
-        access: {requiresLogin: true, role : "Foodie"}});
+        access: {requiresLogin: true, role : "Foodie"}
+    });
+
     $routeProvider.when('/election/checkin/:e', {
         templateUrl:'routes/election/checkin.html',
-        resolve:Resolve,
-        access: {requiresLogin: true, role : "Foodie"}});
+        controller: 'CheckInCtrl',
+        resolve: {
+            election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
+                return Voodie.getElection($route.current.params.e).$promise;
+            }],
+            user : ['User', function(User){
+                return User.initialize();
+            }]
+        },
+        access: {requiresLogin: true, role : "Foodie"}
+    });
+
     $routeProvider.when('/register', {
         templateUrl: 'routes/registration.html',
-        resolve:Resolve});
+        resolve:Resolve
+    });
+
 	$routeProvider.when('/login', {
 		templateUrl: 'routes/login.html',
-		resolve: Resolve});
+		resolve: Resolve
+    });
+
     $routeProvider.when('/foodie/registration', {
         templateUrl : 'routes/foodie/registration.html',
-        resolve: Resolve});
+        controller: 'FoodieRegistrationCtrl',
+        resolve: {
+            districts: ['Voodie', function(Voodie){
+                return Voodie.getDistricts().$promise;
+            }]
+        }
+    });
+
     $routeProvider.when('/foodie/profile', {
         templateUrl : 'routes/foodie/profile.html',
-        resolve: Resolve,
-        access : {requiresLogin : true, role : "Foodie"}});
+        controller: 'FoodieProfileCtrl',
+        resolve: {
+            profile: ['Voodie', 'User', function(Voodie, User){
+               return Voodie.getFoodieProfile(User.username).$promise;
+            }],
+            user : ['User', function(User){
+                return User.initialize();
+            }]
+        },
+        access : {requiresLogin : true, role : "Foodie"}
+    });
+
 	$routeProvider.when('/foodtruck/registration', {
 		templateUrl : 'routes/foodtruck/registration.html',
-		resolve: Resolve});
+        controller: 'FoodTruckRegistrationCtrl',
+		resolve: {
+            districts: ['Voodie', function(Voodie){
+                return Voodie.getDistricts().$promise;
+            }]
+        }
+    });
+
 	$routeProvider.when('/foodtruck/profile', {
 		templateUrl : 'routes/foodtruck/profile.html',
-		resolve: Resolve,
-		access : {requiresLogin : true, role : "Food Truck"}});
+        controller: 'FoodTruckProfileCtrl',
+        resolve: {
+            profile: ['Voodie', 'User', function(Voodie, User){
+                return Voodie.getFoodTruckProfile(User.username).$promise;
+            }],
+            user : ['User', function(User){
+                return User.initialize();
+            }]
+        },
+		access : {requiresLogin : true, role : "Food Truck"}
+    });
+
     $routeProvider.when('/foodtruck/elections', {
         templateUrl : 'routes/foodtruck/elections.html',
-        resolve: Resolve,
-        access: {requiresLogin : true, role : "Food Truck"}});
+        controller: 'FoodTruckElectionCtrl',
+        resolve: {
+            elections: ['Voodie', 'User', function(Voodie, User){
+                return Voodie.getElections(User.username).$promise;
+            }],
+            user : ['User', function(User){
+                return User.initialize();
+            }]
+        },
+        access: {requiresLogin : true, role : "Food Truck"}
+    });
+
     $routeProvider.when('/foodtruck/viewElection/:e', {
         templateUrl : 'routes/foodtruck/view-election.html',
         controller: 'FoodTruckViewElectionCtrl',
@@ -67,11 +138,20 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
                 return User.initialize();
             }]
         },
-        access: {requiresLogin : true, role : "Food Truck"}});
+        access: {requiresLogin : true, role : "Food Truck"}
+    });
+
     $routeProvider.when('/foodtruck/createElection', {
         templateUrl: 'routes/foodtruck/create-election.html',
-        resolve: Resolve,
-        access: {requiresLogin: true, role: "Food Truck"}});
+        controller: 'FoodTruckCreateElectionCtrl',
+        resolve: {
+            user : ['User', function(User){
+                return User.initialize();
+            }]
+        },
+        access: {requiresLogin: true, role: "Food Truck"}
+    });
+
     $routeProvider.when('/foodtruck/editElection/:e', {
         templateUrl : 'routes/foodtruck/edit-election.html',
         controller:'FoodTruckEditElectionCtrl',
@@ -91,7 +171,9 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
                     return {msg: 'Invalid election', path: '/foodtruck/elections'};
                 }
             }
-        }});
+        }
+    });
+
 	$routeProvider.otherwise({redirectTo: '/elections'});
 }]);
 

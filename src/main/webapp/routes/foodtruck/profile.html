@@ -1,4 +1,4 @@
-<div ng-controller="FoodTruckProfileCtrl">
+<div>
     <form name="foodTruckProfileForm">
         <div bs-input label="First Name">
             <input type="text"
@@ -18,7 +18,7 @@
             <input type="email"
                    name="email"
                    id="email"
-                   ng-model="foodTruck.email"
+                   ng-model="foodTruck.emailAddress"
                    required>
         </div>
         <div bs-input label="District">
@@ -33,7 +33,7 @@
             <input type="text"
                    name="foodTruckName"
                    id="foodTruckName"
-                   ng-model="foodTruck.foodTruckName"
+                   ng-model="foodTruck.name"
                    required>
         </div>
         <div bs-input label="Username">

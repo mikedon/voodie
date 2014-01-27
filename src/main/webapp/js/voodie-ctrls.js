@@ -15,8 +15,8 @@ angular.module('voodie').controller('HomeCtrl', ['$scope', '$location', 'EatingT
         };
 }]);
 
-angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Voodie', 'User',
-    function($scope, $location, Voodie, User){
+angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Voodie', 'User', 'districts',
+    function($scope, $location, Voodie, User, districts){
         function formatDate(date){
             var formattedDate = date;
             var dd = date.getDate();
@@ -26,14 +26,7 @@ angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Vo
             return formattedDate;
         }
 
-        //district filter
-        $scope.districts = Voodie.getDistricts(function(data){
-            angular.forEach(data, function(value, key){
-                if(value.name == User.district){
-                    $scope.search.district = value;
-                }
-            });
-        });
+
 
         $scope.goToElection = function(election){
             //TODO polite check to see if they are allowed to vote
@@ -51,6 +44,13 @@ angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Vo
         }) ;
         // date filters
         $scope.search = {};
+        //district filter
+        $scope.districts = districts;
+        angular.forEach($scope.districts, function(value, key){
+            if(value.name == User.district){
+                $scope.search.district = value;
+            }
+        });
         $scope.search.startOpened = false;
         $scope.search.endOpened = false;
         $scope.search.startDate = formatDate(new Date());
@@ -133,10 +133,10 @@ angular.module('voodie').controller('VoteCtrl', ['$scope', '$routeParams', 'Vood
     }
 ]);
 
-angular.module('voodie').controller('FoodTruckRegistrationCtrl', ['$scope','Voodie', '$rootScope',
-    function($scope, Voodie, $rootScope){
+angular.module('voodie').controller('FoodTruckRegistrationCtrl', ['$scope','Voodie', '$rootScope', 'districts',
+    function($scope, Voodie, $rootScope, districts){
         $scope.registration = {};
-        $scope.districts = Voodie.getDistricts();
+        $scope.districts = districts;
         $scope.submit = function(){
             if($scope.foodTruckRegistrationForm.$valid){
                 var path = "foodtruck/elections";
@@ -151,10 +151,10 @@ angular.module('voodie').controller('FoodTruckRegistrationCtrl', ['$scope','Vood
     }
 ]);
 
-angular.module('voodie').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie', '$rootScope',
-    function($scope, Voodie, $rootScope){
+angular.module('voodie').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie', '$rootScope', 'districts',
+    function($scope, Voodie, $rootScope, districts){
         $scope.registration = {};
-        $scope.districts = Voodie.getDistricts();
+        $scope.districts = districts;
         $scope.submit = function(){
             if($scope.foodieRegistrationForm.$valid){
                 var path = "elections";
@@ -237,20 +237,19 @@ angular.module('voodie').controller('FoodTruckCreateElectionCtrl', ['$scope', '$
     }
 ]);
 
-angular.module('voodie').controller('FoodTruckElectionCtrl', ['$scope', '$location', 'Voodie', 'User', 'GoogleMaps',
-    function($scope, $location, Voodie, User, GoogleMaps){
+angular.module('voodie').controller('FoodTruckElectionCtrl', ['$scope', '$location', 'Voodie', 'User', 'GoogleMaps', 'elections',
+    function($scope, $location, Voodie, User, GoogleMaps, elections){
         $scope.openElections = [];
         $scope.closedElections = [];
-        Voodie.getElections(User.username, function(data){
-            for(var i=0;i<data.length;i++){
-                var election = data[i];
-                if(election.status === "IN_PROGRESS"){
-                    $scope.openElections.push(election);
-                }else{
-                    $scope.closedElections.push(election);
-                }
+        $scope.elections = elections;
+        for(var i=0;i<$scope.elections.length;i++){
+            var election = $scope.elections[i];
+            if(election.status === "IN_PROGRESS"){
+                $scope.openElections.push(election);
+            }else{
+                $scope.closedElections.push(election);
             }
-        });
+        }
         $scope.viewElection = function(election){
             $location.path("foodtruck/viewElection/" + election.id)
         }
@@ -262,41 +261,39 @@ angular.module('voodie').controller('FoodTruckViewElectionCtrl', ['$scope', '$ro
         $scope.candidatedSelected = false;
         $scope.candidateProgress = {};
         $scope.election = election;
-//        $scope.election = Voodie.getElectionForSelection($routeParams.e, function(data){
-            for(var i=0;i<$scope.election.candidates.length;i++){
-                var candidate = $scope.election.candidates[i];
-                if(candidate.percentageOfVotes >= 75){
-                    $scope.candidateProgress[candidate.id] = {
-                        type: 'success',
-                        value: candidate.percentageOfVotes
-                    };
-                }else if(candidate.percentageOfVotes >= 50){
-                    $scope.candidateProgress[candidate.id] = {
-                        type: 'info',
-                        value: candidate.percentageOfVotes
-                    };
-                }else if(candidate.percentageOfVotes >= 25){
-                    $scope.candidateProgress[candidate.id] = {
-                        type: 'warning',
-                        value: candidate.percentageOfVotes
-                    };
-                }else{
-                    $scope.candidateProgress[candidate.id] = {
-                        type: 'danger',
-                        value: candidate.percentageOfVotes
-                    };
-                }
+        for(var i=0;i<$scope.election.candidates.length;i++){
+            var candidate = $scope.election.candidates[i];
+            if(candidate.percentageOfVotes >= 75){
+                $scope.candidateProgress[candidate.id] = {
+                    type: 'success',
+                    value: candidate.percentageOfVotes
+                };
+            }else if(candidate.percentageOfVotes >= 50){
+                $scope.candidateProgress[candidate.id] = {
+                    type: 'info',
+                    value: candidate.percentageOfVotes
+                };
+            }else if(candidate.percentageOfVotes >= 25){
+                $scope.candidateProgress[candidate.id] = {
+                    type: 'warning',
+                    value: candidate.percentageOfVotes
+                };
+            }else{
+                $scope.candidateProgress[candidate.id] = {
+                    type: 'danger',
+                    value: candidate.percentageOfVotes
+                };
             }
-            $scope.election.candidates.sort(function(a,b){
-                if(a.percentagOfVotes > b.percentageOfVotes){
-                    return -1;
-                }else if(b.percentageOfVotes > a.percentageOfVotes){
-                    return 1;
-                }
-                return 0;
-            });
-            $scope.candidateSelected = ($scope.election.status === "CLOSED");
-//        });
+        }
+        $scope.election.candidates.sort(function(a,b){
+            if(a.percentagOfVotes > b.percentageOfVotes){
+                return -1;
+            }else if(b.percentageOfVotes > a.percentageOfVotes){
+                return 1;
+            }
+            return 0;
+        });
+        $scope.candidateSelected = ($scope.election.status === "CLOSED");
 
         var SelectionMadeCtrl = function($scope, $modalInstance){
             $scope.ok = function () {
@@ -316,15 +313,15 @@ angular.module('voodie').controller('FoodTruckViewElectionCtrl', ['$scope', '$ro
     }
 ]);
 
-angular.module('voodie').controller('FoodTruckProfileCtrl', ['$scope', 'Voodie', 'User',
-    function($scope, Voodie, User){
-        $scope.foodTruck = Voodie.getFoodTruckProfile(User.username);
+angular.module('voodie').controller('FoodTruckProfileCtrl', ['$scope', 'Voodie', 'User', 'profile',
+    function($scope, Voodie, User, profile){
+        $scope.foodTruck = profile;
     }
 ]);
 
-angular.module('voodie').controller('FoodieProfileCtrl', ['$scope', 'Voodie', 'User',
-    function($scope, Voodie, User){
-        $scope.foodie = Voodie.getFoodieProfile(User.username);
+angular.module('voodie').controller('FoodieProfileCtrl', ['$scope', 'Voodie', 'User', 'profile',
+    function($scope, Voodie, User, profile){
+        $scope.foodie = profile;
     }
 ]);
 
@@ -347,9 +344,9 @@ angular.module('voodie').controller('LoginCtrl', ['$scope', 'User', '$rootScope'
     }
 ]);
 
-angular.module('voodie').controller('CheckInCtrl', ['$scope', '$routeParams', '$location', 'Voodie',
-    function($scope, $routeParams, $location, Voodie){
-        $scope.election = Voodie.getElection($routeParams.e);
+angular.module('voodie').controller('CheckInCtrl', ['$scope', '$routeParams', '$location', 'Voodie', 'election',
+    function($scope, $routeParams, $location, Voodie, election){
+        $scope.election = election;
         $scope.checkedIn = false;
         $scope.checkIn = function(){
             Voodie.checkIn($scope.election.id, function(data){

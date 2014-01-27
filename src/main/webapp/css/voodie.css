@@ -112,3 +112,7 @@ textarea {
 .progress {
     margin: 8px 0px;
 }
+
+.form-control[readonly] {
+    background: #fff;
+}

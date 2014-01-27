@@ -28,16 +28,6 @@ public class FoodTruck extends VoodieResponse implements Serializable {
 	
 	private List<String> categories = Lists.newArrayList();
 	
-	private String ratingImageUrl;
-	
-	private String url;
-	
-	private String imageUrl;
-
-	private Long rating;
-
-	private String address;
-
     private String district;
 
     // ---------------------------------
@@ -56,46 +46,6 @@ public class FoodTruck extends VoodieResponse implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Long getRating() {
-		return rating;
-	}
-
-	public void setRating(Long rating) {
-		this.rating = rating;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getRatingImageUrl() {
-		return ratingImageUrl;
-	}
-
-	public void setRatingImageUrl(String ratingImageUrl) {
-		this.ratingImageUrl = ratingImageUrl;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
 	}
 
 	public List<String> getCategories() {
