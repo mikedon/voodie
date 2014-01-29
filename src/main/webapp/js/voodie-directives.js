@@ -87,6 +87,13 @@ angular.module('voodie').directive('voodieNavbar', function(){
             brandImg: "@"
        },
        link: function(scope, element, attrs){
+           scope.$parent.$on('$routeChangeSuccess', function(){
+                //collapses navbar when the route changes
+                var isOpen = element.find('div.in').length === 0 ? false : true;
+                if(isOpen){
+                    element.find('div.navbar-header > button').click();
+                }
+           });
        },
        templateUrl: 'includes/navbar.html'
    }
