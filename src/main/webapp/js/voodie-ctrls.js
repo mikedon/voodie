@@ -81,7 +81,7 @@ angular.module('voodie').controller('ElectionCtrl', ['$scope', '$routeParams', '
         $scope.election = election;
         if($scope.election.candidates){
             var mapOptions = {
-                center: new google.maps.LatLng($scope.election.candidates[0].latitude, $scope.election.candidates[1].longitude),
+                center: new google.maps.LatLng($scope.election.candidates[0].latitude, $scope.election.candidates[0].longitude),
                 zoom: 8,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };

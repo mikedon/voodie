@@ -114,6 +114,7 @@ angular.module('voodie').factory('VoodieResource', function($resource, $http, $r
         return false;
     }
     var handleResponse = function(data, onSuccess, onFailure){
+        afterCall();
         addAlerts(data.alerts)
         if(hasErrors()){
             if(onFailure){
@@ -125,23 +126,33 @@ angular.module('voodie').factory('VoodieResource', function($resource, $http, $r
             }
         }
     }
+    var beforeCall = function(){
+        $rootScope.loadingView = true;
+    }
+    var afterCall = function(){
+        $rootScope.loadingView = false;
+    }
     return {
         save: function(resource, onSuccess, onFailure){
+            beforeCall();
             return resource.$save(function(data){
                 handleResponse(data, onSuccess, onFailure);
             });
         },
         get: function(resource, onSuccess, onFailure){
+            beforeCall();
             return resource.get(function(data){
                 handleResponse(data, onSuccess, onFailure);
             });
         },
         query: function(resource, onSuccess, onFailure){
+            beforeCall();
             return resource.query(function(data){
                 handleResponse(data, onSuccess, onFailure);
             });
         },
         post: function(url, payload, config, onSuccess, onFailure){
+            beforeCall();
             return  $http.post(url, payload, config)
                 .success(function(data) {
                     handleResponse(data, onSuccess, onFailure);
