@@ -76,8 +76,8 @@ angular.module('voodie').controller('ElectionsCtrl', ['$scope', '$location', 'Vo
     }
 ]);
 
-angular.module('voodie').controller('ElectionCtrl', ['$scope', '$routeParams', '$location', 'Voodie', 'election',
-    function($scope, $routeParams, $location, Voodie, election){
+angular.module('voodie').controller('ElectionCtrl', ['$scope', '$routeParams', '$location', 'Voodie', 'election', '$rootScope',
+    function($scope, $routeParams, $location, Voodie, election, $rootScope){
         $scope.election = election;
         if($scope.election.candidates){
             var mapOptions = {
@@ -98,7 +98,7 @@ angular.module('voodie').controller('ElectionCtrl', ['$scope', '$routeParams', '
             $scope.candidateChoice = "";
             $scope.vote = function(){
                 Voodie.vote($scope.candidateChoice, function(data){
-                    $location.path('/elections');
+                    $rootScope.showVoteSuccess = true;
                 })
             }
         }

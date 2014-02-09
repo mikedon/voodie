@@ -68,7 +68,36 @@ angular.module('voodie').directive("voodLoading", ["$modal",
                             controller: ModalInstanceCtrl,
                             windowClass: "loading",
                             backdrop: "static",
-                            keyboard: false
+                            keyboard: true
+                        });
+                    }
+                })
+            }
+        }
+    }
+]);
+
+angular.module('voodie').directive('voodieVoteSuccess', ['$modal', '$location',
+    function($modal, $location){
+        return {
+            link: function(scope, element, attrs){
+                var modalInstance;
+                var ModalInstanceCtrl = function($scope, $modalInstance){
+                    $scope.close = function() {
+                        $modalInstance.close();
+                    }
+                };
+                scope.$watch('showVoteSuccess', function(showVoteSuccess){
+                    if(showVoteSuccess === false && modalInstance){
+                        modalInstance.close();
+                    }else if(showVoteSuccess === true){
+                        modalInstance = $modal.open({
+                            templateUrl: "includes/vote-success.html",
+                            controller: ModalInstanceCtrl,
+                            backdrop: "static"
+                        });
+                        modalInstance.result.then(function(data){
+                            $location.path('/elections');
                         });
                     }
                 })
