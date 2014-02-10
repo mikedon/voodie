@@ -77,8 +77,8 @@ angular.module('voodie').directive("voodLoading", ["$modal",
     }
 ]);
 
-angular.module('voodie').directive('voodieVoteSuccess', ['$modal', '$location',
-    function($modal, $location){
+angular.module('voodie').directive('voodieVoteSuccess', ['$modal', '$location', '$timeout',
+    function($modal, $location, $timeout){
         return {
             link: function(scope, element, attrs){
                 var modalInstance;
@@ -96,11 +96,18 @@ angular.module('voodie').directive('voodieVoteSuccess', ['$modal', '$location',
                             controller: ModalInstanceCtrl,
                             backdrop: "static"
                         });
+                        modalInstance.opened.then(function(){
+                            //reload facebook elements - wait for modal to become visible
+                            $timeout(function(){
+                                FB.XFBML.parse();
+                            }, 500);
+
+                        });
                         modalInstance.result.then(function(data){
                             $location.path('/elections');
                         });
                     }
-                })
+                });
             }
         }
     }
@@ -160,23 +167,26 @@ angular.module('voodie').directive('voodieNavbarLink', ["$location", "User",
     }
 ]);
 
-angular.module('voodie').directive("fbshare", function(){
-    return {
-        restrict: "EA",
-        link: function(scope, element, attrs) {
-            attrs.$observe('election', function(election){
-                var url = window.location.protocol + "//" +
-                    window.location.hostname + ":" +
-                    window.location.port +
-                    "/voodie/#/election/" + election;
-                var htmlText = "<div class='fb-share-button' " +
-                    "data-href='" + url +"' " +
-                    "data-type='box_count'></div>";
-                element.html(htmlText);
-            });
+/*
+ * only displays is url is valid on facebook side
+ */
+angular.module('voodie').directive("voodieFb", ['$location', '$compile',
+    function($location, $compile){
+        return {
+            restrict: "E",
+            replace: true,
+            templateUrl: "includes/facebook.html",
+            scope: {
+                url: "@"
+            },
+            compile: function(element, attrs){
+                if(attrs.url === undefined){
+                    attrs.url = $location.absUrl();
+                }
+            }
         }
     }
-});
+]);
 
 angular.module('voodie').directive("tweetshare", function(){
     return {
