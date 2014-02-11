@@ -17,6 +17,7 @@
             <div id="map-canvas"></div>
         </div>
         <div class="col-md-6">
+            <voodie-fb></voodie-fb>
             <label ng-repeat="c in election.candidates" class="radio">
                 <input type="radio" ng-model="$parent.candidateChoice" name="candidate" value="{{ c.id }}">
                 {{ c.displayName }}

@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h3>Election Closed!</h3>
+</div>
+<div class="modal-body">
+    <p>An email has been sent to all your Foodies with the results.</p>
+    <p>Spread the word!</p>
+    <div class="row">
+        <div class="col-md-2">
+            <voodie-fb url="{{electionUrl}}"></voodie-fb>
+        </div>
+        <div class="col-md-2">
+            <tweetshare election="{{election.id}}"></tweetshare>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="close()">OK</button>
+</div>

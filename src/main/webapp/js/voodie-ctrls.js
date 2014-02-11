@@ -256,8 +256,8 @@ angular.module('voodie').controller('FoodTruckElectionCtrl', ['$scope', '$locati
     }
 ]);
 
-angular.module('voodie').controller('FoodTruckViewElectionCtrl', ['$scope', '$routeParams', '$location', 'Voodie', '$modal', 'election',
-    function($scope, $routeParams, $location, Voodie, $modal, election){
+angular.module('voodie').controller('FoodTruckViewElectionCtrl', ['$scope', '$routeParams', '$location', 'Voodie', '$modal', '$rootScope', 'election',
+    function($scope, $routeParams, $location, Voodie, $modal, $rootScope, election){
         $scope.candidatedSelected = false;
         $scope.candidateProgress = {};
         $scope.election = election;
@@ -295,18 +295,10 @@ angular.module('voodie').controller('FoodTruckViewElectionCtrl', ['$scope', '$ro
         });
         $scope.candidateSelected = ($scope.election.status === "CLOSED");
 
-        var SelectionMadeCtrl = function($scope, $modalInstance){
-            $scope.ok = function () {
-                $modalInstance.close();
-            };
-        };
-
+        $scope.electionUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port() + "/voodie/#/election/" + $scope.election.id;
         $scope.makeSelection = function(candidate){
             Voodie.selectCandidate(candidate, function(data){
-                var modalInstance = $modal.open({
-                    templateUrl: 'selectionMade.html',
-                    controller: SelectionMadeCtrl
-                });
+                $rootScope.showSelectionMade = true;
                 $scope.candidateSelected = true;
             });
         };

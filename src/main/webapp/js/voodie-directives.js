@@ -113,6 +113,46 @@ angular.module('voodie').directive('voodieVoteSuccess', ['$modal', '$location', 
     }
 ]);
 
+angular.module('voodie').directive('voodieSelectionMade', ['$modal', '$location', '$timeout',
+    function($modal, $location, $timeout){
+        return {
+            scope: {
+                election: "@"
+            },
+            link: function(scope, element, attrs){
+                var modalInstance;
+                var ModalInstanceCtrl = function($scope, $modalInstance){
+                    $scope.electionUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port() + "/voodie/#/election/" + scope.election;
+                    $scope.close = function() {
+                        $modalInstance.close();
+                    }
+                };
+                scope.$parent.$watch('showSelectionMade', function(showSelectionMade){
+                    if(showSelectionMade === false && modalInstance){
+                        modalInstance.close();
+                    }else if(showSelectionMade === true){
+                        modalInstance = $modal.open({
+                            templateUrl: "includes/selection-made.html",
+                            controller: ModalInstanceCtrl,
+                            backdrop: "static"
+                        });
+                        modalInstance.opened.then(function(){
+                            //reload facebook elements - wait for modal to become visible
+                            $timeout(function(){
+                                FB.XFBML.parse();
+                            }, 500);
+
+                        });
+                        modalInstance.result.then(function(data){
+                            $location.path('/foodtruck/elections');
+                        });
+                    }
+                });
+            }
+        }
+    }
+]);
+
 angular.module('voodie').directive('voodieNavbar', function(){
    return {
        restrict: "E",

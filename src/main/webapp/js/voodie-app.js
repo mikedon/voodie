@@ -191,38 +191,43 @@ var Resolve = {
  *
  * http://blog.brunoscopelliti.com/show-route-only-after-all-promises-are-resolved
  */
-angular.module('voodie').run(['$rootScope', '$location', 'User', function ($root, $location, User){
-    $root.$on('$routeChangeStart', function(e, curr, prev) {
-        if (curr.$$route && curr.$$route.resolve) {
-            // Show a loading message until promises are not resolved
-            $root.loadingView = true;
-        }
-    });
-	$root.$on('$routeChangeSuccess', function(event, currRoute){
-        $root.loadingView = false;
-        //clear out error msgs...better way?
-        if($root.clearAlerts){
-            $root.alerts = [];
-        }
-        $root.clearAlerts = true;
-        if(currRoute.access && currRoute.access.requiresLogin){
-			if(!User.isLoggedIn()){
-                $root.captureRedirect = $location.path();
-                $root.clearAlerts = false;
-				console.debug("Route Requires Login");
-                $root.alerts = [{type:'warning', message:'Please login first.'}];
-				$location.path("/login");
-			}else if(!User.hasRole(currRoute.access.role)){
-				console.debug("Route Requires Role: " + currRoute.access.role);
-				$location.path("/elections");
-			}else if(currRoute.access.validate){
-                var validateResponse = currRoute.access.validate(currRoute.locals);
-                if(validateResponse){
+angular.module('voodie').run(['$rootScope', '$location', '$timeout', 'User',
+    function ($root, $location, $timeout, User){
+        $root.$on('$routeChangeStart', function(e, curr, prev) {
+            if (curr.$$route && curr.$$route.resolve) {
+                // Show a loading message until promises are not resolved
+                $root.loadingView = true;
+            }
+        });
+        $root.$on('$routeChangeSuccess', function(event, currRoute){
+            $timeout(function(){
+                FB.XFBML.parse();
+            }, 500);
+            $root.loadingView = false;
+            //clear out error msgs...better way?
+            if($root.clearAlerts){
+                $root.alerts = [];
+            }
+            $root.clearAlerts = true;
+            if(currRoute.access && currRoute.access.requiresLogin){
+                if(!User.isLoggedIn()){
+                    $root.captureRedirect = $location.path();
                     $root.clearAlerts = false;
-                    $root.alerts = [{type:'warning', message:validateResponse.msg}];
-                    $location.path(validateResponse.path);
+                    console.debug("Route Requires Login");
+                    $root.alerts = [{type:'warning', message:'Please login first.'}];
+                    $location.path("/login");
+                }else if(!User.hasRole(currRoute.access.role)){
+                    console.debug("Route Requires Role: " + currRoute.access.role);
+                    $location.path("/elections");
+                }else if(currRoute.access.validate){
+                    var validateResponse = currRoute.access.validate(currRoute.locals);
+                    if(validateResponse){
+                        $root.clearAlerts = false;
+                        $root.alerts = [{type:'warning', message:validateResponse.msg}];
+                        $location.path(validateResponse.path);
+                    }
                 }
             }
-		}
-	});
-}]);
+        });
+    }
+]);
