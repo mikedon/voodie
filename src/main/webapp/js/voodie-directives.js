@@ -100,6 +100,7 @@ angular.module('voodie').directive('voodieVoteSuccess', ['$modal', '$location', 
                             //reload facebook elements - wait for modal to become visible
                             $timeout(function(){
                                 FB.XFBML.parse();
+                                twttr.widgets.load();
                             }, 500);
 
                         });
@@ -140,6 +141,7 @@ angular.module('voodie').directive('voodieSelectionMade', ['$modal', '$location'
                             //reload facebook elements - wait for modal to become visible
                             $timeout(function(){
                                 FB.XFBML.parse();
+                                twttr.widgets.load();
                             }, 500);
 
                         });
@@ -210,8 +212,8 @@ angular.module('voodie').directive('voodieNavbarLink', ["$location", "User",
 /*
  * only displays is url is valid on facebook side
  */
-angular.module('voodie').directive("voodieFb", ['$location', '$compile',
-    function($location, $compile){
+angular.module('voodie').directive("voodieFb", ['$location',
+    function($location){
         return {
             restrict: "E",
             replace: true,
@@ -228,29 +230,23 @@ angular.module('voodie').directive("voodieFb", ['$location', '$compile',
     }
 ]);
 
-angular.module('voodie').directive("tweetshare", function(){
-    return {
-        restrict: "EA",
-        link: function(scope, element, attrs){
-            attrs.$observe('election', function(election){
-                var url = window.location.protocol + "//" +
-                    window.location.hostname + ":" +
-                    window.location.port +
-                    "/voodie/#/election/" + election;
-                var htmlText = "<a href='https://twitter.com/share' class='twitter-share-button' " +
-                    "data-size='large' data-hashtags='voodielicious' data-text='Checkout our election!'" +
-                    " data-url='" + url + "'>Tweet</a>"+
-                    "<script>" +
-                    "!function(d,s,id){" +
-                    "var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';" +
-                    "if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';" +
-                    "fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');" +
-                    "</script>";
-                element.html(htmlText);
-            });
+angular.module('voodie').directive("voodieTw", ['$location',
+    function($location){
+        return {
+            restrict: "E",
+            replace: true,
+            templateUrl: "includes/twitter.html",
+            scope: {
+                url: "@"
+            },
+            compile: function(element, attrs){
+                if(attrs.url === undefined){
+                    attrs.url = $location.absUrl();
+                }
+            }
         }
     }
-});
+]);
 
 angular.module('voodie').directive("blur", function(){
 	return function($scope, element, attrs){

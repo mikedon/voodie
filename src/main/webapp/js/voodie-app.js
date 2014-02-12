@@ -202,6 +202,7 @@ angular.module('voodie').run(['$rootScope', '$location', '$timeout', 'User',
         $root.$on('$routeChangeSuccess', function(event, currRoute){
             $timeout(function(){
                 FB.XFBML.parse();
+                twttr.widgets.load();
             }, 500);
             $root.loadingView = false;
             //clear out error msgs...better way?
