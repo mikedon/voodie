@@ -1,0 +1,121 @@
+@import 'variables.less';
+
+html, body {
+    height: 100%;
+}
+
+#wrap {
+    min-height: 100%;
+}
+
+#main {
+    padding-bottom:150px; /* this needs to be bigger than footer height*/
+}
+
+.loading > .modal-dialog{
+    width: 160px;
+    margin-top: 100px;
+}
+
+.footer {
+    position: relative;
+    margin: -100px auto; /* negative value of footer height */
+    height: 100px;
+    clear:both;
+    background-color: #010101;
+}
+
+textarea {
+    resize: none;
+}
+
+.foodTruck {
+    padding: 20px;
+    border: 1px solid black;
+    min-height: 192px !important;
+}
+
+#map-canvas {
+    border: 1px solid black;
+    height: 400px;
+    width: 100%;
+}
+
+.time-picker {
+    margin-top: 10%;
+}
+
+.eating-time-display {
+    margin-top: 6%;
+}
+
+.edit-btn {
+    margin-bottom: 9px;
+}
+
+.election {
+    padding: 5px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    margin: 5px;
+    min-height: 175px;
+    position: relative;
+}
+
+.election-go-vote {
+    bottom: 5px;
+}
+
+@media (max-width: 992px) {
+    .login-register-container {
+        border-left: none;
+    }
+    .login-register {
+        margin-top: 20px;
+        border-top: 2px solid #ccc;
+    }
+}
+
+@media (min-width: 993px) {
+    .login-register-container {
+        border-left: 1px solid #ccc;
+        padding-left: 20px;
+        margin-top: 35px;
+    }
+    .filter-label {
+        width: 100%;
+    }
+}
+
+.register-btn-container {
+    margin: 20px 0px;
+}
+
+.register-or-container {
+    text-align: center;
+}
+
+.navbar-brand img {
+    height: 50px;
+    display: inline-block;
+}
+
+.qr-code-container {
+    margin-top: 20px;
+}
+/*
+    bootstrap overrides
+*/
+.navbar-brand {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.progress {
+    margin: 8px 0px;
+}
+
+.form-control[readonly] {
+    background: #fff;
+}
+

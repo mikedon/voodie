@@ -1,0 +1,40 @@
+<div>
+	<h1>Vote for your favorite food truck to go where you want them to.</h1>
+	<hr>
+	<form>
+		<div class="row-fluid">
+			<div class="span6">
+				<legend>Where do you want to eat?</legend>
+			</div>
+			<div class="span6">
+				<legend>When do you want to eat?</legend>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label" for="address">Address:</label>
+					<div class="controls">
+						<textarea blur="geolocate()" ng-model="address" class="span12"rows="4"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="span6 row-fluid eating-time-display">
+	            <span class="lead">{{eatingTimestamp | date:'MM/dd/yyyy @ h:mma'}}</span>
+	            <button class="btn btn-small edit-btn" ng-click="openDialog()"><i class="icon-edit"></i></button>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="form-actions span12">
+				<button ng-click="submit()" class="btn btn-large btn-block btn-success">Submit</button>
+			</div>
+		</div>
+	</form>
+        <h3>Food Truck?</h3>
+        <form>
+            <legend>Enter food truck id</legend>
+            <input type="text" ng-model="foodTruck">
+            <a ng-href="#/foodTruck/{{foodTruck}}" class="btn">See Votes</a>
+        </form>
+</div>
+

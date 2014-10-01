@@ -1,0 +1,16 @@
+import org.gradle.api.tasks.Exec
+import com.voodie.GruntTask
+
+task npm(type: Exec) {
+    group = "Build"
+    description = "Installs all Node.js dependencies defined in package.json"
+    commandLine = ["npm", "install"]
+    inputs.file "package.json"
+    outputs.dir "node_modules"
+}
+
+task watch(type: GruntTask) {
+    group = "Watch"
+    description = "grunt watch"
+    gruntArgs = "watch"
+}

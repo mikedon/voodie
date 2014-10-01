@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/voodie-security.xml</param-value>
+	</context-param>
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+    <servlet>
+        <servlet-name>JmxMiniConsoleServlet</servlet-name>
+        <servlet-class>org.jminix.console.servlet.MiniConsoleServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>JmxMiniConsoleServlet</servlet-name>
+        <url-pattern>/jmx/*</url-pattern>
+    </servlet-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Resources-Protected</web-resource-name>
+            <url-pattern>/jmx/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>MYAPPL_ADMIN</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>ApplicationRealm</realm-name>
+    </login-config>
+
+</web-app>
