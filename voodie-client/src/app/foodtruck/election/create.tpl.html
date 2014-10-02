@@ -1,0 +1,95 @@
+<div>
+    <h3>Create New Election</h3>
+    <form name="addCandidateForm" ng-show="editMode" novalidate>
+        <fieldset>
+            <legend>Candidates</legend>
+            <ul>
+                <li ng-repeat="c in election.candidates">
+                    {{ c.displayName }}
+                </li>
+            </ul>
+
+            <div bs-input label="Display Name" required-msg="Value is required">
+                <input type="text"
+                       tooltip="The name displayed to your Foodies when voting."
+                       id="displayName"
+                       name="displayName"
+                       required
+                       ng-model="candidate.displayName"/>
+            </div>
+            <div bs-input label="Address" required-msg="Value is required">
+                <input type="text"
+                       tooltip="A valid address that Google Maps can understand."
+                       id="address"
+                       name="address"
+                       required
+                       ng-model="candidate.address"/>
+            </div>
+            <div>
+                <button class="btn btn-default" ng-click="addCandidate()">Add Candidate</button>
+            </div>
+        </fieldset>
+    </form>
+    <form name="createElectionForm" novalidate>
+        <div bs-input label="Title" required-msg="Value is required">
+            <input type="text"
+                   name="title"
+                   id="title"
+                   ng-model="election.title"
+                   tooltip="The name of the elction.  This will be displayed to your Foodies."
+                   required>
+        </div>
+        <div bs-input label="Serving Date" required-msg="Value is required">
+            <input type="text"
+                   required
+                   id="servingDate"
+                   readonly="readonly"
+                   name="servingDate"
+                   show-weeks="false"
+                   tooltip="This is the date your Foodies are voting for."
+                   datepicker-popup="MM/dd/yyyy"
+                   ng-model="election.servingDate" />
+        </div>
+        <div class="row">
+            <div class="col-md-6" ng-model="election.servingStartTime">
+                <div><label class="control-label">Start Time</label></div>
+                <timepicker></timepicker>
+            </div>
+            <div class="col-md-6" ng-model="election.servingEndTime">
+                <div><label class="control-label">End Time</label></div>
+                <timepicker></timepicker>
+            </div>
+        </div>
+
+        <div bs-input label="Poll Opening Date" required-msg="Value is required">
+            <input type="text"
+                   id="pollOpeningDate"
+                   name="pollOpeningDate"
+                   readonly="readonly"
+                   required
+                   tooltip="The date that voting will begin."
+                   datepicker-popup="MM/dd/yyyy"
+                   show-weeks="false"
+                   ng-model="election.pollOpeningDate"/>
+        </div>
+        <div bs-input label="Poll Closing Date" required-msg="Value is required">
+            <input type="text"
+                   id="pollClosingDate"
+                   name="pollClosingDate"
+                   readonly="readonly"
+                   required
+                   tooltip="The date that voting will end."
+                   datepicker-popup="MM/dd/yyyy"
+                   show-weeks="false"
+                   ng-model="election.pollClosingDate"/>
+        </div>
+        <div bs-input label="Allow Write In">
+            <input type="checkbox"
+                   id="allowWriteIn"
+                   name="allowWriteIn"
+                   tooltip="If this is checked then your elite voters can write in their own candidate."
+                   ng-model="election.allowWriteIn"/>
+        </div>
+        <button class="btn btn-default btn-primary btn-lg pull-right" ng-click="submit()">Create</button>
+    </form>
+</div>

@@ -1,0 +1,49 @@
+<div>
+    <form name="foodTruckProfileForm">
+        <div bs-input label="First Name">
+            <input type="text"
+                   name="firstName"
+                   id="firstName"
+                   ng-model="foodTruck.firstName"
+                   required>
+        </div>
+        <div bs-input label="Last Name">
+            <input type="text"
+                   name="lastName"
+                   id="lastName"
+                   ng-model="foodTruck.lastName"
+                   required>
+        </div>
+        <div bs-input label="Email">
+            <input type="email"
+                   name="email"
+                   id="email"
+                   ng-model="foodTruck.emailAddress"
+                   required>
+        </div>
+        <div bs-input label="District">
+            <input type="text"
+                   name="district"
+                   id="district"
+                   ng-model="foodTruck.district"
+                   disabled
+                   required>
+        </div>
+        <div bs-input label="Food Truck Name">
+            <input type="text"
+                   name="foodTruckName"
+                   id="foodTruckName"
+                   ng-model="foodTruck.name"
+                   required>
+        </div>
+        <div bs-input label="Username">
+            <input type="text"
+                   name="username"
+                   id="username"
+                   ng-model="foodTruck.username"
+                   required>
+        </div>
+        <!-- TODO edit -->
+        <!--<button class="btn pull-right" ng-click="submit()">Submit</button>-->
+    </form>
+</div>

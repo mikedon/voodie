@@ -1,0 +1,51 @@
+<div>
+	<h2>Foodie Registration</h2>
+    <form name="foodieRegistrationForm" novalidate>
+        <div bs-input label="First Name" required-msg="Value is required">
+            <input type="text"
+                   id="firstName"
+                   name="firstName"
+                   ng-model="registration.firstName"
+                   required/>
+        </div>
+        <div bs-input label="Last Name" required-msg="Value is required">
+            <input type="text"
+                   id="lastName"
+                   name="lastName"
+                   ng-model="registration.lastName"
+                   required/>
+        </div>
+        <!--TODO validate proper email -->
+        <div bs-input label="Email" required-msg="Value is required" validation-msg="Must be a valid email address">
+            <input type="email"
+                   id="email"
+                   name="email"
+                   ng-model="registration.email"
+                   required/>
+        </div>
+        <div bs-input label="Home District" required-msg="Value is required">
+            <select id="district" class="form-control"
+                    name="district"
+                    ng-model="registration.homeDistrict"
+                    ng-options="d.name for d in districts"
+                    required>
+                <option value=""></option>
+            </select>
+        </div>
+        <div bs-input label="Username" required-msg="Value is required">
+            <input type="text"
+                   id="username"
+                   name="username"
+                   ng-model="registration.username"
+                   required/>
+        </div>
+        <div bs-input label="Password" required-msg="Value is required">
+            <input type="password"
+                   id="password"
+                   name="password"
+                   ng-model="registration.password"
+                   required/>
+        </div>
+        <button class="btn btn-default btn-primary pull-right" ng-click="submit()">Submit</button>
+    </form>
+</div>

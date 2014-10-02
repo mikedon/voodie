@@ -4,8 +4,14 @@ angular.module('voodie', [
 	'ngResource', 
 	'ngRoute', 
 	'ui.bootstrap',
-	'voodie.election',
-	'voodie.home',
+	'voodie.foodie.election',
+	'voodie.foodie.profile',
+    'voodie.foodie.registration',
+    'voodie.foodtruck.election',
+    'voodie.foodtruck.profile',
+    'voodie.foodtruck.registration',
+    'voodie.login',
+    'voodie.home',
 	'navbar',
 	'navbarLink',
 	'input'
@@ -25,9 +31,9 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
 		resolve: Resolve
     });
 
-    $routeProvider.when('/elections', {
-        templateUrl:'election/search/search.tpl.html',
-        controller: 'ElectionsCtrl',
+    $routeProvider.when('/foodie/elections', {
+        templateUrl:'foodie/election/search.tpl.html',
+        controller: 'FoodieElectionSearchCtrl',
         resolve: {
             districts: ['Voodie', function(Voodie){
                 return {};//Voodie.getDistricts().$promise;
@@ -38,9 +44,9 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
         }
     });
 
-    $routeProvider.when('/election/:e', {
-        templateUrl:'election/election.tpl.html',
-        controller: 'ElectionCtrl',
+    $routeProvider.when('/foodie/electionView/:e', {
+        templateUrl:'foodie/election/view.tpl.html',
+        controller: 'FoodieViewElectionCtrl',
         resolve: {
             election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
                 return Voodie.getElection($route.current.params.e).$promise;
@@ -52,8 +58,8 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
         access: {requiresLogin: true, role : "Foodie"}
     });
 
-    $routeProvider.when('/election/checkin/:e', {
-        templateUrl:'election/checkin/checkin.tpl.html',
+    $routeProvider.when('/foodie/electionCheckin/:e', {
+        templateUrl:'foodie/election/checkin.tpl.html',
         controller: 'CheckInCtrl',
         resolve: {
             election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
@@ -125,8 +131,8 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
     });
 
     $routeProvider.when('/foodtruck/elections', {
-        templateUrl : 'foodtruck/elections/elections.tpl.html',
-        controller: 'FoodTruckElectionCtrl',
+        templateUrl : 'foodtruck/election/search.tpl.html',
+        controller: 'FoodTruckElectionSearchCtrl',
         resolve: {
             elections: ['Voodie', 'User', function(Voodie, User){
                 return Voodie.getElections(User.username).$promise;
@@ -139,7 +145,7 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
     });
 
     $routeProvider.when('/foodtruck/viewElection/:e', {
-        templateUrl : 'foodtruck/view-election/view-election.tpl.html',
+        templateUrl : 'foodtruck/election/view.tpl.html',
         controller: 'FoodTruckViewElectionCtrl',
         resolve: {
             election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
@@ -153,7 +159,7 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
     });
 
     $routeProvider.when('/foodtruck/createElection', {
-        templateUrl: 'foodtruck/create-election/create-election.tpl.html',
+        templateUrl: 'foodtruck/election/create.tpl.html',
         controller: 'FoodTruckCreateElectionCtrl',
         resolve: {
             user : ['User', function(User){
@@ -164,7 +170,7 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
     });
 
     $routeProvider.when('/foodtruck/editElection/:e', {
-        templateUrl : 'foodtruck/edit-election/edit-election.tpl.html',
+        templateUrl : 'foodtruck/election/edit.tpl.html',
         controller:'FoodTruckEditElectionCtrl',
         resolve: {
             election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
@@ -185,7 +191,7 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
         }
     });
 
-	$routeProvider.otherwise({redirectTo: '/elections'});
+	$routeProvider.otherwise({redirectTo: '/foodie/elections'});
 }]);
 
 /**
