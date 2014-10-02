@@ -9,8 +9,20 @@ task npm(type: Exec) {
     outputs.dir "node_modules"
 }
 
+task bower(type: Exec) {
+    group = "Build"
+    description = "Installs all bower components defined in bower.json"
+    commandLine = ["bower", "install"]
+}
+
 task watch(type: GruntTask) {
     group = "Watch"
     description = "grunt watch"
-    gruntArgs = "watch"
+    gruntArgs = "watch --force"
+}
+
+task grunt(type: GruntTask){
+    group = "Default Grunt"
+    description = "Default Grunt Task"
+    gruntArgs = "--force"
 }
