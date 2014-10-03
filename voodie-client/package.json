@@ -1,7 +1,7 @@
 {
   "author": "MikeD",
   "name": "voodie",
-  "version" : "1.0.0",
+  "version": "1.0.0",
   "licenses": {
     "type": "Voodie",
     "url": "private"
@@ -20,6 +20,7 @@
     "karma-firefox-launcher": "^0.1.3",
     "karma-jasmine": "^0.1.5",
     "grunt-karma": "^0.8.2",
-    "karma": "^0.12.9"
+    "karma": "^0.12.9",
+    "grunt-ng-constant": "~1.0.0"
   }
 }

@@ -1,8 +1,4 @@
-angular.module( 'voodie.home', [
-  'ui.bootstrap'
-])
-
-.controller('HomeCtrl', ['$scope', '$location', 'EatingTime', 'GoogleMaps',
+angular.module('voodie').controller('HomeCtrl', ['$scope', '$location', 'EatingTime', 'GoogleMaps',
     function ($scope, $location, EatingTime, GoogleMaps) {
         $scope.eatingTimestamp = EatingTime.getEatingTime();
         $scope.submit = function(){

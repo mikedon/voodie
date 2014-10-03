@@ -1,4 +1,4 @@
-angular.module('voodie.foodie.registration').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie', '$rootScope', 'districts',
+angular.module('voodie').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie', '$rootScope', 'districts',
     function($scope, Voodie, $rootScope, districts){
         $scope.registration = {};
         $scope.districts = districts;

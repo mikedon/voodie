@@ -1,17 +1,10 @@
 angular.module('voodie', [
+    'config',
 	'templates-app',
 	'templates-common',
 	'ngResource', 
 	'ngRoute', 
 	'ui.bootstrap',
-	'voodie.foodie.election',
-	'voodie.foodie.profile',
-    'voodie.foodie.registration',
-    'voodie.foodtruck.election',
-    'voodie.foodtruck.profile',
-    'voodie.foodtruck.registration',
-    'voodie.login',
-    'voodie.home',
 	'navbar',
 	'navbarLink',
 	'input'
@@ -36,10 +29,10 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
         controller: 'FoodieElectionSearchCtrl',
         resolve: {
             districts: ['Voodie', function(Voodie){
-                return {};//Voodie.getDistricts().$promise;
+                return Voodie.getDistricts().$promise;
             }],
             user: ['User', function(User){
-                return {};//User.initialize();
+                return User.initialize();
             }]
         }
     });
@@ -198,9 +191,9 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
  * All routes must resolve this.  Loads user service.
  */
 var Resolve = {
-	/*user : function(User){
+	user : function(User){
 		return User.initialize();
-	}*/	
+	}
 };
 
 /**

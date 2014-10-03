@@ -1,4 +1,4 @@
-angular.module('voodie.login').controller('LoginCtrl', ['$scope', 'User', '$rootScope',
+angular.module('voodie').controller('LoginCtrl', ['$scope', 'User', '$rootScope',
     function($scope, User, $rootScope){
         $scope.login = {};
         $scope.submit = function(){

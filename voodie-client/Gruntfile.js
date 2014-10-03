@@ -14,6 +14,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-ngmin');
   grunt.loadNpmTasks('grunt-html2js');
+  grunt.loadNpmTasks('grunt-ng-constant');
 
   /**
    * Load in our build configuration file.
@@ -25,6 +26,29 @@ module.exports = function ( grunt ) {
    * instructions.
    */
   var taskConfig = {
+
+      ngconstant: {
+          options: {
+              name: 'config',
+              dest: 'config.js'
+          },
+          development: {
+              options: {
+                  dest: '<%= build_dir %>/src/app/config.js'
+              },
+              constants: {
+                  apiUrl: 'http://localhost\\:8080/' //escape colon for angular https://groups.google.com/forum/#!topic/angular/18aO0bIlEm0
+              }
+          }
+          /*production: {
+           options: {
+           dest: '<%= yeoman.dist %>/scripts/config.js',
+           },
+           constants: {
+           ENV: 'production'
+           }
+           }*/
+      },
     /**
      * We read in our `package.json` file so we can access the package name and
      * version. It's already there, so we don't repeat ourselves here.
@@ -446,7 +470,7 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'build', [
-    'clean', 'html2js', 'jshint', 'less:build',
+    'clean', 'ngconstant:development', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:build_vendorjs', 'index:build', 'karmaconfig',
     'karma:continuous' 

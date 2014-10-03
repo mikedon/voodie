@@ -1,4 +1,4 @@
-angular.module('voodie.foodtruck.election').controller('FoodTruckElectionSearchCtrl', ['$scope', '$location', 'Voodie', 'User', 'GoogleMaps', 'elections',
+angular.module('voodie').controller('FoodTruckElectionSearchCtrl', ['$scope', '$location', 'Voodie', 'User', 'GoogleMaps', 'elections',
      function($scope, $location, Voodie, User, GoogleMaps, elections){
          $scope.openElections = [];
          $scope.closedElections = [];
@@ -18,7 +18,7 @@ angular.module('voodie.foodtruck.election').controller('FoodTruckElectionSearchC
 ]);
 
 
-angular.module('voodie.foodtruck.election').controller('FoodTruckEditElectionCtrl', ['$scope', '$routeParams', 'Voodie', 'GoogleMaps', '$rootScope', 'election',
+angular.module('voodie').controller('FoodTruckEditElectionCtrl', ['$scope', '$routeParams', 'Voodie', 'GoogleMaps', '$rootScope', 'election',
     function($scope, $routeParams, Voodie, GoogleMaps, $rootScope, election){
         $scope.election = election;
         $scope.candidate = {};
@@ -54,7 +54,7 @@ angular.module('voodie.foodtruck.election').controller('FoodTruckEditElectionCtr
         };
     }
 ]);
-angular.module('voodie.foodtruck.election').controller('FoodTruckCreateElectionCtrl', ['$scope', '$location', 'Voodie', '$rootScope',
+angular.module('voodie').controller('FoodTruckCreateElectionCtrl', ['$scope', '$location', 'Voodie', '$rootScope',
     function ($scope, $location, Voodie, $rootScope){
         function mapServingTime(servingDate, servingTime){
             return new Date(servingDate.getFullYear(), servingDate.getMonth(),
@@ -85,7 +85,7 @@ angular.module('voodie.foodtruck.election').controller('FoodTruckCreateElectionC
         };
     }
 ]);
-angular.module('voodie.foodtruck.election').controller('FoodTruckViewElectionCtrl', ['$scope', '$routeParams', '$location', 'Voodie', '$modal', '$rootScope', 'election',
+angular.module('voodie').controller('FoodTruckViewElectionCtrl', ['$scope', '$routeParams', '$location', 'Voodie', '$modal', '$rootScope', 'election',
     function($scope, $routeParams, $location, Voodie, $modal, $rootScope, election){
         $scope.candidatedSelected = false;
         $scope.candidateProgress = {};

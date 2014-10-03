@@ -13,7 +13,7 @@ angular.module('voodie').factory('GoogleMaps', function(){
 	};
 });
 
-angular.module('voodie').factory('User', function($resource, VoodieResource, $http, $location, $rootScope, $q){
+angular.module('voodie').factory('User', function($resource, VoodieResource, $http, $location, $rootScope, $q, apiUrl){
 	return {
 		initialized : false,
 		loggedIn : false,
@@ -48,7 +48,7 @@ angular.module('voodie').factory('User', function($resource, VoodieResource, $ht
 			 */
 			var d = $q.defer();
 			var that = this;
-            var user = $resource('api/user/secure/currentUser');
+            var user = $resource(apiUrl + 'api/user/secure/currentUser');
             user.get({}, function(value, responseHeaders){
                 if(value.username){
                     that.username = value.username;
@@ -72,7 +72,7 @@ angular.module('voodie').factory('User', function($resource, VoodieResource, $ht
             var config = {
                 headers: {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
             };
-            VoodieResource.post('j_spring_security_check', payload, config,
+            VoodieResource.post(apiUrl + 'j_spring_security_check', payload, config,
                 function(){
                     that.password = '';
                     that.loggedIn = true;
@@ -85,7 +85,7 @@ angular.module('voodie').factory('User', function($resource, VoodieResource, $ht
         },
         logout : function(redirect){
             this.reset();
-            $http.get('j_spring_security_logout').success(function(data){
+            $http.get(apiUrl + 'j_spring_security_logout').success(function(data){
 				$location.path(redirect);
 			});
         }
@@ -164,12 +164,12 @@ angular.module('voodie').factory('VoodieResource', function($resource, $http, $r
     };
 });
 
-angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $location, $rootScope, $filter){
+angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $location, $rootScope, $filter, apiUrl){
 	return {
         //TODO abstract all voodie services so api path is set in one place
 		registerTruck: function(truck, redirect){
             VoodieResource.clearAlerts();
-			var FoodTruckRegistration = $resource('api/foodtruck/register');
+			var FoodTruckRegistration = $resource(apiUrl + 'api/foodtruck/register');
 			var newRegistration = new FoodTruckRegistration();
             newRegistration.firstName = truck.firstName;
             newRegistration.lastName = truck.lastName;
@@ -185,7 +185,7 @@ angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $
 		},
         registerFoodie: function(foodie, redirect){
             VoodieResource.clearAlerts();
-            var FoodieRegistration = $resource('api/foodie/register');
+            var FoodieRegistration = $resource(apiUrl + 'api/foodie/register');
             var newRegistration = new FoodieRegistration();
             newRegistration.firstName = foodie.firstName;
             newRegistration.lastName = foodie.lastName;
@@ -199,13 +199,13 @@ angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $
             });
         },
         getFoodTruckProfile: function(username){
-            return VoodieResource.get($resource('api/foodtruck/secure/profile', {"username" : username}));
+            return VoodieResource.get($resource(apiUrl + 'api/foodtruck/secure/profile', {"username" : username}));
         },
         getFoodieProfile: function(username){
-            return VoodieResource.get($resource('api/foodie/secure/profile', {"username" : username}));
+            return VoodieResource.get($resource(apiUrl + 'api/foodie/secure/profile', {"username" : username}));
         },
         createElection: function(election, onSuccess){
-            var Election = $resource('api/election/secure/createElection');
+            var Election = $resource(apiUrl + 'api/election/secure/createElection');
             var newElection = new Election();
             newElection.title = election.title;
             newElection.servingStartTime = election.servingStartTime;
@@ -216,7 +216,7 @@ angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $
             VoodieResource.save(newElection, onSuccess);
         },
         addCandidate: function(election, candidate, onSuccess){
-            var Candidate = $resource('api/election/secure/addCandidate');
+            var Candidate = $resource(apiUrl + 'api/election/secure/addCandidate');
             var newCandidate = new Candidate();
             newCandidate.displayName = candidate.displayName;
             newCandidate.latitude = candidate.latitude;
@@ -225,46 +225,46 @@ angular.module('voodie').factory('Voodie', function($resource, VoodieResource, $
             VoodieResource.save(newCandidate, onSuccess);
         },
         getElections: function(username, onSuccess){
-            return VoodieResource.query($resource('api/election/secure/getAllElections', {"username":username}), onSuccess);
+            return VoodieResource.query($resource(apiUrl + 'api/election/secure/getAllElections', {"username":username}), onSuccess);
 
         },
         getAllElections: function(district, startDate, endDate, onSuccess){
             var newStartDate = $filter('date')(startDate);
             var newEndDate = $filter('date')(endDate);
-            return VoodieResource.query($resource('api/election/query', {"district": district, "startDate": newStartDate, "endDate": newEndDate}),onSuccess);
+            return VoodieResource.query($resource(apiUrl + 'api/election/query', {"district": district, "startDate": newStartDate, "endDate": newEndDate}),onSuccess);
         },
         getSecureElection: function(election, onSuccess){
-            return VoodieResource.get($resource('api/election/secure/getElection', {"election":election}), onSuccess);
+            return VoodieResource.get($resource(apiUrl + 'api/election/secure/getElection', {"election":election}), onSuccess);
         },
         getElection: function(election, onSuccess){
-            return VoodieResource.get($resource('api/election/getElection', {"election":election}), onSuccess);
+            return VoodieResource.get($resource(apiUrl + 'api/election/getElection', {"election":election}), onSuccess);
         },
         vote: function(candidate, onSuccess){
             VoodieResource.clearAlerts();
-            var Vote = $resource('api/election/secure/vote');
+            var Vote = $resource(apiUrl + 'api/election/secure/vote');
             var newVote = new Vote();
             newVote.candidate = candidate;
             VoodieResource.save(newVote, onSuccess);
         },
         getElectionForSelection: function(election, onSuccess){
-            return VoodieResource.get($resource('api/election/secure/getElectionForSelection', {"election":election}), onSuccess);
+            return VoodieResource.get($resource(apiUrl + 'api/election/secure/getElectionForSelection', {"election":election}), onSuccess);
         },
         selectCandidate: function(candidate, onSuccess){
             VoodieResource.clearAlerts();
-            var Candidate = $resource('api/election/secure/selectCandidate');
+            var Candidate = $resource(apiUrl + 'api/election/secure/selectCandidate');
             var newCandidate = new Candidate();
             newCandidate.id = candidate;
             VoodieResource.save(newCandidate, onSuccess);
         },
         checkIn: function(election, onSuccess){
             VoodieResource.clearAlerts();
-            var CheckIn = $resource('api/election/secure/checkIn');
+            var CheckIn = $resource(apiUrl + 'api/election/secure/checkIn');
             var newCheckIn = new CheckIn();
             newCheckIn.election = election;
             VoodieResource.save(newCheckIn, onSuccess);
         },
         getDistricts: function(onSuccess){
-            return VoodieResource.query($resource('api/election/districts'), onSuccess);
+            return VoodieResource.query($resource(apiUrl + 'api/election/districts'), onSuccess);
         }
 	};
 });

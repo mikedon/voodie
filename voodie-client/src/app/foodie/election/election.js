@@ -1,4 +1,4 @@
-angular.module('voodie.foodie.election').controller('FoodieElectionSearchCtrl', ['$scope', '$location', 'Voodie', 'User', 'districts',
+angular.module('voodie').controller('FoodieElectionSearchCtrl', ['$scope', '$location', 'Voodie', 'User', 'districts',
     function($scope, $location, Voodie, User, districts){
         function formatDate(date){
             var formattedDate = date;
@@ -63,7 +63,7 @@ angular.module('voodie.foodie.election').controller('FoodieElectionSearchCtrl', 
 ]);
 
 
-angular.module('voodie.foodie.election').controller('FoodieElectionViewCtrl', ['$scope', '$routeParams', '$location', 'Voodie', 'election', '$rootScope',
+angular.module('voodie').controller('FoodieElectionViewCtrl', ['$scope', '$routeParams', '$location', 'Voodie', 'election', '$rootScope',
     function($scope, $routeParams, $location, Voodie, election, $rootScope){
         $scope.election = election;
         if($scope.election.candidates){
@@ -92,7 +92,7 @@ angular.module('voodie.foodie.election').controller('FoodieElectionViewCtrl', ['
     }
 ]);
 
-angular.module('voodie.foodie.election').controller('VoteCtrl', ['$scope', '$routeParams', 'Voodie',
+angular.module('voodie').controller('VoteCtrl', ['$scope', '$routeParams', 'Voodie',
     function ($scope, $routeParams, Voodie) {
         $scope.currentPage = 1;
         $scope.categories = {};
@@ -120,7 +120,7 @@ angular.module('voodie.foodie.election').controller('VoteCtrl', ['$scope', '$rou
     }
 ]);
 
-angular.module('voodie.foodie.election').controller('CheckInCtrl', ['$scope', '$routeParams', '$location', 'Voodie', 'election',
+angular.module('voodie').controller('CheckInCtrl', ['$scope', '$routeParams', '$location', 'Voodie', 'election',
     function($scope, $routeParams, $location, Voodie, election){
         $scope.election = election;
         $scope.checkedIn = false;
