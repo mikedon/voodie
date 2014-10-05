@@ -27,6 +27,16 @@ module.exports = function ( grunt ) {
    */
   var taskConfig = {
 
+      connect: {
+          server: {
+              options: {
+                  port: 8000,
+                  hostname: 'localhost',
+                  keepalive: true
+              }
+          }
+      },
+
       ngconstant: {
           options: {
               name: 'config',
@@ -37,7 +47,7 @@ module.exports = function ( grunt ) {
                   dest: '<%= build_dir %>/src/app/config.js'
               },
               constants: {
-                  apiUrl: 'http://localhost\\:8080/' //escape colon for angular https://groups.google.com/forum/#!topic/angular/18aO0bIlEm0
+                  apiUrl: 'http://localhost\\:8080/voodie/' //escape colon for angular https://groups.google.com/forum/#!topic/angular/18aO0bIlEm0
               }
           }
           /*production: {
@@ -483,6 +493,8 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'compile', [
     'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
+
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
   /**
    * A utility function to get all app JavaScript sources.
