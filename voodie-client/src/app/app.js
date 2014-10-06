@@ -72,6 +72,7 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function(
 
 	$routeProvider.when('/login', {
 		templateUrl: 'login/login.tpl.html',
+        controller: 'LoginCtrl',
 		resolve: Resolve
     });
 
