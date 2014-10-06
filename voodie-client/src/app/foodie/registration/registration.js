@@ -4,7 +4,7 @@ angular.module('voodie').controller('FoodieRegistrationCtrl', ['$scope', 'Voodie
         $scope.districts = districts;
         $scope.submit = function(){
             if($scope.foodieRegistrationForm.$valid){
-                var path = "elections";
+                var path = "foodie/elections";
                 if($rootScope.captureRedirect){
                     path = $rootScope.captureRedirect;
                 }

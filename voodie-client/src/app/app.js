@@ -10,9 +10,10 @@ angular.module('voodie', [
 	'input'
 ]);
 
-angular.module('voodie').config(["$routeProvider", "$tooltipProvider", function($routeProvider, $tooltipProvider){
+angular.module('voodie').config(["$routeProvider", "$tooltipProvider", "$httpProvider", function($routeProvider, $tooltipProvider, $httpProvider){
     //global options for tool tips
     $tooltipProvider.options({trigger: 'focus'});
+    $httpProvider.defaults.withCredentials = true;
 
 	$routeProvider.when('/home', {
 		templateUrl:'home/home.tpl.html',
