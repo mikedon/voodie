@@ -17,7 +17,9 @@ import org.dozer.Mapper;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +45,9 @@ public class ElectionREST {
 
     @Inject
     protected Mapper mapper;
+
+    @Context
+    protected UriInfo uri;
 
     // ---------------------------------
 
@@ -84,7 +89,7 @@ public class ElectionREST {
         }
     }
 
-    //only difference between this and getElection is numberOfVotes is set
+    //only difference between this and getElection is numberOfVotes is set and check in qr code url
     @Path("/secure/getElectionForSelection")
     @GET
     public Response getElectionForSelection(@QueryParam("election") Long electionId){
@@ -94,6 +99,7 @@ public class ElectionREST {
             Election remoteElection = new Election();
             mapper.map(domainElection, remoteElection);
             setNumberOfVotesForElection(remoteElection);
+            remoteElection.setCheckInQrCodeUrl(uri.getBaseUri() + "secure/checkInQrCode?e=" + remoteElection.getId());
             return Response.ok(remoteElection).build();
         }else{
             VoodieResponse errorResponse = new VoodieResponse();

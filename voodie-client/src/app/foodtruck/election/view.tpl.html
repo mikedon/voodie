@@ -10,7 +10,7 @@
         <voodie-fb url="{{electionUrl}}"></voodie-fb>
         <voodie-tw url="{{electionUrl}}"></voodie-tw>
         <div class="row well qr-code-container">
-            <a ng-href="/voodie/secure/checkInQrCode?e={{ election.id }}" target="_blank"
+            <a ng-href="{{election.checkInQrCodeUrl}}" target="_blank"
                class="btn btn-default btn-block btn-lg">Print QR Code</a>
         </div>
     </div>

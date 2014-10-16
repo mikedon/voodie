@@ -24,6 +24,7 @@ public class Election extends VoodieResponse{
     private String status;
     private List<Candidate> candidates = Lists.newArrayList();
     private Candidate selectedCandidate;
+    private String checkInQrCodeUrl;
 
     // ---------------------------------
 
@@ -113,5 +114,13 @@ public class Election extends VoodieResponse{
 
     public void setSelectedCandidate(Candidate selectedCandidate) {
         this.selectedCandidate = selectedCandidate;
+    }
+
+    public String getCheckInQrCodeUrl() {
+        return checkInQrCodeUrl;
+    }
+
+    public void setCheckInQrCodeUrl(String checkInQrCodeUrl) {
+        this.checkInQrCodeUrl = checkInQrCodeUrl;
     }
 }
