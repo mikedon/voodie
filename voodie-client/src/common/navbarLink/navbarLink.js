@@ -11,6 +11,7 @@ angular.module('navbarLink',[])
                 click: "&"
             },
             controller: function($scope){
+                //this is a hack - there should be a way to call actions
                 $scope.logout = function(){
                     User.logout('login');
                 };
@@ -21,9 +22,12 @@ angular.module('navbarLink',[])
                 //a controller outside the directive.
                 scope.$parent.logout = scope.logout;
                 scope.currentUser = User;
+                scope.isAction = attrs.click != null;
                 scope.$parent.$on('$routeChangeSuccess', function(){
-                    var href = scope.href.substring(1);
-                    scope.active = $location.path() === href;
+                    if(scope.href) {
+                        var href = scope.href.substring(1);
+                        scope.active = $location.path() === href;
+                    }
                 });
             },
             templateUrl: 'navbarLink/navbarLink.tpl.html'

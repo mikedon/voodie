@@ -16,7 +16,7 @@ angular.module('voodie').controller('FoodieElectionSearchCtrl', ['$scope', '$loc
 
         $scope.goToElection = function(election){
             //TODO polite check to see if they are allowed to vote
-            $location.path('election/' + election.id);
+            $location.path('/foodie/electionView/' + election.id);
         };
         $scope.$watch('search.district + search.startDate + search.endDate', function(){
             if(!$scope.renderNoFiltersText()){
@@ -129,6 +129,43 @@ angular.module('voodie').controller('CheckInCtrl', ['$scope', '$routeParams', '$
     //            $location.path('elections');
                 $scope.checkedIn = true;
             });
+        };
+    }
+]);
+
+angular.module('voodie').directive('voodieVoteSuccess', ['$modal', '$location', '$timeout',
+    function($modal, $location, $timeout){
+        return {
+            link: function(scope, element, attrs){
+                var modalInstance;
+                var ModalInstanceCtrl = function($scope, $modalInstance){
+                    $scope.close = function() {
+                        $modalInstance.close();
+                    };
+                };
+                scope.$watch('showVoteSuccess', function(showVoteSuccess){
+                    if(showVoteSuccess === false && modalInstance){
+                        modalInstance.close();
+                    }else if(showVoteSuccess === true){
+                        modalInstance = $modal.open({
+                            templateUrl: "foodie/election/vote-success.tpl.html",
+                            controller: ModalInstanceCtrl,
+                            backdrop: "static"
+                        });
+                        modalInstance.opened.then(function(){
+                            //reload facebook elements - wait for modal to become visible
+                            $timeout(function(){
+                                FB.XFBML.parse();
+                                twttr.widgets.load();
+                            }, 500);
+
+                        });
+                        modalInstance.result.then(function(data){
+                            $location.path('/elections');
+                        });
+                    }
+                });
+            }
         };
     }
 ]);

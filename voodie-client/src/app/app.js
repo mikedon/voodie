@@ -7,7 +7,8 @@ angular.module('voodie', [
 	'ui.bootstrap',
 	'navbar',
 	'navbarLink',
-	'input'
+	'input',
+    'loading'
 ]);
 
 angular.module('voodie').config(["$routeProvider", "$tooltipProvider", "$httpProvider", function($routeProvider, $tooltipProvider, $httpProvider){
@@ -40,7 +41,7 @@ angular.module('voodie').config(["$routeProvider", "$tooltipProvider", "$httpPro
 
     $routeProvider.when('/foodie/electionView/:e', {
         templateUrl:'foodie/election/view.tpl.html',
-        controller: 'FoodieViewElectionCtrl',
+        controller: 'FoodieElectionViewCtrl',
         resolve: {
             election: ['$route', '$q', 'Voodie', function($route, $q, Voodie){
                 return Voodie.getElection($route.current.params.e).$promise;

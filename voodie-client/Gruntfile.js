@@ -47,7 +47,8 @@ module.exports = function ( grunt ) {
                   dest: '<%= build_dir %>/src/app/config.js'
               },
               constants: {
-                  apiUrl: 'http://localhost\\:8080/voodie/' //escape colon for angular https://groups.google.com/forum/#!topic/angular/18aO0bIlEm0
+                  apiUrl: 'http://localhost\\:8080/voodie/', //escape colon for angular https://groups.google.com/forum/#!topic/angular/18aO0bIlEm0
+                  authenticationUrl: 'http://localhost:8080/voodie/' //for some reason injection into the UserService escapes the colon
               }
           }
           /*production: {

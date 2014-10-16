@@ -13,7 +13,7 @@ angular.module('voodie').factory('GoogleMaps', function(){
 	};
 });
 
-angular.module('voodie').factory('User', function($resource, VoodieResource, $http, $location, $rootScope, $q, apiUrl){
+angular.module('voodie').factory('User', function($resource, VoodieResource, $http, $location, $rootScope, $q, authenticationUrl, apiUrl){
 	return {
 		initialized : false,
 		loggedIn : false,
@@ -72,7 +72,7 @@ angular.module('voodie').factory('User', function($resource, VoodieResource, $ht
             var config = {
                 headers: {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
             };
-            VoodieResource.post(apiUrl + 'j_spring_security_check', payload, config,
+            VoodieResource.post(authenticationUrl + 'j_spring_security_check', payload, config,
                 function(){
                     that.password = '';
                     that.loggedIn = true;
@@ -85,7 +85,7 @@ angular.module('voodie').factory('User', function($resource, VoodieResource, $ht
         },
         logout : function(redirect){
             this.reset();
-            $http.get(apiUrl + 'j_spring_security_logout').success(function(data){
+            $http.get(authenticationUrl + 'j_spring_security_logout').success(function(data){
 				$location.path(redirect);
 			});
         }

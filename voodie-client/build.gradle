@@ -18,11 +18,16 @@ task bower(type: Exec) {
 task watch(type: GruntTask) {
     group = "Watch"
     description = "grunt watch"
-    gruntArgs = "watch --force"
+    gruntArgs = "watch"
 }
 
-task grunt(type: GruntTask){
-    group = "Default Grunt"
-    description = "Default Grunt Task"
-    gruntArgs = "--force"
+task connect(type: GruntTask) {
+    group = "Connect"
+    description = "grunt connect"
+    gruntArgs = "connect"
+}
+
+task deployClient << {
+    tasks.watch.execute()
+    tasks.connect.execute()
 }

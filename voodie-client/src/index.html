@@ -18,6 +18,9 @@
     <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
 
+    <!-- TODO https://github.com/angular-ui/angular-google-maps -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZB0WXh6qsCDkVNYjRk-PQhVu37c0-Aaw&sensor=false&libraries=visualization"></script>
+
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
 
@@ -41,7 +44,7 @@
             <navbar-link href="#/foodie/profile" show="currentUser.hasRole('Foodie')" label="Profile"></navbar-link>
             <navbar-link href="#/foodtruck/elections" show="currentUser.hasRole('Food Truck')" label="My Elections"></navbar-link>
             <navbar-link href="#/login" show="!currentUser.isLoggedIn()" label="Login/Register"></navbar-link>
-            <navbar-link href="#" show="currentUser.isLoggedIn()" click="logout()" label="Log Out"></navbar-link>
+            <navbar-link show="currentUser.isLoggedIn()" click="logout()" label="Log Out"></navbar-link>
         </navbar>
  		<div loading>
         <div id="main" class="container clear-top">
