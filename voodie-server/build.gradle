@@ -9,7 +9,6 @@ buildscript {
 
     dependencies {
         classpath 'org.gradle.api.plugins:gradle-cargo-plugin:1.5.1'
-
     }
 }
 
@@ -65,10 +64,12 @@ cargo {
     local {
         installer {
             installUrl = 'file:///Users/miked/workspace-git/jboss-as-7.1.1.Final-updated.zip'
-//            installUrl = 'http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip'
             downloadDir = file("$buildDir/download")
             extractDir = file("$buildDir/extract")
         }
-
     }
+}
+
+task deployServer(dependsOn: [clean, build, cargoRunLocal]) << {
+    println "clean, build, cargoRunLocal"
 }
