@@ -6,6 +6,9 @@ angular.module('loading', [])
 .directive("loading", ["$modal",
     function($modal){
         return {
+            scope: {
+                image: "@"
+            },
             link: function(scope, element, attrs){
                 var modalInstance;
                 //this is a dummy controller because $modal needs it
