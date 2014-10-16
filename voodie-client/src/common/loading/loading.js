@@ -16,7 +16,7 @@ angular.module('loading', [])
                         modalInstance.close();
                     }else if(loadingView === true){
                         modalInstance = $modal.open({
-                            template: "<img src='css/img/ajax-loader.gif'>",
+                            template: attrs.image,
                             controller: ModalInstanceCtrl,
                             windowClass: "loading",
                             backdrop: "static",

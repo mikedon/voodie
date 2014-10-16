@@ -46,7 +46,7 @@
             <navbar-link href="#/login" show="!currentUser.isLoggedIn()" label="Login/Register"></navbar-link>
             <navbar-link show="currentUser.isLoggedIn()" click="logout()" label="Log Out"></navbar-link>
         </navbar>
- 		<div loading>
+ 		<div loading image="assets/img/ajax-loader.gif">
         <div id="main" class="container clear-top">
             <alert ng-repeat="alert in alerts" type="alert.type">{{alert.message}}</alert>
             <div ng-view></div>
