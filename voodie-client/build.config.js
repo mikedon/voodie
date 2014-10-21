@@ -68,7 +68,6 @@ module.exports = {
 	  'bower_components/angular-route/angular-route.js'
     ],
     css: [
-	  'bower_components/bootstrap/dist/css/bootstrap.css'
     ],
     assets: [
 	  'bower_components/bootstrap/dist/fonts/*'
