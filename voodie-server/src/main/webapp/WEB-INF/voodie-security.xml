@@ -26,8 +26,11 @@
 			authentication-success-handler-ref="voodieSavedRequestAwareAuthenticationSuccessHandler" 
 			authentication-failure-handler-ref="loginFailureHandler"/>
 
-		<logout />
+		<logout success-handler-ref="ajaxLogoutSuccessHandler"/>
 	</http>
+
+    <beans:bean id="ajaxLogoutSuccessHandler" class="com.voodie.web.AjaxLogoutSuccessHandler" >
+    </beans:bean>
 
 	<beans:bean id="voodieSavedRequestAwareAuthenticationSuccessHandler"
 		class="com.voodie.web.VoodieSavedRequestAwareAuthenticationSuccessHandler" />
