@@ -247,3 +247,11 @@ angular.module('voodie').run(['$rootScope', '$location', '$timeout', 'User',
         });
     }
 ]);
+
+angular.module('voodie').controller('NavbarCtrl', ['$scope', 'User',
+    function($scope, User){
+        $scope.logout = function(){
+            User.logout('login');
+        };
+    }
+]);

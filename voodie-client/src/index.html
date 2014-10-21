@@ -37,7 +37,7 @@
        	js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=753082824718392";
        	fjs.parentNode.insertBefore(js, fjs);
 	 }(document, 'script', 'facebook-jssdk'));</script>-->
-	 <div id="wrap">
+	 <div id="wrap" ng-controller="NavbarCtrl">
         <navbar brand="Voodie" brand-img="assets/img/FoodTruckIcon.png">
             <navbar-link href="#/about" show="true" label="About"></navbar-link>
             <navbar-link href="#/foodtruck/profile" show="currentUser.hasRole('Food Truck')" label="Profile"></navbar-link>
